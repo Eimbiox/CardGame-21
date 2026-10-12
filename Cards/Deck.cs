@@ -21,4 +21,9 @@ class Deck
             (_cards[i], _cards[j]) = (_cards[j], _cards[i]);
         }
     }
+
+    public Card TakeCard()  //Takes the first card
+    {
+        return _cards[0];
+    }
 }
