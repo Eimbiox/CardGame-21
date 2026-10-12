@@ -4,6 +4,8 @@ class Game
      public void Run()
     {
         _ui.GameStart();
+
+        int playerCount = _ui.AskNumberOfPlayers();
     }
 
     public Game(ConsoleUI ui)   //Constructor
