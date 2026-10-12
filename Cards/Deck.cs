@@ -13,13 +13,12 @@ class Deck
         }
     }
     
-    public void Shuffle()
+    public void Shuffle()   //Shuffles the cards. 
     {
         for (int i = _cards.Count - 1; i > 0; i--)
         {
             int j = Random.Shared.Next(i + 1);
             (_cards[i], _cards[j]) = (_cards[j], _cards[i]);
         }
-
     }
 }

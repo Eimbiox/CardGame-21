@@ -1,4 +1,4 @@
-class Dealer
+class Dealer : Participant
 {
     
 }
