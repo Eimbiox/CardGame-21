@@ -28,6 +28,7 @@ class Game
             Deck deck = new Deck();
             Round round = new Round(_participants, deck);
             round.Play();
+            playing = _ui.AskIfPlayAgain();
         }
         
     }

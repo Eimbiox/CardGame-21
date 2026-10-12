@@ -27,4 +27,28 @@ class ConsoleUI
         }
         return name;
     }
+    public bool AskIfPlayAgain()
+    {
+        while (true)
+        {
+            Console.Write("Vill ni spela igen?(Ja/Nej): ");
+            string? answer = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(answer))
+            {
+                if (answer?.ToUpper() == "JA")
+                {
+                    return true;
+                }
+                if (answer?.ToUpper() == "NEJ")
+                {
+                    return false;
+                }
+                Console.WriteLine("Svara med ja eller nej!");
+            }
+            else
+            {
+                Console.WriteLine("Det får inte vara tomt!");
+            }
+        }
+    }
 }
