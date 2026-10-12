@@ -18,10 +18,11 @@ class ConsoleUI
     }
     public string AskPlayerName(string promt)
     {
-        Console.WriteLine(promt);
+        Console.Write(promt);
         string? name = Console.ReadLine();
         while (string.IsNullOrWhiteSpace(name))
         {
+            Console.Write("Namnet får inte vara tomt: ");
             name = Console.ReadLine();
         }
         return name;
