@@ -6,7 +6,7 @@ class Game
         _ui.GameStart();
     }
 
-    public Game(ConsoleUI ui)
+    public Game(ConsoleUI ui)   //Constructor
     {
         _ui = ui;
     }
