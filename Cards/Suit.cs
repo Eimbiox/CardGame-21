@@ -1,4 +1,4 @@
-enum Cardtypes
+enum Suit
 {
     Hearts,
     Diamonds,
