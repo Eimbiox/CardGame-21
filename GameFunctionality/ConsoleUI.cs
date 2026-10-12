@@ -6,7 +6,7 @@ class ConsoleUI
         Console.WriteLine("        Välkommen till Tjugoett!     ");
         Console.WriteLine("=====================================");
     }  
-     public int AskNumberOfPlayers()
+    public int AskNumberOfPlayers()
     {
         while (true)
         {
@@ -15,5 +15,15 @@ class ConsoleUI
                 return count;
             Console.WriteLine("Ange ett heltal mellan 1 och 5.");
         }
+    }
+    public string AskPlayerName(string promt)
+    {
+        Console.WriteLine(promt);
+        string? name = Console.ReadLine();
+        while (string.IsNullOrWhiteSpace(name))
+        {
+            name = Console.ReadLine();
+        }
+        return name;
     }
 }
