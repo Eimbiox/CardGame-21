@@ -24,6 +24,8 @@ class Deck
 
     public Card TakeCard()  //Takes the first card
     {
-        return _cards[0];
+        Card card = _cards[0];
+        _cards.RemoveAt(0);
+        return card;
     }
 }
