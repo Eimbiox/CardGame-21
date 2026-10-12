@@ -1,7 +1,7 @@
 class Game
 {
-    private readonly List<Player> _players = [];
-    private readonly List<Participant> participants = [];
+    private readonly List<Player> _players = [];    //Holds all human players
+    private readonly List<Participant> _participants = [];   //Holds all participants
     
     private readonly Dealer _dealer = new Dealer(); //Creates new dealer
     private readonly ConsoleUI _ui;
@@ -17,9 +17,18 @@ class Game
         }
         foreach (Player player in _players) //Adds the players in the participants list
         {
-            participants.Add(player);
+            _participants.Add(player);
         }
-        participants.Add(_dealer);  //Adds the dealer to the participants list
+        _participants.Add(_dealer);  //Adds the dealer to the participants list
+
+        bool playing = true;
+        
+        while (playing)
+        {
+            Deck deck = new Deck();
+            Round round = new Round(_participants, deck);
+            round.Play();
+        }
     }
 
     public Game(ConsoleUI ui)   //Constructor
