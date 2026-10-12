@@ -16,9 +16,9 @@ class ConsoleUI
             Console.WriteLine("Ange ett heltal mellan 1 och 5.");
         }
     }
-    public string AskPlayerName(string promt)
+    public string AskPlayerName(int playerNumber)
     {
-        Console.Write(promt);
+        Console.Write($"Skriv namnet på spelare {playerNumber}: ");
         string? name = Console.ReadLine();
         while (string.IsNullOrWhiteSpace(name))
         {

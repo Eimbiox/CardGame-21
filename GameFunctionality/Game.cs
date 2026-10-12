@@ -13,7 +13,7 @@ class Game
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
         {
-            _players.Add(new Player(_ui.AskPlayerName($"Skriv namnet på spelare {i + 1}: ")));
+            _players.Add(new Player(_ui.AskPlayerName(i + 1)));
         }
         foreach (Player player in _players) //Adds the players in the participants list
         {
@@ -29,6 +29,7 @@ class Game
             Round round = new Round(_participants, deck);
             round.Play();
         }
+        
     }
 
     public Game(ConsoleUI ui)   //Constructor
