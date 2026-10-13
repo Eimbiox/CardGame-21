@@ -16,7 +16,7 @@ class Round
         Deal();
         PlayerTurns();
         DealerTurn();
-        //TODO: jämför varje spelare mot givaren och kolla vem/vilka vinner
+        DecideWinners();
     }
     public void Deal()  //Clears the hand and gives each participant 2 cards
     {
@@ -66,4 +66,22 @@ class Round
            dealer.Hit(_deck);
         }
     }
+    public void DecideWinners()
+{
+    Dealer dealer = _participants.OfType<Dealer>().First();
+
+    foreach (Player player in _participants.OfType<Player>())
+    {
+        if (player.Hand.IsBust)          // MÅSTE kollas först
+            Console.WriteLine($"{player.Name} spräckte och förlorar.");
+        else if (dealer.Hand.IsBust)
+            Console.WriteLine($"Givaren spräckte, {player.Name} vinner!");
+        else if (player.Hand.Points > dealer.Hand.Points)
+            Console.WriteLine($"{player.Name} vinner!");
+        else if (player.Hand.Points < dealer.Hand.Points)
+            Console.WriteLine($"{player.Name} förlorar.");
+        else
+            Console.WriteLine($"{player.Name} och givaren har lika.");
+    }
+}
 }

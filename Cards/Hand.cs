@@ -3,6 +3,7 @@ class Hand
     public List <Card> Cards = new List<Card>();
 
     public int Points { get; private set; }
+    public bool IsBust => Points > 21; // true om handen är över 21
     public bool isSoft { get; private set; }
 
     public void AddCard(Card card)
