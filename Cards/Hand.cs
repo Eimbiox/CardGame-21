@@ -9,7 +9,7 @@ class Hand
     }
     public void ClearHand()
     {
-        //Rensa så handen inte har kort alls
+        _cards.Clear();
     }
     public void CountPoints()
     {

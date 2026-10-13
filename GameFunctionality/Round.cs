@@ -13,11 +13,16 @@ class Round
         Deal();
         PlayerTurns();
         DealerTurn();
-        //TODO: avgörande, jämför varje spelare mot givaren
+        //TODO: jämför varje spelare mot givaren och kolla vem/vilka vinner
     }
-    public void Deal()
+    public void Deal()  //Clears the hand and (TODO: gives each player and the dealer 2 cards)
     {
-        //töm kort från förra rundan, ge varje spelare 2 kort och dealern
+        foreach (var participant in _participants)
+        {
+            participant.Hand.ClearHand();
+        }
+
+        
     }
     public void PlayerTurns()
     {
