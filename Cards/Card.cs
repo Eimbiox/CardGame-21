@@ -61,7 +61,7 @@ class Card
         {
             return 10;
 
-        }
+        }   //Flyttar till hand denna logiken
 
     }
 }
