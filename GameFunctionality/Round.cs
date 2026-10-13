@@ -38,6 +38,11 @@ class Round
         {
             if(participant is Player player)
             {
+                if (player.Hand.IsBlackjack)        // if 2: har spelaren blackjack?
+                {
+                    _ui.ShowBlackjack(player);
+                    continue;                       // hoppa till nästa spelare
+                }
                 while (player.Hand.Points < 21) //While points are under 21
                 {
                     bool playerChoice = _ui.WantsToHit(player); //Ask if player wants to hit

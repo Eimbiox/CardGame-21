@@ -102,6 +102,12 @@ class ConsoleUI
 
     }
 
+    public void ShowBlackjack(Participant participant)
+    {
+        Console.WriteLine($"{participant.Name} fick BLACKJACK!");
+    }
+
+
     public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
 
     {
