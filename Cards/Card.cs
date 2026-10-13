@@ -1,67 +1,47 @@
+using System.Drawing;
+
 class Card
 {
     public Suit Suit { get; }
     public Rank Rank { get; }
+    public int Point { get; }
 
     public Card(Suit suit, Rank rank)   //Constructor
     {
         Suit = suit;
         Rank = rank;
-    }
 
 
+        if (Rank == Rank.Ace)
+        {
+            Point = 11; //Hand gör om 11 till 1 om man blir busted
+        }
+        else if (Rank == Rank.Jack || Rank == Rank.Queen || Rank == Rank.King)
+        {
+            Point = 10;
+        }
+        else if (Rank == Rank.Two) { Point = 2; }
+        
+        else if (Rank == Rank.Three) { Point = 3; }
+        
+        else if (Rank == Rank.Four) { Point = 4; }
+        
+        else if (Rank == Rank.Five) { Point = 5; }
 
-    public int GetPoint() // En metod som returerna hur mkt poängen korten är värt.
+        else if (Rank == Rank.Six) { Point = 6; }
 
-    {
-        if (Rank == Rank.Ace) //Returnera 11 points
+        else if (Rank == Rank.Seven) { Point = 7; }
 
-        {
-            return 11; // Måste hitta någon metod som gör 11 om till 1 om man blir busted.
-        }
-        if (Rank == Rank.Jack || Rank == Rank.Queen || Rank == Rank.King) //Returnera 10 points
+        else if (Rank == Rank.Eight) { Point = 8; }
 
-        {
-            return 10;
-        }
-        //Behöver lägga till värde från 2 till 9
-        if (Rank == Rank.Two)
-        {
-            return 2;
-        }
-        if (Rank == Rank.Three)
-        {
-            return 3;
-        }
-        if (Rank == Rank.Four)
-        {
-            return 4;
-        }
-        if (Rank == Rank.Five)
-        {
-            return 5;
-        }
-        if (Rank == Rank.Six)
-        {
-            return 6;
-        }
-        if (Rank == Rank.Seven)
-        {
-            return 7;
-        }
-        if (Rank == Rank.Eight)
-        {
-            return 8;
-        }
-        if (Rank == Rank.Nine)
-        {
-            return 9;
-        }
+        else if (Rank == Rank.Nine) { Point = 9; }
+
         else
-        {
-            return 10;
 
-        }   //Flyttar till hand denna logiken
+        {
+            Point = 10;
+        }
+        }
 
     }
-}
+
