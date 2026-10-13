@@ -7,6 +7,8 @@ class Hand
     public bool IsSoft { get; private set; }
 
     public bool IsBust => Points > 21; // true om handen är över 21
+
+    public bool IsBlackjack => Points == 21 && Cards.Count == 2; // true om handen är blackjack
    
 
 
