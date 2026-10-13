@@ -95,9 +95,24 @@ class ConsoleUI
         {
             Console.WriteLine($"{player.Name} och givaren har lika.");
         }
+        else if (outcome == Outcome.Blackjack) // Lade till en ny outcome för blackjack, då det är en speciell vinst.
+        {
+            Console.WriteLine($"{player.Name} har BLACKJACK och vinner!");
+        }
+
     }
 
-    public void ShowHand(Participant participant) //Går igenom varje kort som ligger i handen
+
+
+
+    public void ShowBlackjack(Participant participant)
+    {
+        Console.WriteLine($"{participant.Name} fick BLACKJACK!");
+    }
+
+
+    public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
+
 
     {
         string cardTexts = ""; //Tom text som vi fyller på med kortet, ett i taget.

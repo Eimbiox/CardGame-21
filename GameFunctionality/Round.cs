@@ -38,7 +38,15 @@ class Round
         {
             if (participant is Player player)
             {
+
                 _ui.ShowHand(player); //Visar spelaren startkort, värde och mju/hård innan första valet
+
+
+                if (player.Hand.IsBlackjack)        // if 2: har spelaren blackjack?
+                {
+                    _ui.ShowBlackjack(player);
+                    continue;                       // hoppa till nästa spelare
+                }
 
                 while (player.Hand.Points < 21) //While points are under 21
                 {
