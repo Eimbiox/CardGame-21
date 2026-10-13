@@ -36,6 +36,8 @@ class Round
 
         Dealer dealer = _participants.OfType<Dealer>().First();
 
+        dealer.RevealHoleCard();
+
         while (dealer.ShouldHit())
         {
            dealer.Hit(_deck);
