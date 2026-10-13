@@ -19,11 +19,11 @@ class ConsoleUI
     public string AskPlayerName(int playerNumber)
     {
         Console.Write($"Skriv namnet på spelare {playerNumber}: ");
-        string? name = Console.ReadLine();
+        string? name = Console.ReadLine()?.Trim();
         while (string.IsNullOrWhiteSpace(name))
         {
             Console.Write("Namnet får inte vara tomt: ");
-            name = Console.ReadLine();
+            name = Console.ReadLine()?.Trim();
         }
         return name;
     }
@@ -32,14 +32,14 @@ class ConsoleUI
         while (true)
         {
             Console.Write("Vill ni spela igen?(Ja/Nej): ");
-            string? answer = Console.ReadLine();
+            string? answer = Console.ReadLine()?.ToUpper().Trim();
             if (!string.IsNullOrWhiteSpace(answer))
             {
-                if (answer?.ToUpper() == "JA")
+                if (answer == "JA")
                 {
                     return true;
                 }
-                if (answer?.ToUpper() == "NEJ")
+                if (answer == "NEJ")
                 {
                     return false;
                 }
@@ -50,5 +50,31 @@ class ConsoleUI
                 Console.WriteLine("Det får inte vara tomt!");
             }
         }
+    }
+
+    public bool WantsToHit(Player player) //true = hit false = stand
+    {
+        while (true)
+        {
+            Console.Write($"{player.Name}, Köp eller Stanna?: ");
+            string? input = Console.ReadLine()?.ToUpper().Trim();
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                if (input == "KÖP")
+                {
+                    return true;
+                }
+                if (input == "STANNA")
+                {
+                    return false;
+                }
+                Console.WriteLine("Svara med köp eller stanna");
+            }
+            else
+            {
+                Console.WriteLine("Det får inte vara tomt");
+            }
+        }
+        
     }
 }

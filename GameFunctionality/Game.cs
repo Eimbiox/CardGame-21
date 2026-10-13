@@ -27,7 +27,7 @@ class Game
         {
             Deck deck = new Deck();
             deck.Shuffle();
-            Round round = new Round(_participants, deck);
+            Round round = new Round(_participants, deck, _ui);
             round.Play();
             playing = _ui.AskIfPlayAgain();
         }
