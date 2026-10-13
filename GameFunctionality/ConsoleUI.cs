@@ -77,4 +77,23 @@ class ConsoleUI
         }
         
     }
+    public void ShowOutcome(Player player, Outcome outcome)
+    {
+        if (outcome == Outcome.Loose && player.Hand.IsBust)
+        {
+            Console.WriteLine($"{player.Name} spräckte med {player.Hand.Points} och förlorar.");
+        }
+        else if (outcome == Outcome.Win)
+        {
+            Console.WriteLine($"{player.Name} vinner!");
+        }
+        else if (outcome == Outcome.Loose)
+        {
+            Console.WriteLine($"{player.Name} förlorar.");
+        }
+        else if (outcome == Outcome.Push)
+        {
+            Console.WriteLine($"{player.Name} och givaren har lika.");
+        }
+    }
 }

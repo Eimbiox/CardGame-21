@@ -72,17 +72,21 @@ class Round
     Dealer dealer = _participants.OfType<Dealer>().First();
 
     foreach (Player player in _participants.OfType<Player>())
-    {
-        if (player.Hand.IsBust)          // MÅSTE kollas först
-            Console.WriteLine($"{player.Name} spräckte och förlorar.");
-        else if (dealer.Hand.IsBust)
-            Console.WriteLine($"Givaren spräckte, {player.Name} vinner!");
-        else if (player.Hand.Points > dealer.Hand.Points)
-            Console.WriteLine($"{player.Name} vinner!");
-        else if (player.Hand.Points < dealer.Hand.Points)
-            Console.WriteLine($"{player.Name} förlorar.");
-        else
-            Console.WriteLine($"{player.Name} och givaren har lika.");
-    }
+        {
+            Outcome outcome;
+
+            if (player.Hand.IsBust)          //Bust always loses, even if the dealer busts
+                outcome = Outcome.Loose;
+            else if (dealer.Hand.IsBust)
+                outcome = Outcome.Win;
+            else if (player.Hand.Points > dealer.Hand.Points)
+                outcome = Outcome.Win;
+            else if (player.Hand.Points < dealer.Hand.Points)
+                outcome = Outcome.Loose;
+            else
+                outcome = Outcome.Push;
+
+            _ui.ShowOutcome(player, outcome);
+        }
 }
 }
