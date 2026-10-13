@@ -10,8 +10,7 @@ class Participant
     
     public void Hit(Deck deck)
     {
-        Card NewCard = deck.TakeCard();
-        Hand.AddCard(NewCard);
+        Hand.AddCard(deck.TakeCard());
     }
 
 }
