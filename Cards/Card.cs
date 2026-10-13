@@ -14,7 +14,7 @@ class Card
 
         if (Rank == Rank.Ace)
         {
-            Point = 11; //Hand gör om 11 till 1 om man blir busted
+            Point = 11; 
         }
         else if (Rank == Rank.Jack || Rank == Rank.Queen || Rank == Rank.King)
         {

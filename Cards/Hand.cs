@@ -1,18 +1,22 @@
 class Hand
 {
-    private List<Card> _cards = [];
-    public  IReadOnlyList<Card> Cards => _cards;
-    public int Points {get; private set;}
+    public List <Card> Cards = new List<Card>();
+
+    public int Points { get; private set; }
+    public bool isSoft { get; private set; }
+
     public void AddCard(Card card)
     {
-        _cards.Add(card);
+        Cards.Add(card);
     }
     public void ClearHand()
     {
-        _cards.Clear();
+        Cards.Clear();
     }
     public void CountPoints()
     {
         //Räkna ihop korternas värde. (ess ska vara 1 or 11)
     }
-} 
+
+
+}
