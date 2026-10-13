@@ -34,14 +34,13 @@ class Round
     }
     public void PlayerTurns()
     {
-        //Få spelare att fråga hit elr stand om stand avlsuta turen hit lägger till kort. Avgör om dem spräckte elr ej
         foreach (var participant in _participants)
         {
             if(participant is Player player)
             {
-                while (player.Hand.Points < 21)
+                while (player.Hand.Points < 21) //While points are under 21
                 {
-                    bool playerChoice = _ui.WantsToHit(player);
+                    bool playerChoice = _ui.WantsToHit(player); //Ask if player wants to hit
                     if (playerChoice) //Player hits
                     {
                         player.Hit(_deck);
