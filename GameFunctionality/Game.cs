@@ -26,6 +26,7 @@ class Game
         while (playing)
         {
             Deck deck = new Deck();
+            deck.Shuffle();
             Round round = new Round(_participants, deck);
             round.Play();
             playing = _ui.AskIfPlayAgain();
