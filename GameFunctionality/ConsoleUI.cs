@@ -97,29 +97,30 @@ class ConsoleUI
         }
     }
 
-    public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
+    public void ShowHand(Participant participant) //Går igenom varje kort som ligger i handen
 
     {
-        string cardTexts = "";
+        string cardTexts = ""; //Tom text som vi fyller på med kortet, ett i taget.
 
-        foreach (Card card in participant.Hand.Cards)
+        foreach (Card card in participant.Hand.Cards) //Går igenom vaje kort som ligger i hande.
 
         {
-            cardTexts += $"{card.Rank} {card.Suit}";
+            cardTexts += $"{card.Rank} {card.Suit}"; //Gör om enum värderna till text. T.ex Rank Ace, Suit Hearts blir text "Ace Heart"
         }
 
-        string handType;
+        string handType; //Text som visar om handen är "mjuk" eller "hård"
 
-        if (participant.Hand.IsSoft)
+        if (participant.Hand.IsSoft) //Om ett ess fortfrande räknas som 11
 
         {
-            handType = "mjuk";
+            handType = "mjuk"; //Handen är mjuk
         }
-        else
+        else //Inget ess räknas som 11
         {
-            handType = "hård";
+            handType = "hård"; //Handen är hård.
         }
     
+    //Skriver ut namnet på spelaren,            Vad för kort, Mjuk/Hard  Poängen som man har totalt i handen.
         Console.WriteLine($"{participant.Name}: {cardTexts} ({handType} {participant.Hand.Points})");
 
 

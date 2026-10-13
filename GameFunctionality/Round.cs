@@ -36,14 +36,17 @@ class Round
     {
         foreach (var participant in _participants)
         {
-            if(participant is Player player)
+            if (participant is Player player)
             {
+                _ui.ShowHand(player); //Visar spelaren startkort, värde och mju/hård innan första valet
+
                 while (player.Hand.Points < 21) //While points are under 21
                 {
                     bool playerChoice = _ui.WantsToHit(player); //Ask if player wants to hit
                     if (playerChoice) //Player hits
                     {
                         player.Hit(_deck);
+                        _ui.ShowHand(player); //Visar handen igen med det nya kortet.
                     }
                     else //Player stands
                     {
@@ -64,14 +67,14 @@ class Round
 
         while (dealer.ShouldHit())
         {
-           dealer.Hit(_deck);
+            dealer.Hit(_deck);
         }
     }
     public void DecideWinners()
-{
-    Dealer dealer = _participants.OfType<Dealer>().First();
+    {
+        Dealer dealer = _participants.OfType<Dealer>().First();
 
-    foreach (Player player in _participants.OfType<Player>())
+        foreach (Player player in _participants.OfType<Player>())
         {
             Outcome outcome;
 
@@ -88,5 +91,5 @@ class Round
 
             _ui.ShowOutcome(player, outcome);
         }
-}
+    }
 }
