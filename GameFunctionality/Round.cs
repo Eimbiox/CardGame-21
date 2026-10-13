@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 class Round
 {
     private readonly List<Participant> _participants;
@@ -56,5 +58,12 @@ class Round
     public void DealerTurn()
     {
         //Sålänge givarens regler säger han ska dra(under 17) dra ett kort tills dess
+
+        Dealer dealer = _participants.OfType<Dealer>().First();
+
+        while (dealer.ShouldHit())
+        {
+           dealer.Hit(_deck);
+        }
     }
 }
