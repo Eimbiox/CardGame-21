@@ -28,14 +28,14 @@ class Hand
        foreach (Card card in Cards)
 
         {
-            total += card.Point;
+            total += card.Point; // Lägger till kortets värde, Ess räknas som 11 här som sedan justeras i while nedan.
 
             if (card.Rank == Rank.Ace)
 
             {
                 softAces++; //Ökr med 1 för varje es som hittas.
             }
-            while (total > 21 && softAces > 0)
+            while (total > 21 && softAces > 0) //While loop då villkoren är att för Totala är över 21 samt minst 1 Ess i handen.
 
             {
                 total -= 10; //Gör om ett ess från 11 till 1
@@ -43,7 +43,7 @@ class Hand
             }
 
             Points = total;// kopiera svaret till egenskap
-            IsSoft = softAces > 0;
+            IsSoft = softAces > 0; //kort verksion av IfSats för true/false. True = SoftHand(minst 1 ess), Hard = Hardhand (0 ess)
         }
     }
 

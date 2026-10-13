@@ -1,11 +1,11 @@
 class ConsoleUI
 {
-     public void GameStart()
+    public void GameStart()
     {
         Console.WriteLine("=====================================");
         Console.WriteLine("        Välkommen till Tjugoett!     ");
         Console.WriteLine("=====================================");
-    }  
+    }
     public int AskNumberOfPlayers()
     {
         while (true)
@@ -75,7 +75,7 @@ class ConsoleUI
                 Console.WriteLine("Det får inte vara tomt");
             }
         }
-        
+
     }
     public void ShowOutcome(Player player, Outcome outcome)
     {
@@ -96,4 +96,35 @@ class ConsoleUI
             Console.WriteLine($"{player.Name} och givaren har lika.");
         }
     }
+
+    public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
+
+    {
+        string cardTexts = "";
+
+        foreach (Card card in participant.Hand.Cards)
+
+        {
+            cardTexts += $"{card.Rank} {card.Suit}";
+        }
+
+        string handType;
+
+        if (participant.Hand.IsSoft)
+
+        {
+            handType = "mjuk";
+        }
+        else
+        {
+            handType = "hård";
+        }
+    
+        Console.WriteLine($"{participant.Name}: {cardTexts} ({handType} {participant.Hand.Points})");
+
+
+    }
+
+
+
 }

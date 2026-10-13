@@ -11,7 +11,7 @@ class Card
         Suit = suit;
         Rank = rank;
 
-
+//Bestämmer kortets poängvärde för alla Ranks.
         if (Rank == Rank.Ace)
         {
             Point = 11; 
