@@ -7,5 +7,11 @@ class Participant
     {
         Name = name;
     }
+    
+    public void Hit(Deck deck)
+    {
+        Card NewCard = deck.TakeCard();
+        Hand.AddCard(NewCard);
+    }
 
 }
