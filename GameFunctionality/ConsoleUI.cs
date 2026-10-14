@@ -102,9 +102,6 @@ class ConsoleUI
 
     }
 
-
-
-
     public void ShowBlackjack(Participant participant)
     {
         Console.WriteLine($"{participant.Name} fick BLACKJACK!");
@@ -138,8 +135,21 @@ class ConsoleUI
     //Skriver ut namnet på spelaren,            Vad för kort, Mjuk/Hard  Poängen som man har totalt i handen.
         Console.WriteLine($"{participant.Name}: {cardTexts} ({handType} {participant.Hand.Points})");
 
-
     }
+
+    public void ShowDealerHand(Dealer dealer)
+    {
+        if (dealer.IsHoleCardHidden)
+        {
+            Card upcard = dealer.Hand.Cards[0];
+            Console.WriteLine($"{dealer.Name}: {upcard.Rank} {upcard.Suit} ??");
+        }
+        else
+        {
+            ShowHand(dealer);
+        }     
+    }
+    
 
 
 
