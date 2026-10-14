@@ -24,6 +24,9 @@ class Round
         {
             participant.Hand.ClearHand();
         }
+
+        _participants.OfType<Dealer>().First().HideHoleCard();  //Ny runda: dölj givarens kort
+
         for (int i = 0; i < 2; i++)
         {
             foreach (var participant in _participants)
