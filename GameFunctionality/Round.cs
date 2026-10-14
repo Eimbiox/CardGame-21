@@ -25,9 +25,8 @@ class Round
             participant.Hand.ClearHand();
         }
 
-       Dealer dealer =  _participants.OfType<Dealer>().First();
-       
-       dealer.HideHoleCard();  //Ny runda: dölj givarens kort
+        Dealer dealer = _participants.OfType<Dealer>().First();
+        dealer.HideHoleCard();  //Ny runda: dölj givarens kort
 
         for (int i = 0; i < 2; i++)
         {
@@ -36,7 +35,8 @@ class Round
                 participant.Hand.AddCard(_deck.TakeCard());
             }
         }
-        _ui.ShowHand(dealer);   //Visar givarens dolda kort
+
+        _ui.ShowDealerHand(dealer);  //Visar givarens öppna kort
     }
     public void PlayerTurns()
     {
@@ -71,18 +71,18 @@ class Round
             }
         }
     }
-    public void DealerTurn()
+    public void DealerTurn()  //Givaren vänder hålkortet och köper tills hans regel säger stopp
     {
-        //Sålänge givarens regler säger han ska dra(under 17) dra ett kort tills dess
         _ui.DealerTurnMessage();
         Dealer dealer = _participants.OfType<Dealer>().First();
 
-        dealer.RevealHoleCard();
-        _ui.ShowHand(dealer);
-        while (dealer.ShouldHit())
+        dealer.RevealHoleCard();  //vänds efter att alla spelare är klara
+        _ui.ShowHand(dealer);     //Visar givarens hand med hålkortet uppvänt
+
+        while (dealer.ShouldHit())  //Sålänge givarens regler säger han ska dra(under 17) dra ett kort tills dess
         {
             dealer.Hit(_deck);
-            _ui.ShowHand(dealer);
+            _ui.ShowHand(dealer);  //Visar handen igen med det nya kortet
         }
     }
     public void DecideWinners()

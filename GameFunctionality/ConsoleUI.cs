@@ -106,9 +106,7 @@ class ConsoleUI
     {
         Console.WriteLine("----Givarens tur----");
     }
-
-
-
+    
     public void ShowBlackjack(Participant participant)
     {
         Console.WriteLine($"{participant.Name} fick BLACKJACK!");
@@ -117,12 +115,6 @@ class ConsoleUI
 
     public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
     {
-        if (participant is Dealer dealer && dealer.IsHoleCardHidden)
-        {
-            Card firstCard = dealer.Hand.Cards[0];  //Spara första kortet i dealern hand
-            Console.WriteLine($"{dealer.Name}: ({firstCard.Rank} {firstCard.Suit}), (dolt kort)\n");  //Skriver ut givaren och ena kortet inte båda
-            return; //avbryter metoden direkt så det inte forstätter.
-        }
         List<string> cardList = []; //Tom lista som vi sparar korten i 
 
         foreach (Card card in participant.Hand.Cards) //Går igenom vaje kort som ligger i handen.
@@ -152,8 +144,21 @@ class ConsoleUI
             Console.WriteLine($"{participant.Name} spräckte!\n");
         }
 
-
     }
+
+    public void ShowDealerHand(Dealer dealer)  //Visar givarens hand, hålkortet visas som ?? tills det är givarens tur
+    {
+        if (dealer.IsHoleCardHidden)
+        {
+            Card upcard = dealer.Hand.Cards[0];  //Första kortet är det öppna, andra är hålkortet
+            Console.WriteLine($"{dealer.Name}: {upcard.Rank} {upcard.Suit} ??");
+        }
+        else
+        {
+            ShowHand(dealer);
+        }     
+    }
+    
 
 
 
