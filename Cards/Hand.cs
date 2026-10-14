@@ -43,10 +43,9 @@ class Hand
                 total -= 10; //Gör om ett ess från 11 till 1
                 softAces--; //Ett ess mindre som räknas 11 .
             }
-
-            Points = total;// kopiera svaret till egenskap
-            IsSoft = softAces > 0; //kort verksion av IfSats för true/false. True = SoftHand(minst 1 ess), Hard = Hardhand (0 ess)
         }
+        Points = total;// kopiera svaret till egenskap
+        IsSoft = softAces > 0; //kort verksion av IfSats för true/false. True = SoftHand(minst 1 ess), Hard = Hardhand (0 ess)
     }
 
 

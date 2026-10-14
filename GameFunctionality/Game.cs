@@ -2,7 +2,7 @@ class Game
 {
     private readonly List<Player> _players = [];    //Holds all human players
     private readonly List<Participant> _participants = [];   //Holds all participants
-    
+
     private readonly Dealer _dealer = new Dealer(); //Creates new dealer
     private readonly ConsoleUI _ui;
     public void Run()
@@ -20,18 +20,23 @@ class Game
             _participants.Add(player);
         }
         _participants.Add(_dealer);  //Adds the dealer to the participants list
-
+        Deck deck = new Deck();
+        deck.Shuffle();
         bool playing = true;
-        
+        int reshuffleLimit = _participants.Count <= 3 ? 15 : 30;    //Fler deltagare behöver fler kort varje runda
+
         while (playing)
         {
-            Deck deck = new Deck();
-            deck.Shuffle();
+            if (deck.RemainingCards < reshuffleLimit)   //Skapar ny deck vid antingen 15 kort kvar eller 30 baserat på mängden deltagare
+            {
+                deck = new Deck();
+                deck.Shuffle();
+            }
             Round round = new Round(_participants, deck, _ui);
             round.Play();
             playing = _ui.AskIfPlayAgain();
         }
-        
+
     }
 
     public Game(ConsoleUI ui)   //Constructor
