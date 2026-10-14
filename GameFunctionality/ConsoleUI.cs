@@ -79,7 +79,7 @@ class ConsoleUI
     }
     public void ShowOutcome(Player player, Outcome outcome)
     {
-        if (outcome == Outcome.Loose && player.Hand.IsBust)
+        if (outcome == Outcome.Lose && player.Hand.IsBust)
         {
             Console.WriteLine($"{player.Name} spräckte med {player.Hand.Points} och förlorar.");
         }
@@ -87,7 +87,7 @@ class ConsoleUI
         {
             Console.WriteLine($"{player.Name} vinner!");
         }
-        else if (outcome == Outcome.Loose)
+        else if (outcome == Outcome.Lose)
         {
             Console.WriteLine($"{player.Name} förlorar.");
         }
@@ -106,7 +106,7 @@ class ConsoleUI
     {
         Console.WriteLine("----Givarens tur----");
     }
-    
+
     public void ShowBlackjack(Participant participant)
     {
         Console.WriteLine($"{participant.Name} fick BLACKJACK!");

@@ -95,7 +95,7 @@ class Round
 
             if (player.Hand.IsBust)  //Bust always loses, even if the dealer busts
             {
-                outcome = Outcome.Loose;
+                outcome = Outcome.Lose;
             }
             else if (dealer.Hand.IsBust)
             {
@@ -107,7 +107,7 @@ class Round
             }
             else if (player.Hand.Points < dealer.Hand.Points)
             {
-                outcome = Outcome.Loose;
+                outcome = Outcome.Lose;
             }
             else if (player.Hand.IsBlackjack && !dealer.Hand.IsBlackjack)
             {
@@ -115,7 +115,7 @@ class Round
             }
             else if (dealer.Hand.IsBlackjack && !player.Hand.IsBlackjack)
             {
-                outcome = Outcome.Loose;
+                outcome = Outcome.Lose;
             }
             else
             {
