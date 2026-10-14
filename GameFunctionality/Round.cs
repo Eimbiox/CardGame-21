@@ -93,17 +93,34 @@ class Round
         {
             Outcome outcome;
 
-            if (player.Hand.IsBust)          //Bust always loses, even if the dealer busts
+            if (player.Hand.IsBust)  //Bust always loses, even if the dealer busts
+            {
                 outcome = Outcome.Loose;
+            }
             else if (dealer.Hand.IsBust)
+            {
                 outcome = Outcome.Win;
+            } 
             else if (player.Hand.Points > dealer.Hand.Points)
+            {
                 outcome = Outcome.Win;
+            }
             else if (player.Hand.Points < dealer.Hand.Points)
+            {
                 outcome = Outcome.Loose;
+            }
+            else if (player.Hand.IsBlackjack && !dealer.Hand.IsBlackjack)
+            {
+                outcome = Outcome.Win;
+            }
+            else if (dealer.Hand.IsBlackjack && !player.Hand.IsBlackjack)
+            {
+                outcome = Outcome.Loose;
+            }
             else
+            {
                 outcome = Outcome.Push;
-
+            }
             _ui.ShowOutcome(player, outcome);
         }
     }
