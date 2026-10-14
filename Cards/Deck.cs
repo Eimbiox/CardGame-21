@@ -2,6 +2,8 @@ class Deck
 {
     private List<Card> _cards = [];
 
+    public int RemainingCards => _cards.Count();
+
     public Deck() //Constructor
     {
         foreach (var suit in Enum.GetValues<Suit>())    //Creates 52 cards when deck is made

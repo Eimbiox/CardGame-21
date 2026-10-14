@@ -20,13 +20,17 @@ class Game
             _participants.Add(player);
         }
         _participants.Add(_dealer);  //Adds the dealer to the participants list
-
+        Deck deck = new Deck();
+        deck.Shuffle();
         bool playing = true;
         
         while (playing)
         {
-            Deck deck = new Deck();
-            deck.Shuffle();
+            if (deck.RemainingCards < 15)
+            {
+                deck = new Deck();
+                deck.Shuffle();
+            }
             Round round = new Round(_participants, deck, _ui);
             round.Play();
             playing = _ui.AskIfPlayAgain();
