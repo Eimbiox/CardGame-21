@@ -71,15 +71,13 @@ class Round
             }
         }
     }
-    public void DealerTurn()
-    {
-        //Sålänge givarens regler säger han ska dra(under 17) dra ett kort tills dess
-
+    public void DealerTurn()  //Givaren vänder hålkortet och köper tills hans regel säger stopp
+    {  
         Dealer dealer = _participants.OfType<Dealer>().First();
 
-        dealer.RevealHoleCard();
+        dealer.RevealHoleCard();  //vänds efter att alla spelare är klara
 
-        while (dealer.ShouldHit())
+        while (dealer.ShouldHit())  //Sålänge givarens regler säger han ska dra(under 17) dra ett kort tills dess
         {
             dealer.Hit(_deck);
         }

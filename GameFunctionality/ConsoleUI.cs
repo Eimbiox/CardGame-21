@@ -136,11 +136,11 @@ class ConsoleUI
 
     }
 
-    public void ShowDealerHand(Dealer dealer)
+    public void ShowDealerHand(Dealer dealer)  //Visar givarens hand, hålkortet visas som ?? tills det är givarens tur
     {
         if (dealer.IsHoleCardHidden)
         {
-            Card upcard = dealer.Hand.Cards[0];
+            Card upcard = dealer.Hand.Cards[0];  //Första kortet är det öppna, andra är hålkortet
             Console.WriteLine($"{dealer.Name}: {upcard.Rank} {upcard.Suit} ??");
         }
         else
