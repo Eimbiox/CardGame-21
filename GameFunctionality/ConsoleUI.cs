@@ -101,12 +101,12 @@ class ConsoleUI
         }
 
     }
-    
+
     public void DealerTurnMessage()
     {
         Console.WriteLine("----Givarens tur----");
     }
-    
+
     public void ShowBlackjack(Participant participant)
     {
         Console.WriteLine($"{participant.Name} fick BLACKJACK!");
@@ -115,14 +115,23 @@ class ConsoleUI
 
     public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
     {
-        List<string> cardList = []; //Tom lista som vi sparar korten i 
+        //Ett kort ritas på tre rader. Då jag bygger varje rad för sig med, Top,Middle och Bottom Layer.
+        string top = ""; //Översta raden med "┌───┐" 
+        string middle = ""; //Mittenraden med " │" + CardText.PadRight(3) + "│ 
+        string bottom = ""; // Nedersta raden "└───┘"
 
-        foreach (Card card in participant.Hand.Cards) //Går igenom vaje kort som ligger i handen.
+
+        foreach (Card card in participant.Hand.Cards) //Går igenom vaje kort som ligger i handen, ett i taget.
 
         {
-           cardList.Add($"({card.Rank} {card.Suit})"); //Lägger till korten i listan
+            //Gör om kortets enums för Rank + Suits till symboler som "♥♦♣♠" döpt lådan till "CardText"
+            string CardText = RankSymbol(card.Rank) + SuitSymbol(card.Suit);
+
+            top += "┌───┐ ";
+            middle += "│" + CardText.PadRight(3) + "│ "; //Anropa "CardText" + lagt till PadRight så den alltid blir 3 rader
+            bottom += "└───┘ "; //T.ex 1♠ då denna är 2 rader lägger till "/n" och 10♠ är 3 rader.
         }
-        string cardTexts = string.Join(", ", cardList); //Sparar listan med stringjoin i en variabel
+
 
         string handType; //Text som visar om handen är "mjuk" eller "hård"
 
@@ -135,31 +144,79 @@ class ConsoleUI
         {
             handType = "hård"; //Handen är hård.
         }
-    
-    //Skriver ut namnet på spelaren,            Vad för kort, Mjuk/Hard  Poängen som man har totalt i handen.
-        Console.WriteLine($"{participant.Name}: {cardTexts} ({handType} {participant.Hand.Points})\n");
 
-        if (participant.Hand.IsBust)
+        //Skriver ut namnet på spelaren,            Vad för kort, Mjuk/Hard  Poängen som man har totalt i handen.
+        Console.WriteLine($"{participant.Name}: ({handType} {participant.Hand.Points})\n");
+        Console.WriteLine(top);
+        Console.WriteLine(middle);
+        Console.WriteLine(bottom);
+        Console.WriteLine(); //Tom Rad för med luftigt i Konsolen.
+
+        if (participant.Hand.IsBust) //IsBust är true om poängen är över 21.
         {
             Console.WriteLine($"{participant.Name} spräckte!\n");
         }
 
     }
 
-    public void ShowDealerHand(Dealer dealer)  //Visar givarens hand, hålkortet visas som ?? tills det är givarens tur
+    public void ShowDealerHand(Dealer dealer)  //Visar givarens hand. SÅlänge hålkortet är dolt visas det med baksidan upp som │░░░│ 
     {
-        if (dealer.IsHoleCardHidden)
+        if (dealer.IsHoleCardHidden) //Om hålkortet fortfarande är dolt ("1♠, hållkort")
         {
-            Card upcard = dealer.Hand.Cards[0];  //Första kortet är det öppna, andra är hålkortet
-            Console.WriteLine($"{dealer.Name}: {upcard.Rank} {upcard.Suit} ??");
+            Card upcard = dealer.Hand.Cards[0];  //Första kortet i listan inom index som visas medans andra andra är hålkortet
+            string text = RankSymbol(upcard.Rank) + SuitSymbol(upcard.Suit); //T.ex. "1♦"
+           
+           
+            Console.WriteLine($"{dealer.Name}");
+            Console.WriteLine("┌───┐ ┌───┐");
+            Console.WriteLine("│" + text.PadRight(3) + "│ │░░░│"); //Det öppna kortet och hålkortet med baksidan upp. [0][1]
+            Console.WriteLine("└───┘ └───┘");
+            Console.WriteLine();
+
         }
-        else
+        else //Hålkortet är vänt, visa hela dealerns hand
         {
-            ShowHand(dealer);
-        }     
+            ShowHand(dealer); //kalla på funktionen showhand.
+        }
     }
-    
+        private string RankSymbol(Rank rank) //Gör om enum till text, t.ex Rank.Ace blir A
+
+    {
+        switch (rank)
+        {
+            case Rank.Ace: return "A";
+            case Rank.King: return "K";
+            case Rank.Queen: return "Q";
+            case Rank.Jack: return "J";
+            case Rank.Ten: return "10";
+            case Rank.Nine: return "9";
+            case Rank.Eight: return "8";
+            case Rank.Seven: return "7";
+            case Rank.Six: return "6";
+            case Rank.Five: return "5";
+            case Rank.Four: return "4";
+            case Rank.Three: return "3";
+            default: return "2"; //Det enda som är kvar är Two
+
+        }
+    }
+
+    private string SuitSymbol(Suit suit) //Gör om färg enum till symbol där Suit.Hearts blir ♥
+
+    {
+        switch (suit)
+        {
+            case Suit.Hearts: return "♥";
+            case Suit.Diamonds: return "♦";
+            case Suit.Spades: return "♠";
+            default: return "♣"; // Det enda är kvar är Klöver
+
+        }
 
 
 
+
+
+
+    }
 }

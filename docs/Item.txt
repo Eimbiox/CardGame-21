@@ -1,0 +1,13 @@
+┌	hörn uppe vänster	Alt + 218
+┐	hörn uppe höger	    Alt + 191	
+└	hörn nere vänster	Alt + 192	
+┘	hörn nere höger	    Alt + 217	
+─	vågrät linje	    Alt + 196	
+│	lodrät linje	    Alt + 179	
+
+░	baksida, ljus	    Alt + 176
+
+♥	hjärter	            Alt + 3	
+♦	ruter	            Alt + 4	
+♣	klöver	            Alt + 5	
+♠	spader	            Alt + 6
