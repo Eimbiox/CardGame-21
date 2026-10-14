@@ -112,16 +112,15 @@ class ConsoleUI
 
 
     public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
-
-
     {
-        string cardTexts = ""; //Tom text som vi fyller på med kortet, ett i taget.
+        List<string> cardList = []; //Tom lista som vi sparar korten i 
 
-        foreach (Card card in participant.Hand.Cards) //Går igenom vaje kort som ligger i hande.
+        foreach (Card card in participant.Hand.Cards) //Går igenom vaje kort som ligger i handen.
 
         {
-            cardTexts += $"{card.Rank} {card.Suit}"; //Gör om enum värderna till text. T.ex Rank Ace, Suit Hearts blir text "Ace Heart"
+           cardList.Add($"({card.Rank} {card.Suit})"); //Lägger till korten i listan
         }
+        string cardTexts = string.Join(", ", cardList); //Sparar listan med stringjoin i en variabel
 
         string handType; //Text som visar om handen är "mjuk" eller "hård"
 
