@@ -101,7 +101,11 @@ class ConsoleUI
         }
 
     }
-
+    
+    public void DealerTurnMessage()
+    {
+        Console.WriteLine("----Givarens tur----");
+    }
 
 
 
@@ -113,6 +117,12 @@ class ConsoleUI
 
     public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
     {
+        if (participant is Dealer dealer && dealer.IsHoleCardHidden)
+        {
+            Card firstCard = dealer.Hand.Cards[0];  //Spara första kortet i dealern hand
+            Console.WriteLine($"{dealer.Name}: ({firstCard.Rank} {firstCard.Suit}), (dolt kort)\n");  //Skriver ut givaren och ena kortet inte båda
+            return; //avbryter metoden direkt så det inte forstätter.
+        }
         List<string> cardList = []; //Tom lista som vi sparar korten i 
 
         foreach (Card card in participant.Hand.Cards) //Går igenom vaje kort som ligger i handen.
@@ -135,7 +145,12 @@ class ConsoleUI
         }
     
     //Skriver ut namnet på spelaren,            Vad för kort, Mjuk/Hard  Poängen som man har totalt i handen.
-        Console.WriteLine($"{participant.Name}: {cardTexts} ({handType} {participant.Hand.Points})");
+        Console.WriteLine($"{participant.Name}: {cardTexts} ({handType} {participant.Hand.Points})\n");
+
+        if (participant.Hand.IsBust)
+        {
+            Console.WriteLine($"{participant.Name} spräckte!\n");
+        }
 
 
     }
