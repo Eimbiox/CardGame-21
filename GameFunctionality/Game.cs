@@ -41,14 +41,22 @@ class Game
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
         {
-            string name = _ui.AskPlayerName(i + 1);
+            string name = _ui.AskPlayerName($"Skriv in namnet på spelare {i + 1}: ");
+            bool exists = _participants.Any(p => p.Name == name);   //Kollar om spelarens namn redan finns i _participants
+
+            while (exists)
+            {
+                name = _ui.AskPlayerName($"Namet {name} är redan taget. Skriv något unikt:" );
+                exists = _participants.Any(p => p.Name == name);
+            }
+
             bool nameFound = false;
             foreach (var savedPlayer in gameStorage._players)   //Jämför namnet med namnen i gameStorage._players och skapar en spelare baserat på de
             {
                 if (savedPlayer.Name == name)   //Om namnet hittades
                 {
                     _participants.Add(savedPlayer);
-                    nameFound = true;
+                    nameFound = true; 
                 }
             }
             if (!nameFound) //Om det inte hittades

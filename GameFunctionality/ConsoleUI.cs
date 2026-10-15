@@ -91,9 +91,9 @@ class ConsoleUI
             Console.WriteLine("Ange ett heltal mellan 1 och 5.");
         }
     }
-    public string AskPlayerName(int playerNumber)
+    public string AskPlayerName(string promt)
     {
-        Console.Write($"Skriv namnet på spelare {playerNumber}: ");
+        Console.Write(promt);
         string? name = Console.ReadLine()?.Trim();
         while (string.IsNullOrWhiteSpace(name))
         {
@@ -102,6 +102,7 @@ class ConsoleUI
         }
         return name;
     }
+    
     public bool AskIfPlayAgain()
     {
         while (true)
