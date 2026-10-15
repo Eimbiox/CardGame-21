@@ -19,6 +19,19 @@ class ConsoleUI
         Console.WriteLine("        Välkommen till Tjugoett!     ");
         Console.WriteLine("=====================================");
     }
+    public void ShowLeaderboard(GameStorage gameStorage)
+    {
+        Console.WriteLine();
+        Console.WriteLine("============== TOPPLISTA ==============");
+        Console.WriteLine($"{"#",-3} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",5}");
+        Console.WriteLine(new string('-', 39));
+        for (int i = 0; i < gameStorage._players.Count; i++)
+        {
+            Player player = gameStorage._players[i];
+            Console.WriteLine($"{i + 1,-3} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,5}");
+        }
+        Console.WriteLine(new string('=', 39));
+    }
     public int AskNumberOfPlayers()
     {
         while (true)

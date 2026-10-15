@@ -16,7 +16,7 @@ class Game
             }
             else if (choice == 2)
             {
-                //Visa leaderboard
+                _ui.ShowLeaderboard(gameStorage);
             }
             else if (choice == 3)
             {
