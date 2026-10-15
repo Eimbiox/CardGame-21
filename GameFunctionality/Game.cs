@@ -13,7 +13,23 @@ class Game
             int choice = _ui.MainMenu();
             if (choice == 1)
             {
-                _players.Clear();
+                Play();
+            }
+            else if (choice == 2)
+            {
+                //Visa resultat
+            }
+            //Sök efter resultat
+            else
+            {
+                running = false;
+            }
+        }
+    }
+
+    public void Play()
+    {
+        _players.Clear();
                 _participants.Clear();
                 int playerCount = _ui.AskNumberOfPlayers();
 
@@ -43,20 +59,6 @@ class Game
                     playing = _ui.AskIfPlayAgain();
 
                 }
-            }
-            else if (choice == 2)
-            {
-                //Visa resultat
-            }
-            else
-            {
-                running = false;
-            }
-        }
-
-
-
-
     }
 
     public Game(ConsoleUI ui)   //Constructor
