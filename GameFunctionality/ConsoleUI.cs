@@ -159,7 +159,7 @@ class ConsoleUI
         }
 
         //Skriver ut namnet på spelaren,            Vad för kort, Mjuk/Hard  Poängen som man har totalt i handen.
-        Console.WriteLine($"{participant.Name}: ({handType} {participant.Hand.Points})\n");
+        Console.WriteLine($"{participant.Name}: ({handType} hand, {participant.Hand.Points})\n");
         Console.WriteLine(top);
         Console.WriteLine(middle);
         Console.WriteLine(bottom);
