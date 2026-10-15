@@ -79,11 +79,33 @@ class Round
         dealer.RevealHoleCard();  //vänds efter att alla spelare är klara
         _ui.ShowHand(dealer);     //Visar givarens hand med hålkortet uppvänt
 
+        bool allPlayersBust = true;   //Vi utgår från att alla har spruckit då. Boolen starta på true.
+
+        foreach (Player player in _participants.OfType<Player>()) //Går igenom alla spelare i rundan en i taget (givaren räknas inte)
+        {
+            if (!player.Hand.IsBust)  //Hittar vi en spelare som INTE har spruckit...
+            {
+                allPlayersBust = false;  //...så stämmer det inte att alla har spruckit
+                break;
+            }
+        }
+
+        if (allPlayersBust)
+        {
+            return;  //Alla spelare har spruckit, givaren drar inga fler kort
+        }
+
+
+
+
+
         while (dealer.ShouldHit())  //Sålänge givarens regler säger han ska dra(under 17) dra ett kort tills dess
         {
             dealer.Hit(_deck);
             _ui.ShowHand(dealer);  //Visar handen igen med det nya kortet
         }
+
+
     }
     public void DecideWinners()
     {
@@ -100,7 +122,7 @@ class Round
             else if (dealer.Hand.IsBust)
             {
                 outcome = Outcome.Win;
-            } 
+            }
             else if (player.Hand.Points > dealer.Hand.Points)
             {
                 outcome = Outcome.Win;
