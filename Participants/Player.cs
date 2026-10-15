@@ -1,8 +1,8 @@
 class Player : Participant
 {
-    public int Wins { get; private set; } = 0;
-    public int Losses { get; private set; } = 0;
-    public int Draws { get; private set; } = 0;
+    public int Wins { get; private set; }
+    public int Losses { get; private set; }
+    public int Draws { get; private set; }
     
     // public Player(string name) : base(name) { } //Constructor
 
