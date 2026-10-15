@@ -1,0 +1,5 @@
+Martin;3;0;0
+Thomas;1;0;0
+Lisa;1;0;0
+Anna;1;0;0
+Panna;1;0;0

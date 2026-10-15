@@ -2,23 +2,85 @@ class ConsoleUI
 {
     public int MainMenu()
     {
+        Console.Clear();
         GameStart();
         Console.WriteLine();
 
-        Console.WriteLine("1. Starta\n2. Visa Resultat\n3. Avsluta");
+        Console.WriteLine("1. Starta\n2. Visa topplistan\n3. Sök efter spelares reslutat\n4. Avsluta");
         int choice;
-        while (!int.TryParse(Console.ReadLine(), out choice) || choice is < 1 or > 3)
+        while (!int.TryParse(Console.ReadLine(), out choice) || choice is < 1 or > 4)
         {
-            Console.WriteLine("Ange ett heltal mellan 1 och 3");
+            Console.WriteLine("Ange ett heltal mellan 1 och 4");
         }
         return choice;
     }
+
+    public void PrintErrors(GameStorage gameStorage)
+    {   
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(string.Join("\n", gameStorage.Errors));
+        Console.ResetColor();
+        Console.ReadKey();
+    }
+
     public void GameStart()
     {
         Console.WriteLine("=====================================");
         Console.WriteLine("        Välkommen till Tjugoett!     ");
         Console.WriteLine("=====================================");
     }
+    public void ShowLeaderboard(GameStorage gameStorage)    //Visar Topplistan
+    {
+        Console.Clear();
+        //Sorterar spelare i gameStorage._players baserat på deras winRate
+        //Om flera spelare har samma winRate sorteras dem efter vinster
+        var sortedPlayers = gameStorage._players.OrderByDescending(p => p.WinRate).ThenByDescending(p => p.Wins).ToList();
+        Console.WriteLine();
+        Console.WriteLine("==================== TOPPLISTA =====================");
+        Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4} {"Vinstfrekvens",13}");
+        Console.WriteLine(new string('-', 52));
+        for (int i = 0; i < sortedPlayers.Count; i++)
+        {
+            Player player = sortedPlayers[i];
+            Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4} {player.WinRate * 100,13:F1}%");
+        }
+        Console.WriteLine(new string('=', 52));
+        Console.ReadKey();
+    }
+
+    public void FindPlayerStats(GameStorage gameStorage)    //Hittar en specifik spelare i topplistan
+    {
+        //Sorterar spelare i gameStorage._players baserat på deras winRate
+        //Om flera spelare har samma winRate sorteras dem efter vinster
+        var sortedPlayers = gameStorage._players.OrderByDescending(p => p.WinRate).ThenByDescending(p => p.Wins).ToList();
+        Console.Write("Skriv namnet på spelaren: ");
+        string? nameToFind = Console.ReadLine();
+        while (string.IsNullOrWhiteSpace(nameToFind))
+        {
+            Console.Write("Skriv ett giltigt namn");
+            nameToFind = Console.ReadLine();
+        }
+        bool nameFound = false;
+        for (int i = 0; i < sortedPlayers.Count; i++)
+        {
+            Player player = sortedPlayers[i];
+            if (player.Name == nameToFind)
+            {
+                Console.Clear();
+                Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4} {"Vinstfrekvens",13}");
+                Console.WriteLine(new string('-', 52));
+                Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4} {player.WinRate * 100,13:F1}%");
+                Console.WriteLine(new string('-', 52));
+                nameFound = true;
+            }
+        }
+        if (!nameFound)
+        {
+            Console.WriteLine($"{nameToFind} finns inte i topplistan");
+        }
+        Console.ReadKey();
+    }
+
     public int AskNumberOfPlayers()
     {
         while (true)
@@ -29,9 +91,9 @@ class ConsoleUI
             Console.WriteLine("Ange ett heltal mellan 1 och 5.");
         }
     }
-    public string AskPlayerName(int playerNumber)
+    public string AskPlayerName(string promt)
     {
-        Console.Write($"Skriv namnet på spelare {playerNumber}: ");
+        Console.Write(promt);
         string? name = Console.ReadLine()?.Trim();
         while (string.IsNullOrWhiteSpace(name))
         {
@@ -40,6 +102,7 @@ class ConsoleUI
         }
         return name;
     }
+    
     public bool AskIfPlayAgain()
     {
         while (true)

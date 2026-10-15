@@ -5,6 +5,8 @@ class Round
     private readonly List<Participant> _participants;
     private readonly Deck _deck;
     private readonly ConsoleUI _ui;
+
+   
     public Round(List<Participant> participants, Deck deck, ConsoleUI ui)//Constructor.
     {
         _participants = participants;
@@ -44,9 +46,7 @@ class Round
         {
             if (participant is Player player)
             {
-
-                _ui.ShowHand(player); //Visar spelaren startkort, värde och mju/hård innan första valet
-
+                _ui.ShowHand(player); //Visar spelaren startkort, värde och mjuk/hård innan första valet
 
                 if (player.Hand.IsBlackjack)        // if 2: har spelaren blackjack?
                 {
@@ -144,6 +144,14 @@ class Round
                 outcome = Outcome.Push;
             }
             _ui.ShowOutcome(player, outcome);
+
+            player.AddResult(outcome);
+            
         }
+    }
+
+    public void AddStats()
+    {
+        //lägga till win, loss, draw
     }
 }
