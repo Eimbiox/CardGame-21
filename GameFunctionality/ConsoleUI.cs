@@ -1,5 +1,18 @@
 class ConsoleUI
 {
+    public int MainMenu()
+    {
+        GameStart();
+        Console.WriteLine();
+
+        Console.WriteLine("1. Starta\n2. Visa Resultat\n3. Avsluta");
+        int choice;
+        while (!int.TryParse(Console.ReadLine(),out choice) || choice is < 1 or > 3)
+        {
+            Console.WriteLine("Ange ett heltal mellan 1 och 3");
+        }
+        return choice;
+    }
     public void GameStart()
     {
         Console.WriteLine("=====================================");
