@@ -38,19 +38,19 @@ class Game
         {
             string name = _ui.AskPlayerName(i + 1);
             bool nameFound = false;
-            foreach (var savedPlayer in gameStorage._players)   //Jämför namnet med namnen i filen och skapar en spelare baserat på de
+            foreach (var savedPlayer in gameStorage._players)   //Jämför namnet med namnen i gameStorage._players och skapar en spelare baserat på de
             {
-                if (savedPlayer.Name == name)
+                if (savedPlayer.Name == name)   //Om namnet hittades
                 {
                     _participants.Add(savedPlayer);
                     nameFound = true;
                 }
             }
-            if (!nameFound)
+            if (!nameFound) //Om det inte hittades
             {
-                Player player = new Player(name);
-                _participants.Add(player);
-                gameStorage._players.Add(player);
+                Player player = new Player(name);   //Skapa en ny player
+                _participants.Add(player);  //Lägg till i participants
+                gameStorage._players.Add(player);   //Lägg till i gameStorage._players
             }
         }
         _participants.Add(_dealer);  //Adds the dealer to the participants list

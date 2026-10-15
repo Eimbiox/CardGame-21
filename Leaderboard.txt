@@ -1,4 +1,0 @@
-Thomas;0;1;1
-Nikolai;0;1;1
-yay;0;1;0
-Eimantas;0;0;1
