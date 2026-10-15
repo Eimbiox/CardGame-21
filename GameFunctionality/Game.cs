@@ -2,7 +2,7 @@ class Game
 {
     private readonly List<Player> _players = [];    //Holds all human players
     private readonly List<Participant> _participants = [];   //Holds all participants
-
+    private readonly GameStorage gameStorage = new GameStorage();
     private readonly Dealer _dealer = new Dealer(); //Creates new dealer
     private readonly ConsoleUI _ui;
     public void Run()
@@ -17,9 +17,12 @@ class Game
             }
             else if (choice == 2)
             {
-                //Visa resultat
+                //Visa leaderboard
             }
-            //Sök efter resultat
+            else if (choice == 3)
+            {
+                 //Sök efter resultat
+            }
             else
             {
                 running = false;
@@ -57,6 +60,7 @@ class Game
                     Round round = new Round(_participants, deck, _ui);
                     round.Play();
                     playing = _ui.AskIfPlayAgain();
+                    gameStorage.SaveScore(_players);
 
                 }
     }

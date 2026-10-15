@@ -5,9 +5,9 @@ class ConsoleUI
         GameStart();
         Console.WriteLine();
 
-        Console.WriteLine("1. Starta\n2. Visa Resultat\n3. Avsluta");
+        Console.WriteLine("1. Starta\n2. Visa topplistan\n3. Sök efter spelares reslutat\n4. Avsluta");
         int choice;
-        while (!int.TryParse(Console.ReadLine(),out choice) || choice is < 1 or > 3)
+        while (!int.TryParse(Console.ReadLine(),out choice) || choice is < 1 or > 4)
         {
             Console.WriteLine("Ange ett heltal mellan 1 och 3");
         }
