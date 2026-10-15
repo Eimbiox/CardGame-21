@@ -14,6 +14,15 @@ class ConsoleUI
         }
         return choice;
     }
+
+    public void PrintErrors(GameStorage gameStorage)
+    {   
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(string.Join("\n", gameStorage.Errors));
+        Console.ResetColor();
+        Console.ReadKey();
+    }
+
     public void GameStart()
     {
         Console.WriteLine("=====================================");

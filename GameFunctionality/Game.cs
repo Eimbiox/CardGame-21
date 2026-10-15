@@ -9,6 +9,11 @@ class Game
         bool running = true;
         while (running)
         {
+            if (gameStorage.Errors.Count() > 0)
+            {
+                _ui.PrintErrors(gameStorage);
+                
+            }
             int choice = _ui.MainMenu();
             if (choice == 1)
             {
