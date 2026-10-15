@@ -1,11 +1,17 @@
 class Player : Participant
 {
-    public Player(string name) : base(name) { }
+    public int Wins { get; private set; } = 0;
+    public int Losses { get; private set; } = 0;
+    public int Draws { get; private set; } = 0;
+    
+    public Player(string name) : base(name) { } //Constructor
 
-    public int Wins {get; private set;} = 0;
-    public int Losses {get; private set;} = 0;
-    public int Draws {get; private set;} = 0;
-
+    public Player(string name, int wins, int losses, int draws) : base(name)
+    {
+        Wins = wins;
+        Losses = losses;
+        Draws = draws;
+    }
 
     public void AddResult(Outcome outcome)
     {
