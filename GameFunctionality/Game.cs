@@ -27,7 +27,7 @@ class Game
         }
     }
 
-    public void Play()
+    public void Play()  //Starts the game
     {
         _players.Clear();
                 _participants.Clear();
