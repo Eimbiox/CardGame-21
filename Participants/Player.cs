@@ -4,9 +4,9 @@ class Player : Participant
     public int Losses { get; private set; } = 0;
     public int Draws { get; private set; } = 0;
     
-    public Player(string name) : base(name) { } //Constructor
+    // public Player(string name) : base(name) { } //Constructor
 
-    public Player(string name, int wins, int losses, int draws) : base(name)
+    public Player(string name, int wins = 0, int losses = 0, int draws = 0) : base(name)
     {
         Wins = wins;
         Losses = losses;
