@@ -44,7 +44,7 @@ class ConsoleUI
     {
         while (true)
         {
-            Console.Write("Vill ni spela igen?(Ja/Nej): ");
+            Console.Write("Vill du fortsätta spela?(Ja/Nej): ");
             string? answer = Console.ReadLine()?.ToUpper().Trim();
             if (!string.IsNullOrWhiteSpace(answer))
             {
