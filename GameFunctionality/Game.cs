@@ -20,7 +20,7 @@ class Game
             }
             else if (choice == 3)
             {
-                //Sök efter resultat
+                _ui.FindPlayerStats(gameStorage);
             }
             else
             {
