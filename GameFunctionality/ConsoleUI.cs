@@ -8,7 +8,7 @@ class ConsoleUI
 
         Console.WriteLine("1. Starta\n2. Visa topplistan\n3. Sök efter spelares reslutat\n4. Avsluta");
         int choice;
-        while (!int.TryParse(Console.ReadLine(), out choice) || choice is < 1 or > 4)
+        while (!int.TryParse(Console.ReadLine(), out choice) || choice is < 1 or > 3)
         {
             Console.WriteLine("Ange ett heltal mellan 1 och 3");
         }
@@ -97,7 +97,7 @@ class ConsoleUI
     {
         while (true)
         {
-            Console.Write("Vill ni spela igen?(Ja/Nej): ");
+            Console.Write("Vill du fortsätta spela?(Ja/Nej): ");
             string? answer = Console.ReadLine()?.ToUpper().Trim();
             if (!string.IsNullOrWhiteSpace(answer))
             {
@@ -183,7 +183,7 @@ class ConsoleUI
     {
         //Ett kort ritas på tre rader. Då jag bygger varje rad för sig med, Top,Middle och Bottom Layer.
         string top = ""; //Översta raden med "┌───┐" 
-        string middle = ""; //Mittenraden med " │" + CardText.PadRight(3) + "│ 
+        //string middle = ""; //Mittenraden med " │" + CardText.PadRight(3) + "│ 
         string bottom = ""; // Nedersta raden "└───┘"
 
 
@@ -191,10 +191,10 @@ class ConsoleUI
 
         {
             //Gör om kortets enums för Rank + Suits till symboler som "♥♦♣♠" döpt lådan till "CardText"
-            string CardText = RankSymbol(card.Rank) + SuitSymbol(card.Suit);
+            // string CardText = RankSymbol(card.Rank) + SuitSymbol(card.Suit);
 
             top += "┌───┐ ";
-            middle += "│" + CardText.PadRight(3) + "│ "; //Anropa "CardText" + lagt till PadRight så den alltid blir 3 rader
+            // middle += "│" + CardText.PadRight(3) + "│ "; //Anropa "CardText" + lagt till PadRight så den alltid blir 3 rader
             bottom += "└───┘ "; //T.ex 1♠ då denna är 2 rader lägger till "/n" och 10♠ är 3 rader.
         }
 
@@ -212,9 +212,21 @@ class ConsoleUI
         }
 
         //Skriver ut namnet på spelaren,            Vad för kort, Mjuk/Hard  Poängen som man har totalt i handen.
-        Console.WriteLine($"{participant.Name}: ({handType} {participant.Hand.Points})\n");
+        Console.WriteLine($"{participant.Name}: ({handType} hand, {participant.Hand.Points})\n");
         Console.WriteLine(top);
-        Console.WriteLine(middle);
+
+
+        foreach (Card card in participant.Hand.Cards) //Mittenraden skrivs kort för kort så att varje kort kan få egen färg.
+        {
+            Console.Write("│"); //Vänster kant på kortet
+            WriteCardText(card); //Kortets  text, röd om hjärter/ruter
+
+            Console.Write("│ "); //Högerkant på kortet
+        }
+        Console.WriteLine(); // Ny rad efter alla kort
+
+
+        //  Console.WriteLine(middle);
         Console.WriteLine(bottom);
         Console.WriteLine(); //Tom Rad för med luftigt i Konsolen.
 
@@ -230,12 +242,23 @@ class ConsoleUI
         if (dealer.IsHoleCardHidden) //Om hålkortet fortfarande är dolt ("1♠, hållkort")
         {
             Card upcard = dealer.Hand.Cards[0];  //Första kortet i listan inom index som visas medans andra andra är hålkortet
-            string text = RankSymbol(upcard.Rank) + SuitSymbol(upcard.Suit); //T.ex. "1♦"
+           // string text = RankSymbol(upcard.Rank) + SuitSymbol(upcard.Suit); //T.ex. "1♦"
 
 
             Console.WriteLine($"{dealer.Name}");
             Console.WriteLine("┌───┐ ┌───┐");
-            Console.WriteLine("│" + text.PadRight(3) + "│ │░░░│"); //Det öppna kortet och hålkortet med baksidan upp. [0][1]
+
+
+
+            // Console.WriteLine("│" + text.PadRight(3) + "│ │░░░│"); //Det öppna kortet och hålkortet med baksidan upp. [0][1]
+            Console.Write("│"); //vänster kant på kortet
+            WriteCardText(upcard);         //Givarens öppna kort, rött om hjärter/ruter
+            Console.WriteLine("│ │░░░│"); //höger kant på kortet
+
+
+
+
+
             Console.WriteLine("└───┘ └───┘");
             Console.WriteLine();
 
@@ -279,10 +302,23 @@ class ConsoleUI
 
         }
 
+    }
+    private void WriteCardText(Card card) // Skruver ut ett kort som text, t.ex "Q♦". 
 
+    {
+        string cardText = RankSymbol(card.Rank) + SuitSymbol(card.Suit); //Gör om kortet till text, t.ex "Q" + "♦" = "Q♦"
 
+        if (card.Suit == Suit.Hearts || card.Suit == Suit.Diamonds) //Om kortet är hjärter eller ruter?
 
+        {
+            Console.ForegroundColor = ConsoleColor.Red; //Sätter nuvarande textfärg till röd, så  att kortet skrivs ut i rött
+        }
+
+        Console.Write(cardText.PadRight(3)); //Skriver ut kortet alltså "Q♦", PadRight(3) ger alltid texten 3 tecken "Q♦ " lägger till /n
+        Console.ResetColor(); //Byt tillbaka till vanlig färg, annars blir all text efteråt röd.
 
 
     }
+
+
 }
