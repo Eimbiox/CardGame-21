@@ -2,7 +2,9 @@ class Player : Participant
 {
     public int Wins { get; private set; }
     public int Losses { get; private set; }
-    public int Draws { get; private set; }
+    public int Draws { get; private set; } 
+
+    public double WinRate => CalculateWinRate();
     
     // public Player(string name) : base(name) { } //Constructor
 
@@ -31,5 +33,16 @@ class Player : Participant
         {
             Wins += 1;
         }
+    }
+
+    public double CalculateWinRate()
+    {
+        int gamesPlayed = Wins + Losses + Draws;
+        
+        if (gamesPlayed == 0)
+        {
+            return 0;
+        }
+        return (double)Wins / (double)gamesPlayed;
     }
 }

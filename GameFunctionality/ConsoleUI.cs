@@ -2,6 +2,7 @@ class ConsoleUI
 {
     public int MainMenu()
     {
+        Console.Clear();
         GameStart();
         Console.WriteLine();
 
@@ -20,17 +21,20 @@ class ConsoleUI
         Console.WriteLine("=====================================");
     }
     public void ShowLeaderboard(GameStorage gameStorage)
-    {
+    {   
+        Console.Clear();
+        var sortedPlayers = gameStorage._players.OrderByDescending(p => p.WinRate).ThenByDescending(p => p.Wins).ToList();
         Console.WriteLine();
-        Console.WriteLine("============= TOPPLISTA =============");
-        Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4}");
-        Console.WriteLine(new string('-', 37));
-        for (int i = 0; i < gameStorage._players.Count; i++)
+        Console.WriteLine("==================== TOPPLISTA =====================");
+        Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4} {"Vinstfrekvens", 13}");
+        Console.WriteLine(new string('-', 52));
+        for (int i = 0; i < sortedPlayers.Count; i++)
         {
-            Player player = gameStorage._players[i];
-            Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4}");
+            Player player = sortedPlayers[i];
+            Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4} {player.WinRate * 100, 13 :F1}%");
         }
-        Console.WriteLine(new string('=', 37));
+        Console.WriteLine(new string('=', 52));
+        Console.ReadKey();
     }
     public int AskNumberOfPlayers()
     {
