@@ -6,7 +6,6 @@ class Round
     private readonly Deck _deck;
     private readonly ConsoleUI _ui;
 
-   
     public Round(List<Participant> participants, Deck deck, ConsoleUI ui)//Constructor.
     {
         _participants = participants;
@@ -89,23 +88,15 @@ class Round
                 break;
             }
         }
-
         if (allPlayersBust)
         {
             return;  //Alla spelare har spruckit, givaren drar inga fler kort
         }
-
-
-
-
-
         while (dealer.ShouldHit())  //Sålänge givarens regler säger han ska dra(under 17) dra ett kort tills dess
         {
             dealer.Hit(_deck);
             _ui.ShowHand(dealer);  //Visar handen igen med det nya kortet
         }
-
-
     }
     public void DecideWinners()
     {
@@ -148,10 +139,5 @@ class Round
             player.AddResult(outcome);
             
         }
-    }
-
-    public void AddStats()
-    {
-        //lägga till win, loss, draw
     }
 }
