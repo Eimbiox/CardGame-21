@@ -2,6 +2,8 @@ class Deck
 {
     private List<Card> _cards = [];
 
+    public int RemainingCards => _cards.Count();
+
     public Deck() //Constructor
     {
         foreach (var suit in Enum.GetValues<Suit>())    //Creates 52 cards when deck is made
@@ -20,5 +22,12 @@ class Deck
             int j = Random.Shared.Next(i + 1);
             (_cards[i], _cards[j]) = (_cards[j], _cards[i]);
         }
+    }
+
+    public Card TakeCard()  //Takes the first card
+    {
+        Card card = _cards[0];
+        _cards.RemoveAt(0);
+        return card;
     }
 }

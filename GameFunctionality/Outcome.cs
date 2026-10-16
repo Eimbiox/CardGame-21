@@ -1,4 +1,4 @@
 enum Outcome
 {
-    Win, Loose, Push, Blackjack
+    Win, Lose, Push, Blackjack
 }
