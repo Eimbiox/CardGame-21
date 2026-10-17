@@ -198,7 +198,7 @@ class ConsoleUI
 
 
         foreach (Card card in participant.Hand.Cards) //Går igenom vaje kort som ligger i handen, ett i taget.
-
+         
         {
             //Gör om kortets enums för Rank + Suits till symboler som "♥♦♣♠" döpt lådan till "CardText"
             // string CardText = RankSymbol(card.Rank) + SuitSymbol(card.Suit);
@@ -278,41 +278,9 @@ class ConsoleUI
             ShowHand(dealer); //kalla på funktionen showhand.
         }
     }
-    private string RankSymbol(Rank rank) //Gör om enum till text, t.ex Rank.Ace blir A
+   
 
-    {
-        switch (rank)
-        {
-            case Rank.Ace: return "A";
-            case Rank.King: return "K";
-            case Rank.Queen: return "Q";
-            case Rank.Jack: return "J";
-            case Rank.Ten: return "10";
-            case Rank.Nine: return "9";
-            case Rank.Eight: return "8";
-            case Rank.Seven: return "7";
-            case Rank.Six: return "6";
-            case Rank.Five: return "5";
-            case Rank.Four: return "4";
-            case Rank.Three: return "3";
-            default: return "2"; //Det enda som är kvar är Two
-
-        }
-    }
-
-    private string SuitSymbol(Suit suit) //Gör om färg enum till symbol där Suit.Hearts blir ♥
-
-    {
-        switch (suit)
-        {
-            case Suit.Hearts: return "♥";
-            case Suit.Diamonds: return "♦";
-            case Suit.Spades: return "♠";
-            default: return "♣"; // Det enda är kvar är Klöver
-
-        }
-
-    }
+    
     private void WriteCardText(Card card) // Skruver ut ett kort som text, t.ex "Q♦". 
 
     {
