@@ -1,0 +1,1 @@
+//How favorable the situation is for the player, based on the true count
