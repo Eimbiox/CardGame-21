@@ -24,26 +24,20 @@ class Shoe
                                // "from" is bigger than "to", which would crash Random.Next.
         }
         AmountOfDecks = amountofdecks;
-        for(int i = 0; i < amountofdecks; i++)
-        {
-            foreach (var suit in Enum.GetValues<Suit>())    //Creates 52 cards per deck (amountofdecks = 6) 312 total cards.
-            {
-                foreach (var rank in Enum.GetValues<Rank>())
-                {
-                    _cards.Add(new Card(suit, rank));
-                }
-            }
-        }
+        FillShoe();
     }
 
     public void Shuffle()   //Shuffles the cards. 
     {
+        _cards.Clear();
+        FillShoe();
         for (int i = _cards.Count - 1; i > 0; i--)
         {
             int j = Random.Shared.Next(i + 1);
             (_cards[i], _cards[j]) = (_cards[j], _cards[i]);
         }
         _cutCard = Random.Shared.Next(RemainingCards * 3 / 4, RemainingCards - 15); // Instead of having (234, 312) I added the current one for different amountofdecks values
+        CutCardReached = false;
     }
 
     public Card TakeCard()  //Takes the first card
@@ -56,5 +50,20 @@ class Shoe
             CutCardReached = true;
         }
         return card;
+    }
+
+    private void FillShoe()
+    {
+        for(int i = 0; i < AmountOfDecks; i++)
+        {
+            foreach (var suit in Enum.GetValues<Suit>())    //Creates 52 cards per deck (amountofdecks = 6) 312 total cards.
+            {
+                foreach (var rank in Enum.GetValues<Rank>())
+                {
+                    _cards.Add(new Card(suit, rank));
+                }
+            }
+        }
+        
     }
 }
