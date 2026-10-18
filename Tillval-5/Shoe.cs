@@ -20,7 +20,7 @@ class Shoe
         AmountOfDecks = amountofdecks;
         for(int i = 0; i < amountofdecks; i++)
         {
-            foreach (var suit in Enum.GetValues<Suit>())    //Creates 52 cards per deck (amountofdecks = 6)
+            foreach (var suit in Enum.GetValues<Suit>())    //Creates 52 cards per deck (amountofdecks = 6) 312 total cards.
             {
                 foreach (var rank in Enum.GetValues<Rank>())
                 {
@@ -29,5 +29,13 @@ class Shoe
             }
         }
     }
-   
+    public void Shuffle()   //Shuffles the cards. 
+    {
+        for (int i = _cards.Count - 1; i > 0; i--)
+        {
+            int j = Random.Shared.Next(i + 1);
+            (_cards[i], _cards[j]) = (_cards[j], _cards[i]);
+        }
+        _cutCard = Random.Shared.Next(RemainingCards * 3 / 4, RemainingCards); // Instead of having (234, 312) I added the current one for different amountofdecks values
+    }
 }
