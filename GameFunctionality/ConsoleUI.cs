@@ -1,5 +1,6 @@
 class ConsoleUI
 {
+    private readonly CardRenderer _cardRenderer = new CardRenderer();   //Ritar korten i konsolen
     public int MainMenu()
     {
         Console.Clear();

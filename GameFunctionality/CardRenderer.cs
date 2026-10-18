@@ -56,10 +56,10 @@ class CardRenderer
 
     }
 
-    private string [] GetBackLines() //Bygger baksidan av kortet.
+    private string[] GetBackLines() //Bygger baksidan av kortet.
 
     {
-        string [] lines = new string [7];
+        string[] lines = new string[7];
 
         lines[0] = "┌───────┐";
         lines[1] = "│░░░░░░░│";
@@ -70,9 +70,62 @@ class CardRenderer
         lines[6] = "└───────┘";
 
         return lines;
-        
+
     }
 
 
+    ////Ritar alla kort i en hand bredvid varandra (används för både spelare och givaren).
+    //cards = korten som ska ritas, t.ex. spelarens Hand.Cards.
+    //hideSecondCard = true ritar andra kortet med baksidan upp (givarens hålkort). Blir false om inget skickas in. 
+    public void DrawCards(List<Card> cards, bool hideSecondCard = false)
+    {
+        for (int row = 0; row < 7; row++) //Går igenom kortets 7 rader uppifrån och ner. För varje rad skrivs samma rad ut för alla kort, så att korten hamnar bredvid varandra
 
-}
+        {
+            for (int i = 0; i < cards.Count; i++) //Går genom kortet från vänster till höger, de som faktiskt delar ut.
+            {
+
+                bool isHidden = false;              //Vi utgår från att kortet inte är dolt (ändras till true om det är givarens hålkort)
+                if (hideSecondCard && i == 1)       //  //Om lappen säger "dölj" OCH det är andra kortet i handen (i = 1), alltså givarens hålkort
+                {
+                    isHidden = true;                // ...då är det dolt
+                }
+
+
+                bool isRed = false;   //Vi utgår från att kortet inte är rött
+
+                if (cards[i].Suit == Suit.Hearts || cards[i].Suit == Suit.Diamonds)   //Är kortet hjärter ELLER ruter?
+                {
+                    isRed = true;   //Ja, då är kortet rött och ska ritas i röd färg
+                }
+
+
+                string[] lines;  //Ska innehålla det här kortets 7 rader
+                if (isHidden)  //Om det är givarens dolda hålkort
+
+                {
+                    lines = GetBackLines(); //...bygg baksidan (░░░)
+                }
+                else  //Annars är det ett vanligt kort som ska visas med framsidan upp
+                {
+                    lines = GetCardLine(cards[i]);  //Bygger kortets framsida (valör och färg) och lägger raderna i lines
+                }
+
+                if (isRed && !isHidden) //Om kortet är rött (hjärter/ruter) OCH inte dolt...
+
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;  //byt textfärg till röd
+                }
+
+
+                Console.Write(lines[row] + " "); //Skriver ut rad nummer "row" av kort nummer "i" + ett mellanslag till nästa kort som hamnar brevid.  
+                Console.ResetColor();  //Tillbaka till vanlig färg, så att nästa kort inte också blir rött
+            }
+
+            Console.WriteLine(); //Hoppa ner till nästa rad, så att nästa "row" kan skrivas ut för alla kort
+        }
+        Console.WriteLine(); //Efter att loopen är klar lämnar jag en tom rad, så att det blir luft efter korten
+
+
+
+    }
