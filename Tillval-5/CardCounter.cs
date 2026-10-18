@@ -18,4 +18,16 @@ class CardCounter
             RunningCount = RunningCount -1;
         }
     }
+
+    public void ResetRunningCount()
+    {
+        RunningCount = RunningCount - RunningCount;
+    }
+
+    public double TrueCount(int RemainingCards)
+    {
+        double decksLeft = RemainingCards / 52.0;
+        double trueCount = RunningCount / decksLeft;
+        return trueCount;
+    }
 }
