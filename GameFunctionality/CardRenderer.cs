@@ -1,6 +1,7 @@
 class CardRenderer
 
 {
+    private const int CardHeight = 7;  // Hur många rader ett kort är. Används på flera ställen, så det räcker att ändra här. const gör att värdet inte kan ändras medan programmet kör.
     private string RankSymbol(Rank rank) //Gör om enum till text, t.ex Rank.Ace blir A
 
     {
@@ -36,21 +37,33 @@ class CardRenderer
         }
     }
 
+    private string FaceSymbol(Rank rank) //Schacksymbol för klädda kort (kung, dam, knekt), mellanslag för övrigt.
+
+    {
+        switch (rank)
+
+        {
+            case Rank.King: return "♚";
+            case Rank.Queen: return "♛";
+            case Rank.Jack: return "♞";
+            default: return " ";
+        }
+    }
     private string[] GetCardLine(Card card)
 
     {
         string rank = RankSymbol(card.Rank); // Gör om t.ex Rank.Two till 2 o döper ny Textlåda till rank
         string suit = SuitSymbol(card.Suit); // Gör om t.ex. Suit.Hearts till "♥" och sparar i en ny textlåda som heter suit
 
-        string[] lines = new string[7]; //Skapa fler lådor med fack som heter lines, då detär 7st.
+        string[] lines = new string[CardHeight]; //Skapa fler lådor med fack som heter lines, då detär 7st.
 
         lines[0] = "┌───────┐";
         lines[1] = "│" + rank.PadRight(7) + "│"; //Lägger till Rank 2 t.ex plus totalt 7 mellanslag
-        lines[2] = "│       │";
+        lines[2] = "│   " + FaceSymbol(card.Rank) + "   │"; //Schacksymbol för klädda kort, annars tom rad
         lines[3] = "│   " + suit + "   │"; //lägger till suit
         lines[4] = "│       │";
         lines[5] = "│" + rank.PadLeft(7) + "│";
-        lines[6] = "└───────┘"; // // Skickar tillbaka kortets 7 rader till DrawCards (syns inte på skärmen förrän DrawCards skriver ut dem)
+        lines[6] = "└───────┘"; //Skickar tillbaka kortets 7 rader till DrawCards (syns inte på skärmen förrän DrawCards skriver ut dem)
 
         return lines;
 
@@ -59,7 +72,7 @@ class CardRenderer
     private string[] GetBackLines() //Bygger baksidan av kortet.
 
     {
-        string[] lines = new string[7];
+        string[] lines = new string[CardHeight];
 
         lines[0] = "┌───────┐";
         lines[1] = "│░░░░░░░│";
@@ -79,7 +92,7 @@ class CardRenderer
     //hideSecondCard = true ritar andra kortet med baksidan upp (givarens hålkort). Blir false om inget skickas in. 
     public void DrawCards(List<Card> cards, bool hideSecondCard = false)
     {
-        for (int row = 0; row < 7; row++) //Går igenom kortets 7 rader uppifrån och ner. För varje rad skrivs samma rad ut för alla kort, så att korten hamnar bredvid varandra
+        for (int row = 0; row < CardHeight; row++) //Går igenom kortets 7 rader uppifrån och ner. För varje rad skrivs samma rad ut för alla kort, så att korten hamnar bredvid varandra
 
         {
             for (int i = 0; i < cards.Count; i++) //Går genom kortet från vänster till höger, de som faktiskt delar ut.
