@@ -6,6 +6,7 @@ class Round
     private readonly Deck _deck;
     private readonly ConsoleUI _ui;
 
+    private readonly RoundBets roundBets = new RoundBets();
     public Round(List<Participant> participants, Deck deck, ConsoleUI ui)//Constructor.
     {
         _participants = participants;
