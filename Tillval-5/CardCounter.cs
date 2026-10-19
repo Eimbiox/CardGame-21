@@ -30,4 +30,21 @@ class CardCounter
         double trueCount = RunningCount / decksLeft;
         return trueCount;
     }
+
+    public CountAdvantage FavorableLevel(int RemainingCards)
+    {
+        double trueCountValue = TrueCount(RemainingCards);
+        if(trueCountValue >= 2)
+        {
+            return CountAdvantage.Favorable;
+        }
+        else if(trueCountValue > 1)
+        {
+            return CountAdvantage.Neutral;
+        }
+        else
+        {
+            return CountAdvantage.Unfavorable;
+        }
+    }
 }
