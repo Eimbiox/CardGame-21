@@ -128,7 +128,7 @@ class ConsoleUI
         }
     }
 
-    public bool WantsToHit(Player player) //true = hit false = stand
+    public Move WantsToHit(Player player) // retunerar vilket Move man väljer
     {
         while (true)
         {
@@ -138,11 +138,11 @@ class ConsoleUI
             {
                 if (input == "KÖP")
                 {
-                    return true;
+                    return Move.Hit;
                 }
                 if (input == "STANNA")
                 {
-                    return false;
+                    return Move.Stand;
                 }
                 Console.WriteLine("Svara med köp eller stanna");
             }

@@ -41,6 +41,7 @@ class Round
     }
     public void PlayerTurns()
     {
+        Dealer dealer = _participants.OfType<Dealer>().First();
         foreach (var participant in _participants)
         {
             if (participant is Player player)
@@ -55,8 +56,9 @@ class Round
 
                 while (player.Hand.Points < 21) //While points are under 21
                 {
-                    bool playerChoice = _ui.WantsToHit(player); //Ask if player wants to hit
-                    if (playerChoice) //Player hits
+                    Move move = player.Decide(dealer.Hand.Cards[0]); // använder dealerns visade kort för att bestämma move
+                    
+                    if (move == Move.Hit) //Player hits
                     {
                         player.Hit(_deck);
                         _ui.ShowHand(player); //Visar handen igen med det nya kortet.
