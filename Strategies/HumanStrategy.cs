@@ -1,4 +1,4 @@
-class HumanStrategy : IPlayerStrategy   //Köper så länge handen är under 17, bryr sig inte om givarens kort
+class HumanStrategy : IPlayerStrategy  // skapas för mänskliga spelare
 {
     private readonly ConsoleUI _ui;
     private readonly Player _player;

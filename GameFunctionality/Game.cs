@@ -56,6 +56,7 @@ class Game
                 if (savedPlayer.Name == name)   //Om namnet hittades
                 {
                     _participants.Add(savedPlayer);
+                    savedPlayer.Strategy = new HumanStrategy(_ui, savedPlayer);
                     nameFound = true; 
                 }
             }
@@ -63,6 +64,7 @@ class Game
             {
                 Player player = new Player(name);   //Skapa en ny player
                 _participants.Add(player);  //Lägg till i participants
+                player.Strategy = new HumanStrategy(_ui, player);
                 gameStorage._players.Add(player);   //Lägg till i gameStorage._players
             }
         }
