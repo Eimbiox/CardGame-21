@@ -41,31 +41,39 @@ class Game
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
         {
-            string name = _ui.AskPlayerName($"Skriv in namnet på spelare {i + 1}: ");
-            bool exists = _participants.Any(p => p.Name == name);   //Kollar om spelarens namn redan finns i _participants
+            bool isHuman = _ui.AskIsHuman();
+            if (isHuman)
+            { 
+                string name = _ui.AskPlayerName($"Skriv in namnet på spelare {i + 1}: ");
+                bool exists = _participants.Any(p => p.Name == name);   //Kollar om spelarens namn redan finns i _participants
 
-            while (exists)
-            {
-                name = _ui.AskPlayerName($"Namet {name} är redan taget. Skriv något unikt:" );
-                exists = _participants.Any(p => p.Name == name);
-            }
-
-            bool nameFound = false;
-            foreach (var savedPlayer in gameStorage._players)   //Jämför namnet med namnen i gameStorage._players och skapar en spelare baserat på de
-            {
-                if (savedPlayer.Name == name)   //Om namnet hittades
+                while (exists)
                 {
-                    _participants.Add(savedPlayer);
-                    savedPlayer.Strategy = new HumanStrategy(_ui, savedPlayer);
-                    nameFound = true; 
+                    name = _ui.AskPlayerName($"Namet {name} är redan taget. Skriv något unikt:" );
+                    exists = _participants.Any(p => p.Name == name);
+                }
+
+                bool nameFound = false;
+                foreach (var savedPlayer in gameStorage._players)   //Jämför namnet med namnen i gameStorage._players och skapar en spelare baserat på de
+                {
+                    if (savedPlayer.Name == name)   //Om namnet hittades
+                    {
+                        _participants.Add(savedPlayer);
+                        savedPlayer.Strategy = new HumanStrategy(_ui, savedPlayer);
+                        nameFound = true; 
+                    }
+                }
+                if (!nameFound) //Om det inte hittades
+                {
+                    Player player = new Player(name);   //Skapa en ny player
+                    _participants.Add(player);  //Lägg till i participants
+                    player.Strategy = new HumanStrategy(_ui, player);
+                    gameStorage._players.Add(player);   //Lägg till i gameStorage._players
                 }
             }
-            if (!nameFound) //Om det inte hittades
+            else
             {
-                Player player = new Player(name);   //Skapa en ny player
-                _participants.Add(player);  //Lägg till i participants
-                player.Strategy = new HumanStrategy(_ui, player);
-                gameStorage._players.Add(player);   //Lägg till i gameStorage._players
+                CreateComputerPlayer();
             }
         }
         _participants.Add(_dealer);  //Adds the dealer to the participants list
@@ -87,6 +95,11 @@ class Game
             gameStorage.SaveScore();
 
         }
+    }
+
+    private void CreateComputerPlayer()
+    {
+                // Inte kodad än
     }
 
     public Game(ConsoleUI ui)   //Constructor
