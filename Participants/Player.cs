@@ -4,11 +4,10 @@ class Player : Participant
     public int Losses { get; private set; }
     public int Draws { get; private set; } 
 
+    public Wallet Wallet  {get; }= new Wallet();
     public double WinRate => CalculateWinRate();
     
-    // public Player(string name) : base(name) { } //Constructor
-
-    public Player(string name, int wins = 0, int losses = 0, int draws = 0) : base(name)
+    public Player(string name, int wins = 0, int losses = 0, int draws = 0) : base(name)    //Konstruktor
     {
         Wins = wins;
         Losses = losses;
