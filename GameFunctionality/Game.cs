@@ -41,7 +41,7 @@ class Game
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
         {
-            bool isHuman = _ui.AskIsHuman();
+            bool isHuman = _ui.AskIsHuman($"Spelare {i + 1} – ange (människa/dator): ");
             if (isHuman)
             { 
                 string name = _ui.AskPlayerName($"Skriv in namnet på spelare {i + 1}: ");
