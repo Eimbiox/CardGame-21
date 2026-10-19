@@ -2,21 +2,35 @@ class RoundBets
 {
     private Dictionary<Player, int> _playerBets = [];   //Håller varje spelare bets
 
-    public RoundBets () { } //Konstruktor
+    public RoundBets() { } //Konstruktor
 
-    public bool AddChips(Player player, int amount)
+    public bool PlaceBet(Player player, int amount) //Tar från spelares plånbok och läger instatsen på bordet
     {
-        if (amount > player.Wallet.Chips || amount <= 0)
+        if (player.Wallet.RemoveChips(amount))
         {
-            return false;
+            _playerBets.Add(player, amount);
+            return true;
         }
-        _playerBets.Add(player, amount);
-        return true;
-        
+        return false;
     }
 
-    public void RemoveChips()
+    public void SettleBet(Player player, Outcome outcome)   //Skickar tillbaka chips till spelare baserat på outcome
     {
+        int playerBet = _playerBets[player];
+
+        if (outcome == Outcome.Blackjack)
+        {
+            int blackjackWinSum = playerBet * 3 / 2;
+            player.Wallet.AddChips(blackjackWinSum + playerBet);
+        }
+        else if (outcome == Outcome.Win)
+        {
+            player.Wallet.AddChips(playerBet * 2);
+        }
+        else if (outcome == Outcome.Push)
+        {
+            player.Wallet.AddChips(playerBet);
+        }
         
     }
 

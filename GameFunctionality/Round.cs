@@ -106,7 +106,11 @@ class Round
         {
             Outcome outcome;
 
-            if (player.Hand.IsBust)  //Bust always loses, even if the dealer busts
+            if (player.Hand.IsBlackjack && !dealer.Hand.IsBlackjack)
+            {
+                outcome = Outcome.Blackjack;
+            }
+            else if (player.Hand.IsBust)  //Bust always loses, even if the dealer busts
             {
                 outcome = Outcome.Lose;
             }
@@ -122,10 +126,6 @@ class Round
             {
                 outcome = Outcome.Lose;
             }
-            else if (player.Hand.IsBlackjack && !dealer.Hand.IsBlackjack)
-            {
-                outcome = Outcome.Win;
-            }
             else if (dealer.Hand.IsBlackjack && !player.Hand.IsBlackjack)
             {
                 outcome = Outcome.Lose;
@@ -137,7 +137,7 @@ class Round
             _ui.ShowOutcome(player, outcome);
 
             player.AddResult(outcome);
-            
+
         }
     }
 }
