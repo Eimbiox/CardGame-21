@@ -17,7 +17,7 @@ class ConsoleUI
     }
 
     public void PrintErrors(GameStorage gameStorage)
-    {   
+    {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine(string.Join("\n", gameStorage.Errors));
         Console.ResetColor();
@@ -103,7 +103,7 @@ class ConsoleUI
         }
         return name;
     }
-    
+
     public bool AskIfPlayAgain()
     {
         while (true)
@@ -192,23 +192,6 @@ class ConsoleUI
 
     public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
     {
-        //Ett kort ritas på tre rader. Då jag bygger varje rad för sig med, Top,Middle och Bottom Layer.
-        string top = ""; //Översta raden med "┌───┐" 
-        //string middle = ""; //Mittenraden med " │" + CardText.PadRight(3) + "│ 
-        string bottom = ""; // Nedersta raden "└───┘"
-
-
-        foreach (Card card in participant.Hand.Cards) //Går igenom vaje kort som ligger i handen, ett i taget.
-         
-        {
-            //Gör om kortets enums för Rank + Suits till symboler som "♥♦♣♠" döpt lådan till "CardText"
-            // string CardText = RankSymbol(card.Rank) + SuitSymbol(card.Suit);
-
-            top += "┌───┐ ";
-            // middle += "│" + CardText.PadRight(3) + "│ "; //Anropa "CardText" + lagt till PadRight så den alltid blir 3 rader
-            bottom += "└───┘ "; //T.ex 1♠ då denna är 2 rader lägger till "/n" och 10♠ är 3 rader.
-        }
-
 
         string handType; //Text som visar om handen är "mjuk" eller "hård"
 
@@ -222,82 +205,25 @@ class ConsoleUI
             handType = "hård"; //Handen är hård.
         }
 
-        //Skriver ut namnet på spelaren,            Vad för kort, Mjuk/Hard  Poängen som man har totalt i handen.
         Console.WriteLine($"{participant.Name}: ({handType} hand, {participant.Hand.Points})\n");
-        Console.WriteLine(top);
+        _cardRenderer.DrawCards(participant.Hand.Cards);   //Ritar alla kort med framsidan upp
 
-
-        foreach (Card card in participant.Hand.Cards) //Mittenraden skrivs kort för kort så att varje kort kan få egen färg.
-        {
-            Console.Write("│"); //Vänster kant på kortet
-            WriteCardText(card); //Kortets  text, röd om hjärter/ruter
-
-            Console.Write("│ "); //Högerkant på kortet
-        }
-        Console.WriteLine(); // Ny rad efter alla kort
-
-
-        //  Console.WriteLine(middle);
-        Console.WriteLine(bottom);
-        Console.WriteLine(); //Tom Rad för med luftigt i Konsolen.
-
-        if (participant.Hand.IsBust) //IsBust är true om poängen är över 21.
+        if (participant.Hand.IsBust)   //IsBust är true om poängen är över 21
         {
             Console.WriteLine($"{participant.Name} spräckte!\n");
         }
-
     }
 
-    public void ShowDealerHand(Dealer dealer)  //Visar givarens hand. SÅlänge hålkortet är dolt visas det med baksidan upp som │░░░│ 
+    public void ShowDealerHand(Dealer dealer)   //Visar givarens hand. Så länge hålkortet är dolt ritas det med baksidan upp
     {
-        if (dealer.IsHoleCardHidden) //Om hålkortet fortfarande är dolt ("1♠, hållkort")
+        if (dealer.IsHoleCardHidden)   //Är hålkortet fortfarande dolt?
         {
-            Card upcard = dealer.Hand.Cards[0];  //Första kortet i listan inom index som visas medans andra andra är hålkortet
-           // string text = RankSymbol(upcard.Rank) + SuitSymbol(upcard.Suit); //T.ex. "1♦"
-
-
-            Console.WriteLine($"{dealer.Name}");
-            Console.WriteLine("┌───┐ ┌───┐");
-
-
-
-            // Console.WriteLine("│" + text.PadRight(3) + "│ │░░░│"); //Det öppna kortet och hålkortet med baksidan upp. [0][1]
-            Console.Write("│"); //vänster kant på kortet
-            WriteCardText(upcard);         //Givarens öppna kort, rött om hjärter/ruter
-            Console.WriteLine("│ │░░░│"); //höger kant på kortet
-
-
-
-
-
-            Console.WriteLine("└───┘ └───┘");
-            Console.WriteLine();
-
+            Console.WriteLine(dealer.Name);
+            _cardRenderer.DrawCards(dealer.Hand.Cards, true);   //true = rita andra kortet med baksidan upp
         }
-        else //Hålkortet är vänt, visa hela dealerns hand
+        else   //Hålkortet är vänt, visa hela handen
         {
-            ShowHand(dealer); //kalla på funktionen showhand.
+            ShowHand(dealer); //Visa dealernskort
         }
     }
-   
-
-    
-    private void WriteCardText(Card card) // Skruver ut ett kort som text, t.ex "Q♦". 
-
-    {
-        string cardText = RankSymbol(card.Rank) + SuitSymbol(card.Suit); //Gör om kortet till text, t.ex "Q" + "♦" = "Q♦"
-
-        if (card.Suit == Suit.Hearts || card.Suit == Suit.Diamonds) //Om kortet är hjärter eller ruter?
-
-        {
-            Console.ForegroundColor = ConsoleColor.Red; //Sätter nuvarande textfärg till röd, så  att kortet skrivs ut i rött
-        }
-
-        Console.Write(cardText.PadRight(3)); //Skriver ut kortet alltså "Q♦", PadRight(3) ger alltid texten 3 tecken "Q♦ " lägger till /n
-        Console.ResetColor(); //Byt tillbaka till vanlig färg, annars blir all text efteråt röd.
-
-
-    }
-
-
 }
