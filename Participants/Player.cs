@@ -6,7 +6,13 @@ class Player : Participant
 
     public double WinRate => CalculateWinRate();
     
-    // public Player(string name) : base(name) { } //Constructor
+    //Hur spelaren fattar beslut. Sätts i Game när spelaren sätter sig vid bordet, behöver vara public 
+    public IPlayerStrategy Strategy { get; set; } = null!;
+
+    public Move Decide(Card dealerUpcard)   //Frågar strategin vad spelaren ska göra med sin hand
+    {
+        return Strategy.ChooseMove(Hand, dealerUpcard);
+    }
 
     public Player(string name, int wins = 0, int losses = 0, int draws = 0) : base(name)
     {
