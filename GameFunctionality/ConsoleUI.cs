@@ -91,6 +91,30 @@ class ConsoleUI
             Console.WriteLine("Ange ett heltal mellan 1 och 5.");
         }
     }
+    public bool AskIsHuman()
+    {
+        Console.Write("Ange om det är en människa eller dator (Människa/Dator): "); 
+        while (true)
+        {
+            string? answer = Console.ReadLine()?.ToUpper().Trim();
+            if (!string.IsNullOrWhiteSpace(answer))
+            {
+                if (answer == "MÄNNISKA")
+                {
+                    return true;
+                }
+                if (answer == "DATOR")
+                {
+                    return false;
+                }
+                Console.WriteLine("Ange (Människa/Dator): ");
+            }
+            else
+            {
+                Console.WriteLine("Det får inte vara tomt!");
+            }
+        }
+    }
     public string AskPlayerName(string promt)
     {
         Console.Write(promt);
