@@ -4,6 +4,8 @@ class Deck
 
     public int RemainingCards => _cards.Count();
 
+    public static bool UseShoe {get; set;}
+
     public Deck() //Constructor
     {
         foreach (var suit in Enum.GetValues<Suit>())    //Creates 52 cards when deck is made

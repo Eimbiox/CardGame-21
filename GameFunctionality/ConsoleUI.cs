@@ -29,6 +29,38 @@ class ConsoleUI
         Console.WriteLine("        Välkommen till Tjugoett!     ");
         Console.WriteLine("=====================================");
     }
+
+    public void AskUserShoe()
+    {
+        while (true)
+        {
+            Console.WriteLine("Vill du spela med sko? (JA/NEJ)");
+            string? shoeChoice = Console.ReadLine()?.ToUpper().Trim();
+            if(int.TryParse(shoeChoice, out _))
+            {
+                Console.WriteLine("Du kan inte Skriva en siffra");
+            }
+            else if (string.IsNullOrWhiteSpace(shoeChoice))
+            {
+                Console.WriteLine("Du måste skriva något");
+            }
+            else if(shoeChoice == "JA")
+            {
+                Deck.UseShoe = true;
+                return;
+            }
+            else if(shoeChoice == "NEJ")
+            {
+                Deck.UseShoe = false;
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Något gick fel");
+            }
+        }
+        
+    }
     public void ShowLeaderboard(GameStorage gameStorage)    //Visar Topplistan
     {
         Console.Clear();
@@ -83,6 +115,7 @@ class ConsoleUI
 
     public int AskNumberOfPlayers()
     {
+        AskUserShoe();
         while (true)
         {
             Console.Write("Ange antal spelare (1-5): ");
