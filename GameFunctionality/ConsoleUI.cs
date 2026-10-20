@@ -167,6 +167,7 @@ class ConsoleUI
 
     public bool WantsToHit(Player player) //true = hit false = stand
     {
+        ShowCount();
         while (true)
         {
             Console.Write($"{player.Name}, Köp eller Stanna?: ");
@@ -328,6 +329,18 @@ class ConsoleUI
             _counter.ResetRunningCount();
             _lastDeck = Deck.Current; //Ny lek har skapats: nollställ räknaren och kom ihåg den nya leken
         }
+    }
+
+    
+    public void ShowCount() //Visar korträkningen, men bara när man spelar med sko
+    {
+        if (Deck.UseShoe == false || Deck.Current == null) //Ingen sko eller ingen lek: visa inget
+        {
+            return;
+        }
+        Console.WriteLine($"Running count: {_counter.RunningCount}"); //Summan av alla sedda kort
+        Console.WriteLine($"True count: {_counter.TrueCount(Deck.Current.CardsLeft):F1}"); //Running count delat med antal lekar kvar, en decimal
+        Console.WriteLine($"Läge: {_counter.FavorableLevel(Deck.Current.CardsLeft)}"); //Hur gynnsamt läget är för spelaren
     }
     private string RankSymbol(Rank rank) //Gör om enum till text, t.ex Rank.Ace blir A
 
