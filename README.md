@@ -54,11 +54,12 @@ Koden är uppdelad i tre mappar: **Cards** (kort och lekar), **Participants** (d
 <!-- Vilka regler som gäller -->
 
 ### Avvikelser från specifikationen
-<!-- Om ni avvikit från specifikationen på någon punkt -->
+* Minsta satsningen är 25. Spelare under 25 marker får välja att köpa sig in eller lämna bordet. 
+* Korleksgränsen är 15 eller 30 baserat på spelare. 
 
 ## Kända brister
 - `Move` används inte. Spelarens val hanteras med en `bool` från `ConsoleUI.WantsToHit()`.
-- `Outcome.Blackjack` sätts aldrig. En vinst med blackjack räknas som en vanlig `Win` i `Round.DecideWinners()`, så blackjack-meddelandet i `ConsoleUI.ShowOutcome()` visas aldrig.
+DecideWinners()`, så blackjack-meddelandet i `ConsoleUI.ShowOutcome()` visas aldrig.
 - `Round.AddStats()` är tom och anropas inte. Statistiken sköts redan av `Player.AddResult()`.
 - Givaren drar kort även när alla spelare har blackjack eller har spruckit. Hen borde bara vända hålkortet. Resultatet blir ändå rätt, eftersom blackjack slår 21 med fler kort.
 - Givaren tittar inte efter blackjack innan spelarna gör sina drag. Har givaren blackjack får spelarna ändå dra kort, fast de redan har förlorat.
