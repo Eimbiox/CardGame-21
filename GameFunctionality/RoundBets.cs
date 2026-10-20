@@ -6,7 +6,7 @@ class RoundBets
 
     public bool PlaceBet(Player player, int amount) //Tar från spelares plånbok och läger instatsen på bordet. Måste satsa minst 25
     {
-        if (player.Wallet.RemoveChips(amount) && amount >= 25)
+        if (amount >= 25 && player.Wallet.RemoveChips(amount))
         {
             _playerBets.Add(player, amount);
             return true;

@@ -15,14 +15,29 @@ class Round
     }
     public void Play()
     {
-        
+        CollectBets();
         Deal();
         PlayerTurns();
         DealerTurn();
         DecideWinners();
     }
 
-    
+    public void CollectBets()
+    {
+        foreach (var participant in _participants)
+        {
+            if (participant is Player player)
+            {
+                int playerBet = _ui.AskHowMuchToBet(player);
+
+                while (!roundBets.PlaceBet(player, playerBet))  //Frågar igen sålänge spelaren satsar mer än vad dem har
+                {
+                    _ui.PrintNotEnoughCash();
+                    playerBet = _ui.AskHowMuchToBet(player);
+                }
+            }
+        }
+    }
     public void Deal()  //Clears the hand and gives each participant 2 cards
     {
         foreach (var participant in _participants)

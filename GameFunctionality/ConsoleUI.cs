@@ -188,13 +188,21 @@ class ConsoleUI
 
     public int AskHowMuchToBet(Player player) 
     {
-        Console.Write($"{player.Name} hur mycket satsar du? (minst 5): ");
+        Console.Clear();
+        Console.WriteLine($"{player.Name}, du har ({player.Wallet.Chips} Marker)");
+        Console.Write($"Hur mycket satsar du? (minst 25): ");
         int betAmount;
-        while (!int.TryParse(Console.ReadLine(), out betAmount) || betAmount is < 5)
+        while (!int.TryParse(Console.ReadLine(), out betAmount) || betAmount is < 25)
         {
-            Console.WriteLine("Skriv in ett tal som inte är under 25");
+            Console.Write("Skriv in ett tal som inte är under 25: ");
         }
         return betAmount;
+    }
+
+    public void PrintNotEnoughCash()
+    {
+        Console.WriteLine("Du har inte nog med marker");
+        Console.ReadKey();
     }
 
     public void DealerTurnMessage()
