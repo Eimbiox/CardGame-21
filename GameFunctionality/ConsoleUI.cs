@@ -140,6 +140,21 @@ class ConsoleUI
             }
         }
     }
+    public void ShowComputerMove(Player player, Move move)  //Pausar så man hinner se handen, visar beslutet och pausar igen
+    {
+        Thread.Sleep(1500);   //Tid att se handen innan beslutet
+
+        if (move == Move.Hit)
+        {
+            Console.WriteLine($"{player.Name} köper.");
+        }
+        else
+        {
+            Console.WriteLine($"{player.Name} stannar.");
+        }
+
+        Thread.Sleep(1500);   //Tid att läsa beslutet
+    }
     public string AskPlayerName(string promt)
     {
         Console.Write(promt);

@@ -46,8 +46,8 @@ class Round
         {
             if (participant is Player player)
             {
+                bool isComputer = player.Strategy is not HumanStrategy;
                 _ui.ShowHand(player); //Visar spelaren startkort, värde och mjuk/hård innan första valet
-
                 if (player.Hand.IsBlackjack)        // if 2: har spelaren blackjack?
                 {
                     _ui.ShowBlackjack(player);
@@ -58,6 +58,10 @@ class Round
                 {
                     Move move = player.Decide(dealer.Hand.Cards[0]); // använder dealerns visade kort för att bestämma move
                     
+                    if (isComputer)
+                    {
+                        _ui.ShowComputerMove(player, move);  //Visar datorns beslut med paus
+                    }
                     if (move == Move.Hit) //Player hits
                     {
                         player.Hit(_deck);
@@ -67,7 +71,10 @@ class Round
                     {
                         break;
                     }
-
+                }
+                if(player.Name == "Dator: Grund" || player.Name == "Dator: Simpel")
+                {
+                    Thread.Sleep(2000);
                 }
             }
         }
