@@ -19,9 +19,9 @@ class Deck
             return _cards.Count();
         }
     }
-
+    public int CardsLeft => _shoe != null ? _shoe.RemainingCards : _cards.Count(); //Real number of cards left, used by the card counter
     public static bool UseShoe {get; set;}
-
+    
     public Deck() //Constructor
     {
         Current = this; //This new deck becomes the current one, so ConsoleUI always reads the deck in use
