@@ -236,7 +236,12 @@ class ConsoleUI
 
     }
     public void ShowOutcomeAndWinAmount(Player player, Outcome outcome, int winAmount)
-    {   //TODO: add so it shows the price winnings on each outcome
+    {
+        string markerText = "";
+        if (!player.IsComputer)
+        {
+            markerText = $" + ({winAmount} Marker)";
+        }
 
         if (outcome == Outcome.Lose && player.Hand.IsBust)
         {
@@ -244,7 +249,7 @@ class ConsoleUI
         }
         else if (outcome == Outcome.Win)
         {
-            Console.WriteLine($"{player.Name} vinner! + ({winAmount} Marker)");
+            Console.WriteLine($"{player.Name} vinner!{markerText}");
         }
         else if (outcome == Outcome.Lose)
         {
@@ -252,11 +257,11 @@ class ConsoleUI
         }
         else if (outcome == Outcome.Push)
         {
-            Console.WriteLine($"{player.Name} och givaren har lika. + ({winAmount} Marker)");
+            Console.WriteLine($"{player.Name} och givaren har lika.{markerText}");
         }
         else if (outcome == Outcome.Blackjack)
         {
-            Console.WriteLine($"{player.Name} har BLACKJACK och vinner! + ({winAmount} Marker)");
+            Console.WriteLine($"{player.Name} har BLACKJACK och vinner!{markerText}");
         }
     }
 

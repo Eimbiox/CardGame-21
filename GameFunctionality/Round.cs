@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-
 class Round
 {
     private readonly List<Participant> _participants;
@@ -26,7 +24,7 @@ class Round
     {
         foreach (var participant in _participants)
         {
-            if (participant is Player player)
+            if (participant is Player player && !player.IsComputer)
             {
                 int playerBet = _ui.AskHowMuchToBet(player);
 
@@ -75,7 +73,7 @@ class Round
                 while (player.Hand.Points < 21) //While points are under 21
                 {
                     Move move = player.Decide(dealer.Hand.Cards[0]); // använder dealerns visade kort för att bestämma move
-                    
+
                     if (player.IsComputer)
                     {
                         _ui.ShowComputerMove(player, move);  //Visar datorns beslut med paus
@@ -157,7 +155,11 @@ class Round
             {
                 outcome = Outcome.Push;
             }
-            int winAmount = roundBets.SettleBet(player, outcome);
+            int winAmount = 0;
+            if (!player.IsComputer)   //Datorer satsar inte, så de har ingen insats att betala ut
+            {
+                winAmount = roundBets.SettleBet(player, outcome);
+            }
             _ui.ShowOutcomeAndWinAmount(player, outcome, winAmount);
 
             player.AddResult(outcome);

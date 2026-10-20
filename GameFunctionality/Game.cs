@@ -92,7 +92,7 @@ class Game
                 deck.Shuffle();
             }
             CheckWhoToRemove();
-            if (!_participants.OfType<Player>().Any())  //Kollar om det finns någon Player i _participants
+            if (!_participants.OfType<Player>().Any(p => !p.IsComputer))  //Kollar om det finns någon Player(människa) i _participants
             {
                 _ui.ShowNoPlayersLeft();
                 return;
@@ -110,7 +110,7 @@ class Game
 
         foreach (var participant in _participants)
         {
-            if (participant is Player player && player.Wallet.Chips < 25)
+            if (participant is Player player && player.Wallet.Chips < 25 && !player.IsComputer)
             {
                 if (_ui.AskIfWantToBuyIn(player))
                 {
