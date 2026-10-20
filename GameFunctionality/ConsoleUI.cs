@@ -116,9 +116,9 @@ class ConsoleUI
         }
     }
 
-    public string AskWhatBot()
+    public string AskWhatBot(string prompt)
     {
-        Console.Write("Vilken sorts datorspelare? (Simpel/Grund): "); 
+        Console.Write(prompt); 
         while (true)
         {
             string? answer = Console.ReadLine()?.ToUpper().Trim();
@@ -155,6 +155,10 @@ class ConsoleUI
 
         Thread.Sleep(1500);   //Tid att läsa beslutet
     }
+    public void ShowComputerAutoChosen(string seatedName, string addedName)   //Visas när bara en sorts datorspelare finns kvar att välja
+{
+    Console.WriteLine($"{seatedName} sitter redan vid bordet, {addedName} läggs till.");
+}
     public string AskPlayerName(string promt)
     {
         Console.Write(promt);
