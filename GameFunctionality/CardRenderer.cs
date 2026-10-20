@@ -1,7 +1,7 @@
 class CardRenderer
 
 {
-    private const int CardHeight = 7;  // Hur många rader ett kort är. Används på flera ställen, så det räcker att ändra här. const gör att värdet inte kan ändras medan programmet kör.
+   public const int CardHeight = 7;  // Hur många rader ett kort är. Används på flera ställen, så det räcker att ändra här. const gör att värdet inte kan ändras medan programmet kör.
     private string RankSymbol(Rank rank) //Gör om enum till text, t.ex Rank.Ace blir A
 
     {
@@ -49,7 +49,7 @@ class CardRenderer
             default: return " ";
         }
     }
-    private string[] GetCardLine(Card card)
+    public string[] GetCardLine(Card card)
 
     {
         string rank = RankSymbol(card.Rank); // Gör om t.ex Rank.Two till 2 o döper ny Textlåda till rank
@@ -69,7 +69,7 @@ class CardRenderer
 
     }
 
-    private string[] GetBackLines() //Bygger baksidan av kortet.
+    public string[] GetBackLines() //Bygger baksidan av kortet.
 
     {
         string[] lines = new string[CardHeight];
