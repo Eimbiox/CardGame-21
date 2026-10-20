@@ -47,11 +47,13 @@ class ConsoleUI
             else if(shoeChoice == "JA")
             {
                 Deck.UseShoe = true;
+                Console.WriteLine("\n---Sko Används---\n");
                 return;
             }
             else if(shoeChoice == "NEJ")
             {
                 Deck.UseShoe = false;
+                Console.WriteLine("\n---Sko används inte---\n");
                 return;
             }
             else
