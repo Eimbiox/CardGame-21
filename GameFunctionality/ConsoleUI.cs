@@ -281,11 +281,11 @@ class ConsoleUI
     public bool AskIfWantToBuyIn(Player player)
     {
         Console.Write($"{player.Name} du har under 25 marker. Vill du köpa dig in?(Y/N): ");
-        string? answer = Console.ReadLine()?.ToUpper();
-        while (string.IsNullOrWhiteSpace(answer) && (answer != "Y" || answer !=  "N"))
+        string? answer = Console.ReadLine()?.ToUpper().Trim();
+        while (answer != "Y" && answer != "N")  //Frågar igen tills svaret är Y eller N
         {
             Console.Write("Svara med Y eller N!: ");
-            answer = Console.ReadLine()?.ToUpper();
+            answer = Console.ReadLine()?.ToUpper().Trim();
         }
 
         if (answer == "Y")
