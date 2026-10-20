@@ -9,6 +9,8 @@ class Player : Participant
     //Hur spelaren fattar beslut. Sätts i Game när spelaren sätter sig vid bordet, behöver vara public 
     public IPlayerStrategy Strategy { get; set; } = null!;
 
+    public bool IsComputer => Strategy.IsComputer;   //Frågar strategin, så att Round inte behöver känna till strategiklasserna
+
     public Move Decide(Card dealerUpcard)   //Frågar strategin vad spelaren ska göra med sin hand
     {
         return Strategy.ChooseMove(Hand, dealerUpcard);

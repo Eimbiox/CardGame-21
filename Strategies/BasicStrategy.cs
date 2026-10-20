@@ -3,6 +3,8 @@ class BasicStrategy : IPlayerStrategy   //Köper så länge handen är under 17,
     private const Move H = Move.Hit;
     private const Move S = Move.Stand;
 
+    public bool IsComputer => true;
+
     private static readonly Move[,] HardTable =
     {
         //         2  3  4  5  6  7  8  9  10 A
