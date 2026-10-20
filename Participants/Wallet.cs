@@ -2,7 +2,11 @@ class Wallet
 {
     public int Chips {get; private set;} 
 
-    public Wallet() { } //Konstruktor
+    public const int StartingChips = 200;
+    public Wallet(int chips = StartingChips)     //Konstruktor
+    {
+        Chips = chips;
+    } 
 
     public bool AddChips(int amount)    
     {

@@ -4,14 +4,15 @@ class Player : Participant
     public int Losses { get; private set; }
     public int Draws { get; private set; } 
 
-    public Wallet Wallet  {get; }= new Wallet();
+    public Wallet Wallet  {get; }
     public double WinRate => CalculateWinRate();
     
-    public Player(string name, int wins = 0, int losses = 0, int draws = 0) : base(name)    //Konstruktor
+    public Player(string name, int wins = 0, int losses = 0, int draws = 0, int chips = Wallet.StartingChips) : base(name)    //Konstruktor
     {
         Wins = wins;
         Losses = losses;
         Draws = draws;
+        Wallet = new Wallet(chips);
     }
 
     public void AddResult(Outcome outcome)
