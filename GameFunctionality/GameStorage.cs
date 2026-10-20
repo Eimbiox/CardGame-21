@@ -26,7 +26,7 @@ class GameStorage
             foreach (string line in File.ReadLines(_path))
             {
                 string[] parts = line.Split(";");
-                //                      Name                Wins                Losses               Draws                      Chips
+                //                          Name                Wins                 Losses               Draws                Chips
                 try
                 {
                     _players.Add(new Player(parts[0], int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4])));  //Lägger till en player i _players
