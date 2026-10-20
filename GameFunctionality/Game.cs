@@ -43,7 +43,7 @@ class Game
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
         {
-            bool bothComputersSeated = _participants.Count(p => p.Name.StartsWith("Dator: ")) == 2;   //Båda sorterna sitter redan, platsen måste bli en människa
+            bool bothComputersSeated = _participants.OfType<Player>().Count(p => p.IsComputer) == 2;   //Båda sorterna sitter redan, platsen måste bli en människa
             bool isHuman = bothComputersSeated || _ui.AskIsHuman($"Spelare {i + 1} – ange (människa/dator): ");
             if (isHuman)
             { 
