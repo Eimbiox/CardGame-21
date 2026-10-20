@@ -3,7 +3,22 @@ class Deck
     private List<Card> _cards = [];
     private Shoe? _shoe;
 
-    public int RemainingCards => _shoe != null ? _shoe.RemainingCards : _cards.Count();
+    public int RemainingCards
+    {
+        get
+        {
+            if (_shoe != null && _shoe.CutCardReached)
+            {
+                return 0;
+            }
+            if (_shoe != null)
+            {
+                return _shoe.RemainingCards;
+            }
+            return _cards.Count();
+        }
+    }
+
     public static bool UseShoe {get; set;}
 
     public Deck() //Constructor
