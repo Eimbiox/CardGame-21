@@ -7,13 +7,13 @@ class Game
     public void Run()
     {
         bool running = true;
-        while (running)
-        {
-            if (gameStorage.Errors.Count() > 0)
+        if (gameStorage.Errors.Count() > 0)
             {
                 _ui.PrintErrors(gameStorage);
-                
             }
+        while (running)
+        {
+            
             int choice = _ui.MainMenu();
             if (choice == 1)
             {

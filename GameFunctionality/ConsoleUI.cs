@@ -29,30 +29,38 @@ class ConsoleUI
         Console.WriteLine("        Välkommen till Tjugoett!     ");
         Console.WriteLine("=====================================");
     }
+
+    private List<Player> SortPlayers(GameStorage gameStorage)
+    {
+        //Sorterar spelare i gameStorage._players baserat på deras Chips
+        //Om flera spelare har samma Chips sorteras dem efter winRate och sedan wins
+        return gameStorage._players.OrderByDescending(p => p.Wallet.Chips).
+            ThenByDescending(p => p.WinRate).
+            ThenByDescending(p => p.Wins).
+            ToList();
+    }
     public void ShowLeaderboard(GameStorage gameStorage)    //Visar Topplistan
     {
         Console.Clear();
-        //Sorterar spelare i gameStorage._players baserat på deras winRate
-        //Om flera spelare har samma winRate sorteras dem efter vinster
-        var sortedPlayers = gameStorage._players.OrderByDescending(p => p.WinRate).ThenByDescending(p => p.Wins).ToList();
+        
+        var sortedPlayers = SortPlayers(gameStorage);
         Console.WriteLine();
-        Console.WriteLine("==================== TOPPLISTA =====================");
-        Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4} {"Vinstfrekvens",13}");
-        Console.WriteLine(new string('-', 52));
+        Console.WriteLine("======================= TOPPLISTA =========================");
+        Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4} {"Vinstfrekvens",13} {"Marker", 6}");
+        Console.WriteLine(new string('-', 59));
         for (int i = 0; i < sortedPlayers.Count; i++)
         {
             Player player = sortedPlayers[i];
-            Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4} {player.WinRate * 100,13:F1}%");
+            Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4} {player.WinRate * 100,13:F1}% {player.Wallet.Chips, 6}");
         }
-        Console.WriteLine(new string('=', 52));
+        Console.WriteLine(new string('=', 59));
         Console.ReadKey();
     }
 
     public void FindPlayerStats(GameStorage gameStorage)    //Hittar en specifik spelare i topplistan
     {
-        //Sorterar spelare i gameStorage._players baserat på deras winRate
-        //Om flera spelare har samma winRate sorteras dem efter vinster
-        var sortedPlayers = gameStorage._players.OrderByDescending(p => p.WinRate).ThenByDescending(p => p.Wins).ToList();
+        
+        var sortedPlayers = SortPlayers(gameStorage);
         Console.Write("Skriv namnet på spelaren: ");
         string? nameToFind = Console.ReadLine();
         while (string.IsNullOrWhiteSpace(nameToFind))
@@ -67,10 +75,10 @@ class ConsoleUI
             if (player.Name == nameToFind)
             {
                 Console.Clear();
-                Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4} {"Vinstfrekvens",13}");
-                Console.WriteLine(new string('-', 52));
-                Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4} {player.WinRate * 100,13:F1}%");
-                Console.WriteLine(new string('-', 52));
+                Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4} {"Vinstfrekvens",13} {"Marker", 6}");
+                Console.WriteLine(new string('-', 59));
+                Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4} {player.WinRate * 100,13:F1}% {player.Wallet.Chips, 6}");
+                Console.WriteLine(new string('-', 59));
                 nameFound = true;
             }
         }
