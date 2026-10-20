@@ -79,11 +79,40 @@ class Game
                 deck = new Deck();
                 deck.Shuffle();
             }
+            CheckWhoToRemove();
+            if (!_participants.OfType<Player>().Any())  //Kollar om det finns någon Player i _participants
+            {
+                _ui.ShowNoPlayersLeft();
+                return;
+            }
             Round round = new Round(_participants, deck, _ui);
             round.Play();
             playing = _ui.AskIfPlayAgain();
             gameStorage.SaveScore();
+        }
+    }
 
+    private void CheckWhoToRemove()     //Tar bort spelare från spelet som valde att inte köpa sig in.
+    {
+        List<Player> playersToBeRemoved = [];
+
+        foreach (var participant in _participants)
+        {
+            if (participant is Player player && player.Wallet.Chips < 25)
+            {
+                if (_ui.AskIfWantToBuyIn(player))
+                {
+                    player.Wallet.AddChips(200);
+                }
+                else
+                {
+                    playersToBeRemoved.Add(player);
+                }
+            }
+        }
+        foreach (var player in playersToBeRemoved)
+        {
+            _participants.Remove(player);
         }
     }
 

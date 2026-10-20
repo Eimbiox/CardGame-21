@@ -15,6 +15,12 @@ class ConsoleUI
         return choice;
     }
 
+    public void ShowNoPlayersLeft()
+    {
+        Console.WriteLine("Spelet tog slut för det inte finns några spelare kvar");
+        Console.ReadKey();
+    }
+
     public void PrintErrors(GameStorage gameStorage)
     {
         Console.ForegroundColor = ConsoleColor.Red;
@@ -197,6 +203,28 @@ class ConsoleUI
             Console.Write("Skriv in ett tal som inte är under 25: ");
         }
         return betAmount;
+    }
+
+    public bool AskIfWantToBuyIn(Player player)
+    {
+        Console.Write($"{player.Name} du har under 25 marker. Vill du köpa dig in?(Y/N): ");
+        string? answer = Console.ReadLine()?.ToUpper();
+        while (string.IsNullOrWhiteSpace(answer))
+        {
+            Console.Write("Svara med Y eller N!: ");
+            answer = Console.ReadLine()?.ToUpper();
+        }
+
+        if (answer == "Y")
+        {
+            Console.WriteLine("Glöm inte swisha till (123 456 789 10)!");
+            Console.ReadKey();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void PrintNotEnoughCash()
