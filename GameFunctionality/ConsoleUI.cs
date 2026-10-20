@@ -105,6 +105,74 @@ class ConsoleUI
             Console.WriteLine("Ange ett heltal mellan 1 och 5.");
         }
     }
+    public bool AskIsHuman(string prompt)
+    {
+        Console.Write(prompt); 
+        while (true)
+        {
+            string? answer = Console.ReadLine()?.ToUpper().Trim();
+            if (!string.IsNullOrWhiteSpace(answer))
+            {
+                if (answer == "MÄNNISKA")
+                {
+                    return true;
+                }
+                if (answer == "DATOR")
+                {
+                    return false;
+                }
+                Console.WriteLine("Ange (Människa/Dator): ");
+            }
+            else
+            {
+                Console.WriteLine("Det får inte vara tomt!");
+            }
+        }
+    }
+
+    public string AskWhatBot(string prompt)
+    {
+        Console.Write(prompt); 
+        while (true)
+        {
+            string? answer = Console.ReadLine()?.ToUpper().Trim();
+            if (!string.IsNullOrWhiteSpace(answer))
+            {
+                if (answer == "SIMPEL")
+                {
+                    return "Simpel";
+                }
+                if (answer == "GRUND")
+                {
+                    return "Grund";
+                }
+                Console.WriteLine("Ange (Simpel/Grund): ");
+            }
+            else
+            {
+                Console.WriteLine("Det får inte vara tomt!");
+            }
+        }
+    }
+    public void ShowComputerMove(Player player, Move move)  //Pausar så man hinner se handen, visar beslutet och pausar igen
+    {
+        Thread.Sleep(1500);   //Tid att se handen innan beslutet
+
+        if (move == Move.Hit)
+        {
+            Console.WriteLine($"{player.Name} köper.");
+        }
+        else
+        {
+            Console.WriteLine($"{player.Name} stannar.");
+        }
+
+        Thread.Sleep(1500);   //Tid att läsa beslutet
+    }
+    public void ShowComputerAutoChosen(string seatedName, string addedName)   //Visas när bara en sorts datorspelare finns kvar att välja
+{
+    Console.WriteLine($"{seatedName} sitter redan vid bordet, {addedName} läggs till.");
+}
     public string AskPlayerName(string promt)
     {
         Console.Write(promt);
@@ -142,7 +210,7 @@ class ConsoleUI
         }
     }
 
-    public bool WantsToHit(Player player) //true = hit false = stand
+    public Move WantsToHit(Player player) // retunerar vilket Move man väljer
     {
         while (true)
         {
@@ -152,11 +220,11 @@ class ConsoleUI
             {
                 if (input == "KÖP")
                 {
-                    return true;
+                    return Move.Hit;
                 }
                 if (input == "STANNA")
                 {
-                    return false;
+                    return Move.Stand;
                 }
                 Console.WriteLine("Svara med köp eller stanna");
             }

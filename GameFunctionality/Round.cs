@@ -60,12 +60,12 @@ class Round
     }
     public void PlayerTurns()
     {
+        Dealer dealer = _participants.OfType<Dealer>().First();
         foreach (var participant in _participants)
         {
             if (participant is Player player)
             {
                 _ui.ShowHand(player); //Visar spelaren startkort, värde och mjuk/hård innan första valet
-
                 if (player.Hand.IsBlackjack)        // if 2: har spelaren blackjack?
                 {
                     _ui.ShowBlackjack(player);
@@ -74,8 +74,13 @@ class Round
 
                 while (player.Hand.Points < 21) //While points are under 21
                 {
-                    bool playerChoice = _ui.WantsToHit(player); //Ask if player wants to hit
-                    if (playerChoice) //Player hits
+                    Move move = player.Decide(dealer.Hand.Cards[0]); // använder dealerns visade kort för att bestämma move
+                    
+                    if (player.IsComputer)
+                    {
+                        _ui.ShowComputerMove(player, move);  //Visar datorns beslut med paus
+                    }
+                    if (move == Move.Hit) //Player hits
                     {
                         player.Hit(_deck);
                         _ui.ShowHand(player); //Visar handen igen med det nya kortet.
@@ -84,7 +89,6 @@ class Round
                     {
                         break;
                     }
-
                 }
             }
         }
