@@ -1,7 +1,7 @@
 class ConsoleUI
 {
     private CardCounter _counter = new CardCounter();
-
+    private Deck? _lastDeck;
     public int MainMenu()
     {
         Console.Clear();
@@ -228,6 +228,7 @@ class ConsoleUI
 
     public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
     {
+        CheckNewDeck();
         //Ett kort ritas på tre rader. Då jag bygger varje rad för sig med, Top,Middle och Bottom Layer.
         string top = ""; //Översta raden med "┌───┐" 
         //string middle = ""; //Mittenraden med " │" + CardText.PadRight(3) + "│ 
@@ -286,6 +287,7 @@ class ConsoleUI
 
     public void ShowDealerHand(Dealer dealer)  //Visar givarens hand. SÅlänge hålkortet är dolt visas det med baksidan upp som │░░░│ 
     {
+        CheckNewDeck();
         if (dealer.IsHoleCardHidden) //Om hålkortet fortfarande är dolt ("1♠, hållkort")
         {
             Card upcard = dealer.Hand.Cards[0];  //Första kortet i listan inom index som visas medans andra andra är hålkortet
@@ -316,6 +318,15 @@ class ConsoleUI
         else //Hålkortet är vänt, visa hela dealerns hand
         {
             ShowHand(dealer); //kalla på funktionen showhand.
+        }
+    }
+
+    private void CheckNewDeck()
+    {
+        if (Deck.Current != _lastDeck)
+        {
+            _counter.ResetRunningCount();
+            _lastDeck = Deck.Current; //Ny lek har skapats: nollställ räknaren och kom ihåg den nya leken
         }
     }
     private string RankSymbol(Rank rank) //Gör om enum till text, t.ex Rank.Ace blir A
