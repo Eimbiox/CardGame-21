@@ -72,10 +72,6 @@ class Round
                         break;
                     }
                 }
-                if(player.Name == "Dator: Grund" || player.Name == "Dator: Simpel")
-                {
-                    Thread.Sleep(2000);
-                }
             }
         }
     }
