@@ -161,15 +161,16 @@ class ConsoleUI
         }
 
     }
-    public void ShowOutcomeAndWinAmount(Player player, Outcome outcome)
+    public void ShowOutcomeAndWinAmount(Player player, Outcome outcome, int winAmount)
     {   //TODO: add so it shows the price winnings on each outcome
+
         if (outcome == Outcome.Lose && player.Hand.IsBust)
         {
             Console.WriteLine($"{player.Name} spräckte med {player.Hand.Points} och förlorar.");
         }
         else if (outcome == Outcome.Win)
         {
-            Console.WriteLine($"{player.Name} vinner!");
+            Console.WriteLine($"{player.Name} vinner! + ({winAmount} Marker)");
         }
         else if (outcome == Outcome.Lose)
         {
@@ -177,51 +178,11 @@ class ConsoleUI
         }
         else if (outcome == Outcome.Push)
         {
-            Console.WriteLine($"{player.Name} och givaren har lika.");
+            Console.WriteLine($"{player.Name} och givaren har lika. + ({winAmount} Marker)");
         }
         else if (outcome == Outcome.Blackjack)
         {
-            Console.WriteLine($"{player.Name} har BLACKJACK och vinner!");
-        }
-    }
-
-    public bool AskIfWantToBet(Player player, RoundBets roundBets)
-    {
-        while (true)
-        {
-            Console.Write($"{player.Name} vill du satsa denna rundan?(Y/N): ");
-            string? input = Console.ReadLine()?.ToUpper();
-            while (string.IsNullOrWhiteSpace(input))
-            {
-                Console.Write("Svara med Y eller N: ");
-                input = Console.ReadLine();
-            }
-            if (input == "Y")
-            {
-                AskForBets(player, roundBets);
-                return true;
-            }
-            else if (input == "N")
-            {
-                return false;
-            }
-        }
-    }
-    private void AskForBets(Player player, RoundBets roundBets)
-    {
-        while (true)
-        {
-            Console.Write($"{player.Name} Skriv in hur mycket du vill satsa(minst 50): ");
-
-            if (int.TryParse(Console.ReadLine(), out int amount) && amount >= 50)
-            {
-                roundBets.PlaceBet(player, amount); //Kollar inte om player har nog med chips?
-                return;
-            }
-            else
-            {
-                Console.WriteLine("Antalet måste vara i siffror och minst 50");
-            }
+            Console.WriteLine($"{player.Name} har BLACKJACK och vinner! + ({winAmount} Marker)");
         }
     }
 
