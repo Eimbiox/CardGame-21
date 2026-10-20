@@ -105,7 +105,11 @@ class Game
         Player player = new Player("Dator: " + botchoice);
         if(botchoice == "Simpel")
         {
-                    player.Strategy = new SimpleStrategy();
+            player.Strategy = new SimpleStrategy();
+        }
+        else if(botchoice == "Grund")
+        {
+            player.Strategy = new BasicStrategy();
         }
         _participants.Add(player);
     }
