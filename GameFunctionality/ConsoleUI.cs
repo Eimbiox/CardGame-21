@@ -186,6 +186,17 @@ class ConsoleUI
         }
     }
 
+    public int AskHowMuchToBet(Player player) 
+    {
+        Console.Write($"{player.Name} hur mycket satsar du? (minst 5): ");
+        int betAmount;
+        while (!int.TryParse(Console.ReadLine(), out betAmount) || betAmount is < 5)
+        {
+            Console.WriteLine("Skriv in ett tal som inte är under 25");
+        }
+        return betAmount;
+    }
+
     public void DealerTurnMessage()
     {
         Console.WriteLine("----Givarens tur----");

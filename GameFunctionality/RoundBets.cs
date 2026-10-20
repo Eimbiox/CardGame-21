@@ -4,9 +4,9 @@ class RoundBets
 
     public RoundBets() { } //Konstruktor
 
-    public bool PlaceBet(Player player, int amount) //Tar från spelares plånbok och läger instatsen på bordet
+    public bool PlaceBet(Player player, int amount) //Tar från spelares plånbok och läger instatsen på bordet. Måste satsa minst 25
     {
-        if (player.Wallet.RemoveChips(amount))
+        if (player.Wallet.RemoveChips(amount) && amount >= 25)
         {
             _playerBets.Add(player, amount);
             return true;
@@ -14,7 +14,7 @@ class RoundBets
         return false;
     }
 
-    public int SettleBet(Player player, Outcome outcome)   //Skickar tillbaka chips till spelare baserat på outcome
+    public int SettleBet(Player player, Outcome outcome)   //Skickar tillbaka chips till spelare baserat på outcome och returnerar värdet
     {
         int playerBet = _playerBets[player];
 
