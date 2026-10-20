@@ -2,9 +2,18 @@
 class CardCounter
 {
     public int RunningCount {get; private set;}
+    private List<Card> _seenCards = [];
+
 
     public void ObserveCard(Card card)
     {
+        if (_seenCards.Contains(card))
+    {
+        return; // Already counted, do nothing
+    }
+    _seenCards.Add(card);
+
+
         if(card.Point >1 && card.Point < 7)
         {
             RunningCount = RunningCount + 1;
@@ -21,7 +30,8 @@ class CardCounter
 
     public void ResetRunningCount()
     {
-        RunningCount = RunningCount - RunningCount;
+        RunningCount = 0;
+        _seenCards.Clear();
     }
 
     public double TrueCount(int RemainingCards)
