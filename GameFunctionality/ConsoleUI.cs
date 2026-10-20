@@ -207,7 +207,7 @@ class ConsoleUI
 
             if (int.TryParse(Console.ReadLine(), out int amount) && amount >= 50)
             {
-                roundBets.PlaceBet(player, amount);
+                roundBets.PlaceBet(player, amount); //Kollar inte om player har nog med chips?
                 return;
             }
             else
