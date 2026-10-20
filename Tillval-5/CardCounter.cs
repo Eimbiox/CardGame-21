@@ -34,6 +34,8 @@ class CardCounter
         _seenCards.Clear();
     }
 
+
+    // Running count säger hur många fler höga kort som finns kvar. True count säger hur tätt de ligger, och det är det som avgör om läget är bra.
     public double TrueCount(int RemainingCards)
     {
         double decksLeft = RemainingCards / 52.0;
