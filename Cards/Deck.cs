@@ -2,6 +2,7 @@ class Deck
 {
     private List<Card> _cards = [];
     private Shoe? _shoe;
+    public static Deck? Current { get; private set; } //The latest created deck. Lets ConsoleUI read it, since Game never gives it the deck.
 
     public int RemainingCards
     {
@@ -23,6 +24,7 @@ class Deck
 
     public Deck() //Constructor
     {
+        Current = this; //This new deck becomes the current one, so ConsoleUI always reads the deck in use
         if (UseShoe == true)
         {
             _shoe = new Shoe();
