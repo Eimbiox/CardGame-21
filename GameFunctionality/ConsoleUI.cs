@@ -16,7 +16,7 @@ class ConsoleUI
     }
 
     public void PrintErrors(GameStorage gameStorage)
-    {   
+    {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine(string.Join("\n", gameStorage.Errors));
         Console.ResetColor();
@@ -102,7 +102,7 @@ class ConsoleUI
         }
         return name;
     }
-    
+
     public bool AskIfPlayAgain()
     {
         while (true)
@@ -153,8 +153,8 @@ class ConsoleUI
         }
 
     }
-    public void ShowOutcome(Player player, Outcome outcome)
-    {
+    public void ShowOutcomeAndWinAmount(Player player, Outcome outcome)
+    {   //TODO: add so it shows the price winnings on each outcome
         if (outcome == Outcome.Lose && player.Hand.IsBust)
         {
             Console.WriteLine($"{player.Name} spräckte med {player.Hand.Points} och förlorar.");
@@ -171,11 +171,50 @@ class ConsoleUI
         {
             Console.WriteLine($"{player.Name} och givaren har lika.");
         }
-        else if (outcome == Outcome.Blackjack) // Lade till en ny outcome för blackjack, då det är en speciell vinst.
+        else if (outcome == Outcome.Blackjack)
         {
             Console.WriteLine($"{player.Name} har BLACKJACK och vinner!");
         }
+    }
 
+    public bool AskIfWantToBet(Player player, RoundBets roundBets)
+    {
+        while (true)
+        {
+            Console.Write($"{player.Name} vill du satsa denna rundan?(Y/N): ");
+            string? input = Console.ReadLine()?.ToUpper();
+            while (string.IsNullOrWhiteSpace(input))
+            {
+                Console.Write("Svara med Y eller N: ");
+                input = Console.ReadLine();
+            }
+            if (input == "Y")
+            {
+                AskForBets(player, roundBets);
+                return true;
+            }
+            else if (input == "N")
+            {
+                return false;
+            }
+        }
+    }
+    private void AskForBets(Player player, RoundBets roundBets)
+    {
+        while (true)
+        {
+            Console.Write($"{player.Name} Skriv in hur mycket du vill satsa(minst 50): ");
+
+            if (int.TryParse(Console.ReadLine(), out int amount) && amount >= 50)
+            {
+                roundBets.PlaceBet(player, amount);
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Antalet måste vara i siffror och minst 50");
+            }
+        }
     }
 
     public void DealerTurnMessage()
@@ -252,7 +291,7 @@ class ConsoleUI
         if (dealer.IsHoleCardHidden) //Om hålkortet fortfarande är dolt ("1♠, hållkort")
         {
             Card upcard = dealer.Hand.Cards[0];  //Första kortet i listan inom index som visas medans andra andra är hålkortet
-           // string text = RankSymbol(upcard.Rank) + SuitSymbol(upcard.Suit); //T.ex. "1♦"
+                                                 // string text = RankSymbol(upcard.Rank) + SuitSymbol(upcard.Suit); //T.ex. "1♦"
 
 
             Console.WriteLine($"{dealer.Name}");
@@ -326,9 +365,9 @@ class ConsoleUI
 
         Console.Write(cardText.PadRight(3)); //Skriver ut kortet alltså "Q♦", PadRight(3) ger alltid texten 3 tecken "Q♦ " lägger till /n
         Console.ResetColor(); //Byt tillbaka till vanlig färg, annars blir all text efteråt röd.
-
-
     }
+
+
 
 
 }

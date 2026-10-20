@@ -15,10 +15,23 @@ class Round
     }
     public void Play()
     {
+        AskForBets();
         Deal();
         PlayerTurns();
         DealerTurn();
         DecideWinners();
+    }
+
+    public void AskForBets()
+    {
+        foreach (var participant in _participants)
+        {
+            if (participant is Player player)
+            {
+                bool wantsToBet = _ui.AskIfWantToBet(player, roundBets);
+
+            }
+        }
     }
     public void Deal()  //Clears the hand and gives each participant 2 cards
     {
@@ -135,7 +148,7 @@ class Round
             {
                 outcome = Outcome.Push;
             }
-            _ui.ShowOutcome(player, outcome);
+            _ui.ShowOutcomeAndWinAmount(player, outcome);
 
             player.AddResult(outcome);
 

@@ -4,7 +4,7 @@ class Wallet
 
     public Wallet() { } //Konstruktor
 
-    public bool AddChips(int amount)
+    public bool AddChips(int amount)    
     {
         if (amount <= 0)
         {

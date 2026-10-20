@@ -46,9 +46,9 @@ Koden är uppdelad i tre mappar: **Cards** (kort och lekar), **Participants** (d
 |:---------|:---------------------------------------|
 | Martin   | 1: Kortgrafik i konsolen               |
 | Nikolai  | 2: Datorspelare med strategi           |
-| Albin    | 3: Husregler från konfigurationsfil    |
+| Hamzeh   | 3: Husregler från konfigurationsfil    |
 | Eimantas | 4: Satsningar och marker               |
-| Hamzeh   | 5: Sko med flera lekar och korträkning |
+| Albin    | 5: Sko med flera lekar och korträkning |
 
 ## Regler
 <!-- Vilka regler som gäller -->
