@@ -92,7 +92,7 @@ class Game
                 deck.Shuffle();
             }
             CheckWhoToRemove();
-            if (!_participants.OfType<Player>().Any(p => !p.IsComputer))  //Kollar om det finns någon Player(människa) i _participants
+            if (!_participants.OfType<Player>().Any())  //Kollar om det finns någon Player i _participants
             {
                 _ui.ShowNoPlayersLeft();
                 return;
