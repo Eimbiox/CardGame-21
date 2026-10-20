@@ -115,6 +115,31 @@ class ConsoleUI
             }
         }
     }
+
+    public string AskWhatBot()
+    {
+        Console.Write("Vilken sorts datorspelare? (Simpel/Grund): "); 
+        while (true)
+        {
+            string? answer = Console.ReadLine()?.ToUpper().Trim();
+            if (!string.IsNullOrWhiteSpace(answer))
+            {
+                if (answer == "SIMPEL")
+                {
+                    return "Simpel";
+                }
+                if (answer == "GRUND")
+                {
+                    return "Grund";
+                }
+                Console.WriteLine("Ange (Simpel/Grund): ");
+            }
+            else
+            {
+                Console.WriteLine("Det får inte vara tomt!");
+            }
+        }
+    }
     public string AskPlayerName(string promt)
     {
         Console.Write(promt);

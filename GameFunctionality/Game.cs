@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+
 class Game
 {
     private readonly List<Participant> _participants = [];   //Holds all participants
@@ -99,7 +101,13 @@ class Game
 
     private void CreateComputerPlayer()
     {
-                // Inte kodad än
+        string botchoice = _ui.AskWhatBot();
+        Player player = new Player("Dator: " + botchoice);
+        if(botchoice == "Simpel")
+        {
+                    player.Strategy = new SimpleStrategy();
+        }
+        _participants.Add(player);
     }
 
     public Game(ConsoleUI ui)   //Constructor
