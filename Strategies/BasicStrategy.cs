@@ -1,4 +1,4 @@
-class BasicStrategy : IPlayerStrategy   //Köper så länge handen är under 17, bryr sig inte om givarens kort
+class BasicStrategy : IPlayerStrategy   // Använder grunderna för 21 med hjälp av hårdkodade tabeller
 {
     private const Move H = Move.Hit;
     private const Move S = Move.Stand;
