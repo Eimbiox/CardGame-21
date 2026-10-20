@@ -1,5 +1,7 @@
 class ConsoleUI
 {
+    private CardCounter _counter = new CardCounter();
+
     public int MainMenu()
     {
         Console.Clear();
@@ -265,7 +267,7 @@ class ConsoleUI
         {
             Console.Write("│"); //Vänster kant på kortet
             WriteCardText(card); //Kortets  text, röd om hjärter/ruter
-
+            _counter.ObserveCard(card); //Korträknaren ser kortet när det visas. Samma kort räknas bara en gång. Räknaren ser bara kort som spelaren ser.
             Console.Write("│ "); //Högerkant på kortet
         }
         Console.WriteLine(); // Ny rad efter alla kort
@@ -300,6 +302,9 @@ class ConsoleUI
             WriteCardText(upcard);         //Givarens öppna kort, rött om hjärter/ruter
             Console.WriteLine("│ │░░░│"); //höger kant på kortet
 
+            _counter.ObserveCard(upcard); //Bara det öppna kortet räknas. Hålkortet räknas först när det vänts.
+
+        
 
 
 
