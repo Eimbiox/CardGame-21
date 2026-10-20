@@ -277,7 +277,7 @@ class ConsoleUI
     {
         Console.Write($"{player.Name} du har under 25 marker. Vill du köpa dig in?(Y/N): ");
         string? answer = Console.ReadLine()?.ToUpper();
-        while (string.IsNullOrWhiteSpace(answer))
+        while (string.IsNullOrWhiteSpace(answer) && (answer != "Y" || answer !=  "N"))
         {
             Console.Write("Svara med Y eller N!: ");
             answer = Console.ReadLine()?.ToUpper();
@@ -289,7 +289,7 @@ class ConsoleUI
             Console.ReadKey();
             return true;
         }
-        else
+        else 
         {
             return false;
         }

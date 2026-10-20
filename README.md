@@ -63,3 +63,4 @@ DecideWinners()`, så blackjack-meddelandet i `ConsoleUI.ShowOutcome()` visas al
 - `Round.AddStats()` är tom och anropas inte. Statistiken sköts redan av `Player.AddResult()`.
 - Givaren drar kort även när alla spelare har blackjack eller har spruckit. Hen borde bara vända hålkortet. Resultatet blir ändå rätt, eftersom blackjack slår 21 med fler kort.
 - Givaren tittar inte efter blackjack innan spelarna gör sina drag. Har givaren blackjack får spelarna ändå dra kort, fast de redan har förlorat.
+- Dealern drar naturlig 21 men det står i utskriften (mjuk hand 21)

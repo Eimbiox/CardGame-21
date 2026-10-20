@@ -1,2 +1,7 @@
-Eimantas;0;1;0
-Albin;0;1;0;100
+Eimantas;0;2;0;0
+Dator: Simpel;0;1;0;0
+Dator: Grund;0;1;1;200
+Albin;0;2;0;0
+Nikolai;0;2;0;0
+abc;0;1;0;0
+1;1;2;1;0
