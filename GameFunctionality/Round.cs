@@ -1,11 +1,10 @@
-using System.Runtime.InteropServices;
-
 class Round
 {
     private readonly List<Participant> _participants;
     private readonly Deck _deck;
     private readonly ConsoleUI _ui;
 
+    private readonly RoundBets roundBets = new RoundBets();
     public Round(List<Participant> participants, Deck deck, ConsoleUI ui)//Constructor.
     {
         _participants = participants;
@@ -14,10 +13,28 @@ class Round
     }
     public void Play()
     {
+        CollectBets();
         Deal();
         PlayerTurns();
         DealerTurn();
         DecideWinners();
+    }
+
+    public void CollectBets()
+    {
+        foreach (var participant in _participants)
+        {
+            if (participant is Player player && !player.IsComputer)
+            {
+                int playerBet = _ui.AskHowMuchToBet(player);
+
+                while (!roundBets.PlaceBet(player, playerBet))  //Frågar igen sålänge spelaren satsar mer än vad dem har
+                {
+                    _ui.PrintNotEnoughCash();
+                    playerBet = _ui.AskHowMuchToBet(player);
+                }
+            }
+        }
     }
     public void Deal()  //Clears the hand and gives each participant 2 cards
     {
@@ -41,12 +58,12 @@ class Round
     }
     public void PlayerTurns()
     {
+        Dealer dealer = _participants.OfType<Dealer>().First();
         foreach (var participant in _participants)
         {
             if (participant is Player player)
             {
                 _ui.ShowHand(player); //Visar spelaren startkort, värde och mjuk/hård innan första valet
-
                 if (player.Hand.IsBlackjack)        // if 2: har spelaren blackjack?
                 {
                     _ui.ShowBlackjack(player);
@@ -55,8 +72,13 @@ class Round
 
                 while (player.Hand.Points < 21) //While points are under 21
                 {
-                    bool playerChoice = _ui.WantsToHit(player); //Ask if player wants to hit
-                    if (playerChoice) //Player hits
+                    Move move = player.Decide(dealer.Hand.Cards[0]); // använder dealerns visade kort för att bestämma move
+
+                    if (player.IsComputer)
+                    {
+                        _ui.ShowComputerMove(player, move);  //Visar datorns beslut med paus
+                    }
+                    if (move == Move.Hit) //Player hits
                     {
                         player.Hit(_deck);
                         _ui.ShowHand(player); //Visar handen igen med det nya kortet.
@@ -65,7 +87,6 @@ class Round
                     {
                         break;
                     }
-
                 }
             }
         }
@@ -106,7 +127,11 @@ class Round
         {
             Outcome outcome;
 
-            if (player.Hand.IsBust)  //Bust always loses, even if the dealer busts
+            if (player.Hand.IsBlackjack && !dealer.Hand.IsBlackjack)
+            {
+                outcome = Outcome.Blackjack;
+            }
+            else if (player.Hand.IsBust)  //Bust always loses, even if the dealer busts
             {
                 outcome = Outcome.Lose;
             }
@@ -122,10 +147,6 @@ class Round
             {
                 outcome = Outcome.Lose;
             }
-            else if (player.Hand.IsBlackjack && !dealer.Hand.IsBlackjack)
-            {
-                outcome = Outcome.Win;
-            }
             else if (dealer.Hand.IsBlackjack && !player.Hand.IsBlackjack)
             {
                 outcome = Outcome.Lose;
@@ -134,10 +155,15 @@ class Round
             {
                 outcome = Outcome.Push;
             }
-            _ui.ShowOutcome(player, outcome);
+            int winAmount = 0;
+            if (!player.IsComputer)   //Datorer satsar inte, så de har ingen insats att betala ut
+            {
+                winAmount = roundBets.SettleBet(player, outcome);
+            }
+            _ui.ShowOutcomeAndWinAmount(player, outcome, winAmount);
 
             player.AddResult(outcome);
-            
+
         }
     }
 }
