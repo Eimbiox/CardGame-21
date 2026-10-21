@@ -374,7 +374,7 @@ class ConsoleUI
         DrawCards(participant.Hand.Cards);  //Ritar alla kort med framsidan upp
 
 
-        foreach (Card card in participant.Hand.Cards) //Mittenraden skrivs kort för kort så att varje kort kan få egen färg.
+        foreach (Card card in participant.Hand.Cards) //Låter räknaren se alla kort i handen.
         {
             _counter.ObserveCard(card); //Korträknaren ser kortet när det visas. Samma kort räknas bara en gång. Räknaren ser bara kort som spelaren ser.
         }
@@ -391,7 +391,7 @@ class ConsoleUI
         if (dealer.IsHoleCardHidden)   //Är hålkortet fortfarande dolt?
         {
             Console.WriteLine(dealer.Name);
-            DrawCards(dealer.Hand.Cards, true);   //true = rita andra kortet med baksidan upp  //true = rita andra kortet med baksidan upp
+            DrawCards(dealer.Hand.Cards, true); //true = rita andra kortet med baksidan upp
             _counter.ObserveCard(dealer.Hand.Cards[0]); //Bara det öppna kortet räknas. Hålkortet räknas först när det vänts.
         }
         else   //Hålkortet är vänt, visa hela handen
@@ -420,7 +420,8 @@ class ConsoleUI
         Console.WriteLine($"True count: {_counter.TrueCount(Deck.Current.CardsLeft):F1}"); //Running count delat med antal lekar kvar, en decimal
         Console.WriteLine($"Läge: {_counter.FavorableLevel(Deck.Current.CardsLeft)}\n"); //Hur gynnsamt läget är för spelaren
     }
-        ////Ritar alla kort i en hand bredvid varandra (används för både spelare och givaren).
+
+    ////Ritar alla kort i en hand bredvid varandra (används för både spelare och givaren).
     //cards = korten som ska ritas, t.ex. spelarens Hand.Cards.
     //hideSecondCard = true ritar andra kortet med baksidan upp (givarens hålkort). Blir false om inget skickas in. 
         private void DrawCards(List<Card> cards, bool hideSecondCard = false)
