@@ -38,6 +38,7 @@ Koden är uppdelad i tre mappar: **Cards** (kort och lekar), **Participants** (d
 |                   | `ConsoleUI`               | Allt som skrivs ut och läses in i konsolen, bland annat kortgrafiken.                    |
 |                   | `GameStorage`             | Sparar och laddar spelare med deras statistik från `Leaderboard.txt`, så att en spelare som har spelat förut fortsätter med sin gamla statistik. Samlar även fel från trasiga rader. |
 |                   | `Move`, `Outcome`         | Enums för drag (Hit/Stand) och resultat (Win/Lose/Push/Blackjack).                       |
+| Rules             | `RuleSet`                 | Husreglerna. Läses från `rules.json` när programmet startar. Saknas filen eller är den trasig används standardreglerna. |
 
 ## Vem som gjort vad
 <!-- Vilket tillval var och en har byggt -->
@@ -53,11 +54,33 @@ Koden är uppdelad i tre mappar: **Cards** (kort och lekar), **Participants** (d
 ## Regler
 <!-- Vilka regler som gäller -->
 
+### Husregler (tillval 3)
+Reglerna går att ändra i `rules.json` i projektmappen, utan att kompilera om:
+
+```json
+{
+  "DealerHitsSoft17": false,
+  "NumberOfDecks": 1,
+  "ReshuffleAt": 15,
+  "BlackjackBeats21": true
+}
+```
+
+| Inställning        | Betyder                                                       | Standard |
+|:-------------------|:--------------------------------------------------------------|:---------|
+| `DealerHitsSoft17` | Köper givaren även på mjuk 17?                                | `false`  |
+| `NumberOfDecks`    | Hur många lekar det spelas med                                | `1`      |
+| `ReshuffleAt`      | Ny lek när färre än så här många kort är kvar (dubbelt vid 4+ deltagare) | `15` |
+| `BlackjackBeats21` | Vinner naturlig tjugoett över 21 av tre kort eller fler?      | `true`   |
+
+Saknas filen, är den trasig eller har orimliga värden (till exempel 0 lekar) startar spelet ändå med standardreglerna och skriver ut en varning.
+
 ### Avvikelser från specifikationen
 * Minsta satsningen är 25. Spelare under 25 marker får välja att köpa sig in eller lämna bordet. 
 * Korleksgränsen är 15 eller 30 baserat på spelare. 
 
 ## Kända brister
+- `NumberOfDecks` i `rules.json` läses in och visas, men påverkar inte leken än. Den kopplas till skon när tillval 5 är mergat.
 - `Move` används inte. Spelarens val hanteras med en `bool` från `ConsoleUI.WantsToHit()`.
 DecideWinners()`, så blackjack-meddelandet i `ConsoleUI.ShowOutcome()` visas aldrig.
 - `Round.AddStats()` är tom och anropas inte. Statistiken sköts redan av `Player.AddResult()`.
