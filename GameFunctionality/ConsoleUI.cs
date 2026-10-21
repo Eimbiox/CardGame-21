@@ -15,8 +15,14 @@ class ConsoleUI
         return choice;
     }
 
+    public void ShowNoPlayersLeft()
+    {
+        Console.WriteLine("Spelet tog slut för det inte finns några spelare kvar");
+        Console.ReadKey();
+    }
+
     public void PrintErrors(GameStorage gameStorage)
-    {   
+    {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine(string.Join("\n", gameStorage.Errors));
         Console.ResetColor();
@@ -29,30 +35,38 @@ class ConsoleUI
         Console.WriteLine("        Välkommen till Tjugoett!     ");
         Console.WriteLine("=====================================");
     }
+
+    private List<Player> SortPlayers(GameStorage gameStorage)
+    {
+        //Sorterar spelare i gameStorage._players baserat på deras Chips
+        //Om flera spelare har samma Chips sorteras dem efter winRate och sedan wins
+        return gameStorage._players.OrderByDescending(p => p.Wallet.Chips).
+            ThenByDescending(p => p.WinRate).
+            ThenByDescending(p => p.Wins).
+            ToList();
+    }
     public void ShowLeaderboard(GameStorage gameStorage)    //Visar Topplistan
     {
         Console.Clear();
-        //Sorterar spelare i gameStorage._players baserat på deras winRate
-        //Om flera spelare har samma winRate sorteras dem efter vinster
-        var sortedPlayers = gameStorage._players.OrderByDescending(p => p.WinRate).ThenByDescending(p => p.Wins).ToList();
+        
+        var sortedPlayers = SortPlayers(gameStorage);
         Console.WriteLine();
-        Console.WriteLine("==================== TOPPLISTA =====================");
-        Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4} {"Vinstfrekvens",13}");
-        Console.WriteLine(new string('-', 52));
+        Console.WriteLine("======================= TOPPLISTA =========================");
+        Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4} {"Vinstfrekvens",13} {"Marker", 6}");
+        Console.WriteLine(new string('-', 59));
         for (int i = 0; i < sortedPlayers.Count; i++)
         {
             Player player = sortedPlayers[i];
-            Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4} {player.WinRate * 100,13:F1}%");
+            Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4} {player.WinRate * 100,13:F1}% {player.Wallet.Chips, 6}");
         }
-        Console.WriteLine(new string('=', 52));
+        Console.WriteLine(new string('=', 59));
         Console.ReadKey();
     }
 
     public void FindPlayerStats(GameStorage gameStorage)    //Hittar en specifik spelare i topplistan
     {
-        //Sorterar spelare i gameStorage._players baserat på deras winRate
-        //Om flera spelare har samma winRate sorteras dem efter vinster
-        var sortedPlayers = gameStorage._players.OrderByDescending(p => p.WinRate).ThenByDescending(p => p.Wins).ToList();
+        
+        var sortedPlayers = SortPlayers(gameStorage);
         Console.Write("Skriv namnet på spelaren: ");
         string? nameToFind = Console.ReadLine();
         while (string.IsNullOrWhiteSpace(nameToFind))
@@ -67,10 +81,10 @@ class ConsoleUI
             if (player.Name == nameToFind)
             {
                 Console.Clear();
-                Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4} {"Vinstfrekvens",13}");
-                Console.WriteLine(new string('-', 52));
-                Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4} {player.WinRate * 100,13:F1}%");
-                Console.WriteLine(new string('-', 52));
+                Console.WriteLine($"{"#",-2} {"Namn",-15} {"Vinst",5} {"Förlust",7} {"Lika",4} {"Vinstfrekvens",13} {"Marker", 6}");
+                Console.WriteLine(new string('-', 59));
+                Console.WriteLine($"{i + 1,-2} {player.Name,-15} {player.Wins,5} {player.Losses,7} {player.Draws,4} {player.WinRate * 100,13:F1}% {player.Wallet.Chips, 6}");
+                Console.WriteLine(new string('-', 59));
                 nameFound = true;
             }
         }
@@ -170,7 +184,7 @@ class ConsoleUI
         }
         return name;
     }
-    
+
     public bool AskIfPlayAgain()
     {
         while (true)
@@ -221,15 +235,21 @@ class ConsoleUI
         }
 
     }
-    public void ShowOutcome(Player player, Outcome outcome)
+    public void ShowOutcomeAndWinAmount(Player player, Outcome outcome, int winAmount)
     {
+        string markerText = "";
+        if (!player.IsComputer)
+        {
+            markerText = $" + ({winAmount} Marker)";
+        }
+
         if (outcome == Outcome.Lose && player.Hand.IsBust)
         {
             Console.WriteLine($"{player.Name} spräckte med {player.Hand.Points} och förlorar.");
         }
         else if (outcome == Outcome.Win)
         {
-            Console.WriteLine($"{player.Name} vinner!");
+            Console.WriteLine($"{player.Name} vinner!{markerText}");
         }
         else if (outcome == Outcome.Lose)
         {
@@ -237,13 +257,53 @@ class ConsoleUI
         }
         else if (outcome == Outcome.Push)
         {
-            Console.WriteLine($"{player.Name} och givaren har lika.");
+            Console.WriteLine($"{player.Name} och givaren har lika.{markerText}");
         }
-        else if (outcome == Outcome.Blackjack) // Lade till en ny outcome för blackjack, då det är en speciell vinst.
+        else if (outcome == Outcome.Blackjack)
         {
-            Console.WriteLine($"{player.Name} har BLACKJACK och vinner!");
+            Console.WriteLine($"{player.Name} har BLACKJACK och vinner!{markerText}");
+        }
+    }
+
+    public int AskHowMuchToBet(Player player) 
+    {
+        Console.Clear();
+        Console.WriteLine($"{player.Name}, du har ({player.Wallet.Chips} Marker)");
+        Console.Write($"Hur mycket satsar du? (minst 25): ");
+        int betAmount;
+        while (!int.TryParse(Console.ReadLine(), out betAmount) || betAmount is < 25)
+        {
+            Console.Write("Skriv in ett tal som inte är under 25: ");
+        }
+        return betAmount;
+    }
+
+    public bool AskIfWantToBuyIn(Player player)
+    {
+        Console.Write($"{player.Name} du har under 25 marker. Vill du köpa dig in?(Y/N): ");
+        string? answer = Console.ReadLine()?.ToUpper().Trim();
+        while (answer != "Y" && answer != "N")  //Frågar igen tills svaret är Y eller N
+        {
+            Console.Write("Svara med Y eller N!: ");
+            answer = Console.ReadLine()?.ToUpper().Trim();
         }
 
+        if (answer == "Y")
+        {
+            Console.WriteLine("Glöm inte swisha till (123 456 789 10)!");
+            Console.ReadKey();
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    public void PrintNotEnoughCash()
+    {
+        Console.WriteLine("Du har inte nog med marker");
+        Console.ReadKey();
     }
 
     public void DealerTurnMessage()
@@ -320,7 +380,7 @@ class ConsoleUI
         if (dealer.IsHoleCardHidden) //Om hålkortet fortfarande är dolt ("1♠, hållkort")
         {
             Card upcard = dealer.Hand.Cards[0];  //Första kortet i listan inom index som visas medans andra andra är hålkortet
-           // string text = RankSymbol(upcard.Rank) + SuitSymbol(upcard.Suit); //T.ex. "1♦"
+                                                 // string text = RankSymbol(upcard.Rank) + SuitSymbol(upcard.Suit); //T.ex. "1♦"
 
 
             Console.WriteLine($"{dealer.Name}");
@@ -394,9 +454,9 @@ class ConsoleUI
 
         Console.Write(cardText.PadRight(3)); //Skriver ut kortet alltså "Q♦", PadRight(3) ger alltid texten 3 tecken "Q♦ " lägger till /n
         Console.ResetColor(); //Byt tillbaka till vanlig färg, annars blir all text efteråt röd.
-
-
     }
+
+
 
 
 }
