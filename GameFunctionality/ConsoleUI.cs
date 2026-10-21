@@ -1,5 +1,7 @@
 class ConsoleUI
 {
+    private CardCounter _counter = new CardCounter();
+    private Deck? _lastDeck;
     private readonly CardRenderer _cardRenderer = new CardRenderer();   //Ritar korten i konsolen
     public int MainMenu()
     {
@@ -56,6 +58,38 @@ class ConsoleUI
         Console.WriteLine("=====================================");
     }
 
+    public void AskUserShoe()
+    {
+        while (true)
+        {
+            Console.WriteLine("Vill du spela med sko? (JA/NEJ)");
+            string? shoeChoice = Console.ReadLine()?.ToUpper().Trim();
+            if(int.TryParse(shoeChoice, out _))
+            {
+                Console.WriteLine("Du kan inte Skriva en siffra");
+            }
+            else if (string.IsNullOrWhiteSpace(shoeChoice))
+            {
+                Console.WriteLine("Du måste skriva något");
+            }
+            else if(shoeChoice == "JA")
+            {
+                Deck.UseShoe = true;
+                Console.WriteLine("\n---Sko Används---\n");
+                return;
+            }
+            else if(shoeChoice == "NEJ")
+            {
+                Deck.UseShoe = false;
+                Console.WriteLine("\n---Sko används inte---\n");
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Något gick fel");
+            }
+        }
+    }
     private List<Player> SortPlayers(GameStorage gameStorage)
     {
         //Sorterar spelare i gameStorage._players baserat på deras Chips
@@ -117,6 +151,7 @@ class ConsoleUI
 
     public int AskNumberOfPlayers()
     {
+        AskUserShoe();
         while (true)
         {
             Console.Write("Ange antal spelare (1-5): ");
@@ -232,6 +267,7 @@ class ConsoleUI
 
     public Move WantsToHit(Player player) // retunerar vilket Move man väljer
     {
+        ShowCount();
         while (true)
         {
             Console.Write($"{player.Name}, Köp eller Stanna?: ");
@@ -334,12 +370,13 @@ class ConsoleUI
     public void ShowBlackjack(Participant participant)
     {
         Console.WriteLine($"{participant.Name} fick BLACKJACK!");
+        ShowCount();
     }
 
 
     public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
     {
-
+        CheckNewDeck();
         string handType; //Text som visar om handen är "mjuk" eller "hård"
 
         if (participant.Hand.IsSoft) //Om ett ess fortfrande räknas som 11
@@ -355,6 +392,12 @@ class ConsoleUI
         Console.WriteLine($"{participant.Name}: ({handType} hand, {participant.Hand.Points})\n");
         DrawCards(participant.Hand.Cards);  //Ritar alla kort med framsidan upp
 
+
+        foreach (Card card in participant.Hand.Cards) //Låter räknaren se alla kort i handen.
+        {
+            _counter.ObserveCard(card); //Korträknaren ser kortet när det visas. Samma kort räknas bara en gång. Räknaren ser bara kort som spelaren ser.
+        }
+
         if (participant.Hand.IsBust)   //IsBust är true om poängen är över 21
         {
             Console.WriteLine($"{participant.Name} spräckte!\n");
@@ -363,10 +406,12 @@ class ConsoleUI
 
     public void ShowDealerHand(Dealer dealer)   //Visar givarens hand. Så länge hålkortet är dolt ritas det med baksidan upp
     {
+        CheckNewDeck();
         if (dealer.IsHoleCardHidden)   //Är hålkortet fortfarande dolt?
         {
             Console.WriteLine(dealer.Name);
-            DrawCards(dealer.Hand.Cards, true);   //true = rita andra kortet med baksidan upp  //true = rita andra kortet med baksidan upp
+            DrawCards(dealer.Hand.Cards, true); //true = rita andra kortet med baksidan upp
+            _counter.ObserveCard(dealer.Hand.Cards[0]); //Bara det öppna kortet räknas. Hålkortet räknas först när det vänts.
         }
         else   //Hålkortet är vänt, visa hela handen
         {
@@ -374,7 +419,28 @@ class ConsoleUI
         }
     }
 
-        ////Ritar alla kort i en hand bredvid varandra (används för både spelare och givaren).
+    private void CheckNewDeck()
+    {
+        if (Deck.Current != _lastDeck)
+        {
+            _counter.ResetRunningCount();
+            _lastDeck = Deck.Current; //Ny lek har skapats: nollställ räknaren och kom ihåg den nya leken
+        }
+    }
+
+    
+    public void ShowCount() //Visar korträkningen, men bara när man spelar med sko
+    {
+        if (Deck.UseShoe == false || Deck.Current == null) //Ingen sko eller ingen lek: visa inget
+        {
+            return;
+        }
+        Console.WriteLine($"Running count: {_counter.RunningCount}"); //Summan av alla sedda kort
+        Console.WriteLine($"True count: {_counter.TrueCount(Deck.Current.CardsLeft):F1}"); //Running count delat med antal lekar kvar, en decimal
+        Console.WriteLine($"Läge: {_counter.FavorableLevel(Deck.Current.CardsLeft)}\n"); //Hur gynnsamt läget är för spelaren
+    }
+
+    ////Ritar alla kort i en hand bredvid varandra (används för både spelare och givaren).
     //cards = korten som ska ritas, t.ex. spelarens Hand.Cards.
     //hideSecondCard = true ritar andra kortet med baksidan upp (givarens hålkort). Blir false om inget skickas in. 
         private void DrawCards(List<Card> cards, bool hideSecondCard = false)
