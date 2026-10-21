@@ -3,13 +3,15 @@ class Round
     private readonly List<Participant> _participants;
     private readonly Deck _deck;
     private readonly ConsoleUI _ui;
+    private readonly RuleSet _rules;    //Husreglerna från rules.json
 
     private readonly RoundBets roundBets = new RoundBets();
-    public Round(List<Participant> participants, Deck deck, ConsoleUI ui)//Constructor.
+    public Round(List<Participant> participants, Deck deck, ConsoleUI ui, RuleSet rules)//Constructor.
     {
         _participants = participants;
         _deck = deck;
         _ui = ui;
+        _rules = rules;
     }
     public void Play()
     {
@@ -127,7 +129,10 @@ class Round
         {
             Outcome outcome;
 
-            if (player.Hand.IsBlackjack && !dealer.Hand.IsBlackjack)
+            bool dealerHas21 = dealer.Hand.Points == 21;    //Har givaren 21, oavsett hur många kort?
+
+            //Spelaren vinner på blackjack, utom när husregeln säger att blackjack INTE slår givarens 21 av tre kort
+            if (player.Hand.IsBlackjack && !dealer.Hand.IsBlackjack && (_rules.BlackjackBeats21 || !dealerHas21))
             {
                 outcome = Outcome.Blackjack;
             }
@@ -147,7 +152,7 @@ class Round
             {
                 outcome = Outcome.Lose;
             }
-            else if (dealer.Hand.IsBlackjack && !player.Hand.IsBlackjack)
+            else if (dealer.Hand.IsBlackjack && !player.Hand.IsBlackjack && _rules.BlackjackBeats21)    //Givarens blackjack slår spelarens 21 av tre kort, bara om husregeln säger det
             {
                 outcome = Outcome.Lose;
             }
