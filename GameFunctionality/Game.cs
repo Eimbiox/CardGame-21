@@ -1,3 +1,4 @@
+
 class Game
 {
     private readonly List<Participant> _participants = [];   //Holds all participants
@@ -41,29 +42,40 @@ class Game
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
         {
-            string name = _ui.AskPlayerName($"Skriv in namnet på spelare {i + 1}: ");
-            bool exists = _participants.Any(p => p.Name == name);   //Kollar om spelarens namn redan finns i _participants
+            bool bothComputersSeated = _participants.OfType<Player>().Count(p => p.IsComputer) == 2;   //Båda sorterna sitter redan, platsen måste bli en människa
+            bool isHuman = bothComputersSeated || _ui.AskIsHuman($"Spelare {i + 1} – ange (människa/dator): ");
+            if (isHuman)
+            { 
+                string name = _ui.AskPlayerName($"Skriv in namnet på spelare {i + 1}: ");
+                bool exists = _participants.Any(p => p.Name == name) || name.StartsWith("Dator", StringComparison.OrdinalIgnoreCase);   //Namnet är taget, eller reserverat för datorspelare
 
-            while (exists)
-            {
-                name = _ui.AskPlayerName($"Namet {name} är redan taget. Skriv något unikt:" );
-                exists = _participants.Any(p => p.Name == name);
-            }
-
-            bool nameFound = false;
-            foreach (var savedPlayer in gameStorage._players)   //Jämför namnet med namnen i gameStorage._players och skapar en spelare baserat på de
-            {
-                if (savedPlayer.Name == name)   //Om namnet hittades
+                while (exists)
                 {
-                    _participants.Add(savedPlayer);
-                    nameFound = true; 
+                    name = _ui.AskPlayerName($"Namnet {name} är upptaget eller reserverat. Skriv något unikt: ");
+                    exists = _participants.Any(p => p.Name == name) || name.StartsWith("Dator", StringComparison.OrdinalIgnoreCase);
+                }
+
+                bool nameFound = false;
+                foreach (var savedPlayer in gameStorage._players)   //Jämför namnet med namnen i gameStorage._players och skapar en spelare baserat på de
+                {
+                    if (savedPlayer.Name == name)   //Om namnet hittades
+                    {
+                        _participants.Add(savedPlayer);
+                        savedPlayer.Strategy = new HumanStrategy(_ui, savedPlayer);
+                        nameFound = true; 
+                    }
+                }
+                if (!nameFound) //Om det inte hittades
+                {
+                    Player player = new Player(name);   //Skapa en ny player
+                    _participants.Add(player);  //Lägg till i participants
+                    player.Strategy = new HumanStrategy(_ui, player);
+                    gameStorage._players.Add(player);   //Lägg till i gameStorage._players
                 }
             }
-            if (!nameFound) //Om det inte hittades
+            else
             {
-                Player player = new Player(name);   //Skapa en ny player
-                _participants.Add(player);  //Lägg till i participants
-                gameStorage._players.Add(player);   //Lägg till i gameStorage._players
+                CreateComputerPlayer();
             }
         }
         _participants.Add(_dealer);  //Adds the dealer to the participants list
@@ -85,6 +97,46 @@ class Game
             gameStorage.SaveScore();
 
         }
+    }
+
+    private void CreateComputerPlayer()
+    {
+        bool simpleSeated = _participants.Any(p => p.Name == "Dator: Simpel");
+        bool basicSeated = _participants.Any(p => p.Name == "Dator: Grund");
+
+        string botChoice;
+        if (simpleSeated)   //Finns bara ett val kvar, så användaren behöver inte svara
+        {
+            botChoice = "Grund";
+            _ui.ShowComputerAutoChosen("Dator: Simpel", "Dator: Grund");
+        }
+        else if (basicSeated)
+        {
+            botChoice = "Simpel";
+            _ui.ShowComputerAutoChosen("Dator: Grund", "Dator: Simpel");
+        }
+        else
+        {
+            botChoice = _ui.AskWhatBot("Vilken sorts datorspelare? (Simpel/Grund): ");
+        }
+        string name = "Dator: " + botChoice;
+
+        Player? player = gameStorage._players.FirstOrDefault(p => p.Name == name);   //Finns datorspelaren sparad sedan tidigare?
+        if (player == null)
+        {
+            player = new Player(name);
+            gameStorage._players.Add(player);   //Läggs i sparlistan så att resultaten sparas och syns i topplistan
+        }
+
+        if (botChoice == "Simpel")
+        {
+            player.Strategy = new SimpleStrategy();
+        }
+        else
+        {
+            player.Strategy = new BasicStrategy();
+        }
+        _participants.Add(player);
     }
 
     public Game(ConsoleUI ui)   //Constructor
