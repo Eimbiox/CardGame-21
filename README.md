@@ -80,7 +80,7 @@ Saknas filen, är den trasig eller har orimliga värden (till exempel 0 lekar) s
 * Korleksgränsen är 15 eller 30 baserat på spelare. 
 
 ## Kända brister
-- `NumberOfDecks` i `rules.json` läses in och visas, men påverkar inte leken än. Den kopplas till skon när tillval 5 är mergat.
+- `NumberOfDecks` i `rules.json` läses in och visas, men påverkar inte leken. Skon (tillval 5) har fast 6 lekar, och vi valde tillsammans att inte koppla ihop dem.
 - `Move` används inte. Spelarens val hanteras med en `bool` från `ConsoleUI.WantsToHit()`.
 DecideWinners()`, så blackjack-meddelandet i `ConsoleUI.ShowOutcome()` visas aldrig.
 - `Round.AddStats()` är tom och anropas inte. Statistiken sköts redan av `Player.AddResult()`.
