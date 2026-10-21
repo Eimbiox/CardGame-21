@@ -358,24 +358,6 @@ class ConsoleUI
     public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
     {
         CheckNewDeck();
-        //Ett kort ritas på tre rader. Då jag bygger varje rad för sig med, Top,Middle och Bottom Layer.
-        string top = ""; //Översta raden med "┌───┐" 
-        //string middle = ""; //Mittenraden med " │" + CardText.PadRight(3) + "│ 
-        string bottom = ""; // Nedersta raden "└───┘"
-
-
-        foreach (Card card in participant.Hand.Cards) //Går igenom vaje kort som ligger i handen, ett i taget.
-
-        {
-            //Gör om kortets enums för Rank + Suits till symboler som "♥♦♣♠" döpt lådan till "CardText"
-            // string CardText = RankSymbol(card.Rank) + SuitSymbol(card.Suit);
-
-            top += "┌───┐ ";
-            // middle += "│" + CardText.PadRight(3) + "│ "; //Anropa "CardText" + lagt till PadRight så den alltid blir 3 rader
-            bottom += "└───┘ "; //T.ex 1♠ då denna är 2 rader lägger till "/n" och 10♠ är 3 rader.
-        }
-
-
         string handType; //Text som visar om handen är "mjuk" eller "hård"
 
         if (participant.Hand.IsSoft) //Om ett ess fortfrande räknas som 11
