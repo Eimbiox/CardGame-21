@@ -15,7 +15,7 @@ class GameStorage
         List<string> lines = [];
         foreach (var player in _players)
         {
-            lines.Add($"{player.Name};{player.Wins};{player.Losses};{player.Draws}");
+            lines.Add($"{player.Name};{player.Wins};{player.Losses};{player.Draws};{player.Wallet.Chips}");
         }
         File.WriteAllLines(_path, lines);
     }
@@ -26,15 +26,18 @@ class GameStorage
             foreach (string line in File.ReadLines(_path))
             {
                 string[] parts = line.Split(";");
-                //                      Name                Wins                Losses               Draws
+                //                          Name                Wins                 Losses               Draws                Chips
                 try
                 {
-                    _players.Add(new Player(parts[0], int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3])));  //Lägger till en player i _players
+                    _players.Add(new Player(parts[0], int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4])));  //Lägger till en player i _players
                 }
                 catch (FormatException ex)
                 {
                     Errors.Add($"{line} är trasig den läses inte in: ({ex.Message})");
-
+                }
+                catch (IndexOutOfRangeException ex)
+                {
+                    Errors.Add($"{line} är trasig den läses inte in: ({ex.Message})");
                 }
                 
             }

@@ -4,6 +4,7 @@ class Player : Participant
     public int Losses { get; private set; }
     public int Draws { get; private set; } 
 
+    public Wallet Wallet  {get; }
     public double WinRate => CalculateWinRate();
     
     //Hur spelaren fattar beslut. Sätts i Game när spelaren sätter sig vid bordet, behöver vara public 
@@ -16,11 +17,12 @@ class Player : Participant
         return Strategy.ChooseMove(Hand, dealerUpcard);
     }
 
-    public Player(string name, int wins = 0, int losses = 0, int draws = 0) : base(name)
+    public Player(string name, int wins = 0, int losses = 0, int draws = 0, int chips = Wallet.StartingChips) : base(name)  //Konstruktor
     {
         Wins = wins;
         Losses = losses;
         Draws = draws;
+        Wallet = new Wallet(chips);
     }
 
     public void AddResult(Outcome outcome)
