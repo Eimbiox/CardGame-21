@@ -39,6 +39,7 @@ class Game
     public void Play()  //Starts the game
     {
         _participants.Clear();
+        _ui.ShowRules(_rules);  //Visar vilka husregler som gäller, innan skärmen rensas vid satsningen
         int playerCount = _ui.AskNumberOfPlayers();
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
@@ -80,7 +81,6 @@ class Game
             }
         }
         _participants.Add(_dealer);  //Adds the dealer to the participants list
-        _ui.ShowRules(_rules);  //Visar vilka husregler som gäller
         Deck deck = new Deck();
         deck.Shuffle();
         bool playing = true;
