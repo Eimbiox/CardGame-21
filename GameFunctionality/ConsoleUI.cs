@@ -132,7 +132,6 @@ class ConsoleUI
 
     public int AskNumberOfPlayers()
     {
-        AskUserShoe();
         while (true)
         {
             Console.Write("Ange antal spelare (1-5): ");

@@ -38,6 +38,7 @@ class Game
     public void Play()  //Starts the game
     {
         _participants.Clear();
+        _ui.AskUserShoe();
         int playerCount = _ui.AskNumberOfPlayers();
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
