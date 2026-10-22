@@ -163,7 +163,7 @@ class ConsoleUI
             Console.Write("Ange antal spelare (1-5): ");
             if (int.TryParse(Console.ReadLine(), out int count) && count is >= 1 and <= 5)
                 return count;
-            Console.WriteLine("Ange ett heltal mellan 1 och 5.");
+            WriteError("Ange ett heltal mellan 1 och 5.");
         }
     }
     public bool AskIsHuman(string prompt)
@@ -182,11 +182,11 @@ class ConsoleUI
                 {
                     return false;
                 }
-                Console.WriteLine("Ange (Människa/Dator): ");
+                WriteError("Ange (Människa/Dator): ");
             }
             else
             {
-                Console.WriteLine("Det får inte vara tomt!");
+                WriteError("Det får inte vara tomt!");
             }
         }
     }
@@ -207,11 +207,11 @@ class ConsoleUI
                 {
                     return "Grund";
                 }
-                Console.WriteLine("Ange (Simpel/Grund): ");
+                WriteError("Ange (Simpel/Grund): ");
             }
             else
             {
-                Console.WriteLine("Det får inte vara tomt!");
+                WriteError("Det får inte vara tomt!");
             }
         }
     }
@@ -243,7 +243,7 @@ class ConsoleUI
             || name.ToUpper() == "GIVAREN"
             || name.ToUpper() == "GIVARE")
         {   
-            Console.Write("Namnet får inte vara tomt, innehålla (;) eller vara Givare/Givaren: ");
+            WriteImportant("Namnet får inte vara tomt, innehålla (;) eller vara Givare/Givaren: ");
             name = Console.ReadLine()?.Trim();
         }
         return name;
@@ -265,11 +265,11 @@ class ConsoleUI
                 {
                     return false;
                 }
-                Console.WriteLine("Svara med ja eller nej!");
+                WriteError("Svara med ja eller nej!");
             }
             else
             {
-                Console.WriteLine("Det får inte vara tomt!");
+                WriteError("Det får inte vara tomt!");
             }
         }
     }
@@ -291,11 +291,11 @@ class ConsoleUI
                 {
                     return Move.Stand;
                 }
-                Console.WriteLine("Svara med köp eller stanna");
+                WriteError("Svara med köp eller stanna");
             }
             else
             {
-                Console.WriteLine("Det får inte vara tomt");
+                WriteError("Det får inte vara tomt");
             }
         }
 
@@ -338,7 +338,7 @@ class ConsoleUI
         int betAmount;
         while (!int.TryParse(Console.ReadLine(), out betAmount) || betAmount is < 25)
         {
-            Console.Write("Skriv in ett tal som inte är under 25: ");
+            WriteImportant("Skriv in ett tal som inte är under 25: ");
         }
         return betAmount;
     }
@@ -349,7 +349,7 @@ class ConsoleUI
         string? answer = Console.ReadLine()?.ToUpper().Trim();
         while (answer != "Y" && answer != "N")  //Frågar igen tills svaret är Y eller N
         {
-            Console.Write("Svara med Y eller N!: ");
+            WriteImportant("Svara med Y eller N!: ");
             answer = Console.ReadLine()?.ToUpper().Trim();
         }
 
@@ -510,4 +510,14 @@ class ConsoleUI
         Console.WriteLine(message);
         Console.ResetColor();
     }
+    
+
+        private void WriteImportant(string message)   //Viktiga meddelanden i rött, sedan ny rad
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(message);
+        Console.ResetColor();
+
+    
     }
+}
