@@ -60,7 +60,7 @@ Reglerna går att ändra i `rules.json` i projektmappen, utan att kompilera om:
 ```json
 {
   "DealerHitsSoft17": false,
-  "NumberOfDecks": 1,
+  "NumberOfDecks": 6,
   "ReshuffleAt": 15,
   "BlackjackBeats21": true
 }
@@ -69,18 +69,17 @@ Reglerna går att ändra i `rules.json` i projektmappen, utan att kompilera om:
 | Inställning        | Betyder                                                       | Standard |
 |:-------------------|:--------------------------------------------------------------|:---------|
 | `DealerHitsSoft17` | Köper givaren även på mjuk 17?                                | `false`  |
-| `NumberOfDecks`    | Hur många lekar det spelas med                                | `1`      |
-| `ReshuffleAt`      | Ny lek när färre än så här många kort är kvar (dubbelt vid 4+ deltagare) | `15` |
+| `NumberOfDecks`    | Hur många lekar skon har när man spelar med sko (minst 2). Utan sko spelas det med en lek | `6` |
+| `ReshuffleAt`      | Utan sko: ny lek när färre än så här många kort är kvar (minst 15, dubbelt vid 3+ spelare). Med sko bestämmer skiljekortet | `15` |
 | `BlackjackBeats21` | Vinner naturlig tjugoett över 21 av tre kort eller fler?      | `true`   |
 
-Saknas filen, är den trasig eller har orimliga värden (till exempel 0 lekar) startar spelet ändå med standardreglerna och skriver ut en varning.
+Saknas filen, saknas en regel, är den trasig eller har orimliga värden (till exempel 1 lek i skon eller färre än 15 kort) startar spelet ändå med standardreglerna och skriver ut en varning. Reglerna visas efter frågan om sko, så att antal lekar stämmer med det man valt.
 
 ### Avvikelser från specifikationen
 * Minsta satsningen är 25. Spelare under 25 marker får välja att köpa sig in eller lämna bordet. 
 * Korleksgränsen är 15 eller 30 baserat på spelare. 
 
 ## Kända brister
-- `NumberOfDecks` i `rules.json` läses in och visas, men påverkar inte leken. Skon (tillval 5) har fast 6 lekar, och vi valde tillsammans att inte koppla ihop dem.
 - `Move` används inte. Spelarens val hanteras med en `bool` från `ConsoleUI.WantsToHit()`.
 DecideWinners()`, så blackjack-meddelandet i `ConsoleUI.ShowOutcome()` visas aldrig.
 - `Round.AddStats()` är tom och anropas inte. Statistiken sköts redan av `Player.AddResult()`.

@@ -39,8 +39,8 @@ class Game
     public void Play()  //Starts the game
     {
         _participants.Clear();
-        _ui.ShowRules(_rules);  //Visar vilka husregler som gäller, innan skärmen rensas vid satsningen
-        int playerCount = _ui.AskNumberOfPlayers();
+        int playerCount = _ui.AskNumberOfPlayers();     //Frågar också om sko
+        _ui.ShowRules(_rules);  //Visar husreglerna efter frågan om sko, så att antal lekar stämmer
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
         {
@@ -185,5 +185,6 @@ class Game
             _rules = loadedRules;   //Filen gick att läsa, använd reglerna därifrån
         }
         _dealer.HitsSoft17 = _rules.DealerHitsSoft17;   //Givaren får veta om han ska köpa på mjuk 17
+        Deck.NumberOfDecks = _rules.NumberOfDecks;      //Skon får veta hur många lekar den ska ha
     }
 }

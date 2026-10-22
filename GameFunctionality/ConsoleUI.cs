@@ -37,8 +37,15 @@ class ConsoleUI
         Console.WriteLine("---- Husregler ----");
         //(villkor ? "Ja" : "Nej") betyder: skriv "Ja" om det är true, annars "Nej"
         Console.WriteLine($"Givaren köper på mjuk 17: {(rules.DealerHitsSoft17 ? "Ja" : "Nej")}");
-        Console.WriteLine($"Antal lekar: {rules.NumberOfDecks}");
-        Console.WriteLine($"Ny lek när färre än {rules.ReshuffleAt} kort är kvar");
+        Console.WriteLine($"Antal lekar: {(Deck.UseShoe ? rules.NumberOfDecks : 1)}");    //Med sko: antalet från filen. Utan sko: en lek
+        if (Deck.UseShoe)   //Skon har ett skiljekort som bestämmer när det blandas om (tillval 5)
+        {
+            Console.WriteLine("Skon blandas om när skiljekortet dras");
+        }
+        else
+        {
+            Console.WriteLine($"Ny lek när färre än {rules.ReshuffleAt} kort är kvar (dubbelt så många med 3 eller fler spelare)");
+        }
         Console.WriteLine($"Naturlig tjugoett slår 21 av tre kort: {(rules.BlackjackBeats21 ? "Ja" : "Nej")}");
         Console.WriteLine();
     }
