@@ -418,8 +418,8 @@ class ConsoleUI
         {
             return;
         }
-        Console.WriteLine($"Running count: {_counter.RunningCount}"); //Summan av alla sedda kort
-        Console.WriteLine($"True count: {_counter.TrueCount(Deck.Current.CardsLeft):F1}"); //Running count delat med antal lekar kvar, en decimal
+        Console.WriteLine($"Löpande räkning: {_counter.RunningCount}"); //Summan av alla sedda kort
+        Console.WriteLine($"Sann räkning: {_counter.TrueCount(Deck.Current.CardsLeft):F1}"); //Running count delat med antal lekar kvar, en decimal
         Console.WriteLine($"Läge: {_counter.FavorableLevel(Deck.Current.CardsLeft)}\n"); //Hur gynnsamt läget är för spelaren
     }
 
