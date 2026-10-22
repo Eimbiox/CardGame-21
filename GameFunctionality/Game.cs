@@ -153,8 +153,12 @@ class Game
         Player? player = gameStorage._players.FirstOrDefault(p => p.Name == name);   //Finns datorspelaren sparad sedan tidigare?
         if (player == null)
         {
-            player = new Player(name);
+            player = new Player(name, chips: 0);    //Skapar en ny dator spelare med 0 chips eftersom datorer inte satsar
             gameStorage._players.Add(player);   //Läggs i sparlistan så att resultaten sparas och syns i topplistan
+        }
+        else    //Om datorn hittas sen innan så rensas deras marker till 0. 
+        {
+            player.Wallet.ClearWallet();
         }
 
         if (botChoice == "Simpel")
