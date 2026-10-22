@@ -60,7 +60,8 @@ Reglerna går att ändra i `rules.json` i projektmappen, utan att kompilera om:
 ```json
 {
   "DealerHitsSoft17": false,
-  "NumberOfDecks": 6,
+  "NumberOfDecks": 1,
+  "ShoeDecks": 6,
   "ReshuffleAt": 15,
   "BlackjackBeats21": true
 }
@@ -69,7 +70,8 @@ Reglerna går att ändra i `rules.json` i projektmappen, utan att kompilera om:
 | Inställning        | Betyder                                                       | Standard |
 |:-------------------|:--------------------------------------------------------------|:---------|
 | `DealerHitsSoft17` | Köper givaren även på mjuk 17?                                | `false`  |
-| `NumberOfDecks`    | Hur många lekar skon har när man spelar med sko (minst 2). Utan sko spelas det med en lek | `6` |
+| `NumberOfDecks`    | Hur många lekar det spelas med utan sko (minst 1)             | `1`      |
+| `ShoeDecks`        | Hur många lekar skon har när man spelar med sko (minst 2)     | `6`      |
 | `ReshuffleAt`      | Utan sko: ny lek när färre än så här många kort är kvar (minst 15, dubbelt vid 3+ spelare). Med sko bestämmer skiljekortet | `15` |
 | `BlackjackBeats21` | Vinner naturlig tjugoett över 21 av tre kort eller fler?      | `true`   |
 

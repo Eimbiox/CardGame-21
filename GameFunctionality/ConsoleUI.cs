@@ -37,7 +37,7 @@ class ConsoleUI
         Console.WriteLine("---- Husregler ----");
         //(villkor ? "Ja" : "Nej") betyder: skriv "Ja" om det är true, annars "Nej"
         Console.WriteLine($"Givaren köper på mjuk 17: {(rules.DealerHitsSoft17 ? "Ja" : "Nej")}");
-        Console.WriteLine($"Antal lekar: {(Deck.UseShoe ? rules.NumberOfDecks : 1)}");    //Med sko: antalet från filen. Utan sko: en lek
+        Console.WriteLine($"Antal lekar: {(Deck.UseShoe ? rules.ShoeDecks : rules.NumberOfDecks)}");    //Med sko: ShoeDecks. Utan sko: NumberOfDecks
         if (Deck.UseShoe)   //Skon har ett skiljekort som bestämmer när det blandas om (tillval 5)
         {
             Console.WriteLine("Skon blandas om när skiljekortet dras");

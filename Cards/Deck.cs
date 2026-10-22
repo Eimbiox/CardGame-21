@@ -21,21 +21,25 @@ class Deck
     }
     public int CardsLeft => _shoe != null ? _shoe.RemainingCards : _cards.Count(); //Real number of cards left, used by the card counter
     public static bool UseShoe {get; set;}
-    public static int NumberOfDecks { get; set; } = 6;    //Antal lekar i skon. Sätts från rules.json (tillval 3)
-    
+    public static int NumberOfDecks { get; set; } = 1;    //Antal lekar utan sko. Sätts från rules.json (tillval 3)
+    public static int ShoeDecks { get; set; } = 6;        //Antal lekar i skon. Sätts från rules.json (tillval 3)
+
     public Deck() //Constructor
     {
         Current = this; //This new deck becomes the current one, so ConsoleUI always reads the deck in use
         if (UseShoe == true)
         {
-            _shoe = new Shoe(NumberOfDecks);
+            _shoe = new Shoe(ShoeDecks);
             return;
         }
-        foreach (var suit in Enum.GetValues<Suit>())    //Creates 52 cards when deck is made
+        for (int i = 0; i < NumberOfDecks; i++)     //En lek med 52 kort för varje lek i rules.json
         {
-            foreach (var rank in Enum.GetValues<Rank>())
+            foreach (var suit in Enum.GetValues<Suit>())    //Creates 52 cards when deck is made
             {
-                _cards.Add(new Card(suit, rank));
+                foreach (var rank in Enum.GetValues<Rank>())
+                {
+                    _cards.Add(new Card(suit, rank));
+                }
             }
         }
     }

@@ -185,6 +185,7 @@ class Game
             _rules = loadedRules;   //Filen gick att läsa, använd reglerna därifrån
         }
         _dealer.HitsSoft17 = _rules.DealerHitsSoft17;   //Givaren får veta om han ska köpa på mjuk 17
-        Deck.NumberOfDecks = _rules.NumberOfDecks;      //Skon får veta hur många lekar den ska ha
+        Deck.NumberOfDecks = _rules.NumberOfDecks;      //Leken får veta hur många lekar den ska ha utan sko
+        Deck.ShoeDecks = _rules.ShoeDecks;              //Skon får veta hur många lekar den ska ha
     }
 }
