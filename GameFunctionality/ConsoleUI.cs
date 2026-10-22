@@ -213,11 +213,15 @@ class ConsoleUI
     {
         Console.Write(promt);
         string? name = Console.ReadLine()?.Trim();
-        while (string.IsNullOrWhiteSpace(name))
-        {
-            Console.Write("Namnet får inte vara tomt: ");
+        while (string.IsNullOrWhiteSpace(name) 
+            || name.Contains(';')
+            || name.ToUpper() == "GIVAREN"
+            || name.ToUpper() == "GIVARE")
+        {   
+            Console.Write("Namnet får inte vara tomt, innehålla (;) eller vara Givare/Givaren: ");
             name = Console.ReadLine()?.Trim();
         }
+        
         return name;
     }
 
