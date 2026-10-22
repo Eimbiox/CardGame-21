@@ -89,7 +89,7 @@ class Game
 
         while (playing)
         {
-            if (deck.RemainingCards < reshuffleLimit)   //Skapar ny deck vid antingen 15 kort kvar eller 30 baserat på mängden deltagare
+            if (deck.RemainingCards < reshuffleLimit)
             {
                 deck = new Deck();
                 deck.Shuffle();
