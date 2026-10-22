@@ -40,6 +40,7 @@ class Game
     {
         _participants.Clear();
         _ui.AskUserShoe();
+        _ui.ShowRules(_rules);
         int playerCount = _ui.AskNumberOfPlayers();
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
