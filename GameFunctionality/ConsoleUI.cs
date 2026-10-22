@@ -280,7 +280,7 @@ class ConsoleUI
         string markerText = "";
         if (!player.IsComputer)
         {
-            markerText = $" + ({winAmount} Marker)";
+            markerText = $" Får tillbaka ({winAmount} Marker)";
         }
 
         if (outcome == Outcome.Lose && player.Hand.IsBust)
