@@ -221,7 +221,6 @@ class ConsoleUI
             Console.Write("Namnet får inte vara tomt, innehålla (;) eller vara Givare/Givaren: ");
             name = Console.ReadLine()?.Trim();
         }
-        
         return name;
     }
 
@@ -331,7 +330,7 @@ class ConsoleUI
 
         if (answer == "Y")
         {
-            Console.WriteLine("Glöm inte swisha till (123 456 789 10)!");
+            Console.WriteLine("Du köper dig in och får 200 marker");
             Console.ReadKey();
             return true;
         }
