@@ -38,6 +38,7 @@ Koden är uppdelad i tre mappar: **Cards** (kort och lekar), **Participants** (d
 |                   | `ConsoleUI`               | Allt som skrivs ut och läses in i konsolen, bland annat kortgrafiken.                    |
 |                   | `GameStorage`             | Sparar och laddar spelare med deras statistik från `Leaderboard.txt`, så att en spelare som har spelat förut fortsätter med sin gamla statistik. Samlar även fel från trasiga rader. |
 |                   | `Move`, `Outcome`         | Enums för drag (Hit/Stand) och resultat (Win/Lose/Push/Blackjack).                       |
+| Rules             | `RuleSet`                 | Husreglerna. Läses från `rules.json` när programmet startar. Saknas filen eller är den trasig används standardreglerna. |
 
 ## Vem som gjort vad
 <!-- Vilket tillval var och en har byggt -->
@@ -52,6 +53,29 @@ Koden är uppdelad i tre mappar: **Cards** (kort och lekar), **Participants** (d
 
 ## Regler
 <!-- Vilka regler som gäller -->
+
+### Husregler (tillval 3)
+Reglerna går att ändra i `rules.json` i projektmappen, utan att kompilera om:
+
+```json
+{
+  "DealerHitsSoft17": false,
+  "NumberOfDecks": 1,
+  "ShoeDecks": 6,
+  "ReshuffleAt": 15,
+  "BlackjackBeats21": true
+}
+```
+
+| Inställning        | Betyder                                                       | Standard |
+|:-------------------|:--------------------------------------------------------------|:---------|
+| `DealerHitsSoft17` | Köper givaren även på mjuk 17?                                | `false`  |
+| `NumberOfDecks`    | Hur många lekar det spelas med utan sko (minst 1)             | `1`      |
+| `ShoeDecks`        | Hur många lekar skon har när man spelar med sko (minst 2)     | `6`      |
+| `ReshuffleAt`      | Utan sko: ny lek när färre än så här många kort är kvar (minst 15, dubbelt vid 3+ spelare). Med sko bestämmer skiljekortet | `15` |
+| `BlackjackBeats21` | Vinner naturlig tjugoett över 21 av tre kort eller fler?      | `true`   |
+
+Saknas filen, saknas en regel, är den trasig eller har orimliga värden (till exempel 1 lek i skon eller färre än 15 kort) startar spelet ändå med standardreglerna och skriver ut en varning. Reglerna visas efter frågan om sko, så att antal lekar stämmer med det man valt.
 
 ### Avvikelser från specifikationen
 * Minsta satsningen är 25. Spelare under 25 marker får välja att köpa sig in eller lämna bordet. 
