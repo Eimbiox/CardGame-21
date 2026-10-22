@@ -13,7 +13,7 @@ class ConsoleUI
         int choice;
         while (!int.TryParse(Console.ReadLine(), out choice) || choice is < 1 or > 4)
         {
-            Console.WriteLine("Ange ett heltal mellan 1 och 4");
+               WriteError("Ange ett heltal mellan 1 och 4");
         }
         return choice;
     }
@@ -47,11 +47,11 @@ class ConsoleUI
             string? shoeChoice = Console.ReadLine()?.ToUpper().Trim();
             if(int.TryParse(shoeChoice, out _))
             {
-                Console.WriteLine("Du kan inte Skriva en siffra");
+                WriteError("Du kan inte Skriva en siffra");
             }
             else if (string.IsNullOrWhiteSpace(shoeChoice))
             {
-                Console.WriteLine("Du måste skriva något");
+                WriteError("Du måste skriva något");
             }
             else if(shoeChoice == "JA")
             {
@@ -67,7 +67,7 @@ class ConsoleUI
             }
             else
             {
-                Console.WriteLine("Något gick fel");
+                WriteError("Något gick fel");
             }
         }
     }
@@ -477,5 +477,11 @@ class ConsoleUI
 
 
 
+    }
+       private void WriteError(string message)   //Skriver ett felmeddelande i rött, sedan ny rad
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine(message);
+        Console.ResetColor();
     }
     }
