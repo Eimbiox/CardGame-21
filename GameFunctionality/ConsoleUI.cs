@@ -345,15 +345,15 @@ class ConsoleUI
 
     public bool AskIfWantToBuyIn(Player player)
     {
-        Console.Write($"{player.Name} du har under 25 marker. Vill du köpa dig in?(Y/N): ");
+        Console.Write($"{player.Name} du har under 25 marker. Vill du köpa dig in?(ja/nej): ");
         string? answer = Console.ReadLine()?.ToUpper().Trim();
-        while (answer != "Y" && answer != "N")  //Frågar igen tills svaret är Y eller N
+        while (answer != "JA" && answer != "NEJ")  //Frågar igen tills svaret är Y eller N
         {
-            WriteImportant("Svara med Y eller N!: ");
+            WriteImportant("Svara med ja eller nej!: ");
             answer = Console.ReadLine()?.ToUpper().Trim();
         }
 
-        if (answer == "Y")
+        if (answer == "JA")
         {
             Console.WriteLine("Du köper dig in och får 200 marker");
             Console.ReadKey();
@@ -376,12 +376,6 @@ class ConsoleUI
         Console.WriteLine("----Givarens tur----");
     }
 
-    public void ShowBlackjack(Participant participant)
-    {
-        Console.WriteLine($"{participant.Name} fick BLACKJACK!");
-        ShowCount();
-    }
-
 
     public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
     {
@@ -398,7 +392,15 @@ class ConsoleUI
             handType = "hård"; //Handen är hård.
         }
 
-        Console.WriteLine($"{participant.Name}: ({handType} hand, {participant.Hand.Points})\n");
+        if (participant.Hand.IsBlackjack)
+        {
+            Console.WriteLine($"{participant.Name}: Blackjack!\n");
+        }
+        else
+        {
+            Console.WriteLine($"{participant.Name}: ({handType} hand, {participant.Hand.Points})\n");
+        }
+        
         DrawCards(participant.Hand.Cards);  //Ritar alla kort med framsidan upp
 
 
