@@ -5,6 +5,7 @@ class Game
     private readonly GameStorage gameStorage = new GameStorage();
     private readonly Dealer _dealer = new Dealer(); //Creates new dealer
     private readonly ConsoleUI _ui;
+    private readonly RuleSet _rules;    //Husreglerna, läses från rules.json i konstruktorn
     public void Run()
     {
         bool running = true;
@@ -38,7 +39,8 @@ class Game
     public void Play()  //Starts the game
     {
         _participants.Clear();
-        int playerCount = _ui.AskNumberOfPlayers();
+        int playerCount = _ui.AskNumberOfPlayers();     //Frågar också om sko
+        _ui.ShowRules(_rules);  //Visar husreglerna efter frågan om sko, så att antal lekar stämmer
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
         {
@@ -82,7 +84,7 @@ class Game
         Deck deck = new Deck();
         deck.Shuffle();
         bool playing = true;
-        int reshuffleLimit = _participants.Count <= 3 ? 15 : 30;    //Fler deltagare behöver fler kort varje runda
+        int reshuffleLimit = _participants.Count <= 3 ? _rules.ReshuffleAt : _rules.ReshuffleAt * 2;    //Fler deltagare behöver fler kort varje runda, därför dubbelt
 
         while (playing)
         {
@@ -97,7 +99,7 @@ class Game
                 _ui.ShowNoPlayersLeft();
                 return;
             }
-            Round round = new Round(_participants, deck, _ui);
+            Round round = new Round(_participants, deck, _ui, _rules);
             round.Play();
             playing = _ui.AskIfPlayAgain();
             gameStorage.SaveScore();
@@ -171,5 +173,19 @@ class Game
     public Game(ConsoleUI ui)   //Constructor
     {
         _ui = ui;
+
+        RuleSet? loadedRules = RuleSet.Load("rules.json");  //Läser husreglerna från filen. Blir null om det inte gick
+        if (loadedRules == null)    //Filen saknas eller är trasig
+        {
+            _ui.ShowRulesFileMissing();     //Säg till spelaren
+            _rules = RuleSet.Default;       //Använd standardreglerna i stället, så att spelet inte kraschar
+        }
+        else
+        {
+            _rules = loadedRules;   //Filen gick att läsa, använd reglerna därifrån
+        }
+        _dealer.HitsSoft17 = _rules.DealerHitsSoft17;   //Givaren får veta om han ska köpa på mjuk 17
+        Deck.NumberOfDecks = _rules.NumberOfDecks;      //Leken får veta hur många lekar den ska ha utan sko
+        Deck.ShoeDecks = _rules.ShoeDecks;              //Skon får veta hur många lekar den ska ha
     }
 }
