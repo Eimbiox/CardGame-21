@@ -27,4 +27,9 @@ class Wallet
         Chips -= amount;
         return true;
     }
+
+    public void ClearWallet()
+    {
+        Chips = 0;
+    }
 }

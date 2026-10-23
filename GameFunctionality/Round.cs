@@ -68,7 +68,7 @@ class Round
                 _ui.ShowHand(player); //Visar spelaren startkort, värde och mjuk/hård innan första valet
                 if (player.Hand.IsBlackjack)        // if 2: har spelaren blackjack?
                 {
-                    _ui.ShowBlackjack(player);
+                    _ui.ShowCount();   //Visar korträkningen innan nästa spelare
                     continue;                       // hoppa till nästa spelare
                 }
 
@@ -101,19 +101,18 @@ class Round
         dealer.RevealHoleCard();  //vänds efter att alla spelare är klara
         _ui.ShowHand(dealer);     //Visar givarens hand med hålkortet uppvänt
 
-        bool allPlayersBust = true;   //Vi utgår från att alla har spruckit då. Boolen starta på true.
-
+        bool dealerNeedsToPlay = false;
         foreach (Player player in _participants.OfType<Player>()) //Går igenom alla spelare i rundan en i taget (givaren räknas inte)
         {
-            if (!player.Hand.IsBust)  //Hittar vi en spelare som INTE har spruckit...
+            if (!player.Hand.IsBust && !player.Hand.IsBlackjack)    //Kollar om det finns minst en spelare som inte har blackjack eller bust
             {
-                allPlayersBust = false;  //...så stämmer det inte att alla har spruckit
-                break;
+                dealerNeedsToPlay = true;
+                break;  //Hiitar den en spelare så avslutas loopen direkt för då måste givaren spela. 
             }
         }
-        if (allPlayersBust)
+        if (!dealerNeedsToPlay)
         {
-            return;  //Alla spelare har spruckit, givaren drar inga fler kort
+            return;
         }
         while (dealer.ShouldHit())  //Sålänge givarens regler säger han ska dra(under 17) dra ett kort tills dess
         {

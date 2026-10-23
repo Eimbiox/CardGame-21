@@ -3,7 +3,6 @@ class CardRenderer
 {
    public const int CardHeight = 7;  // Hur många rader ett kort är. Används på flera ställen, så det räcker att ändra här. const gör att värdet inte kan ändras medan programmet kör.
     private string RankSymbol(Rank rank) //Gör om enum till text, t.ex Rank.Ace blir A
-
     {
         switch (rank)
         {
@@ -25,7 +24,6 @@ class CardRenderer
     }
 
     private string SuitSymbol(Suit suit) //Gör om färg enum till symbol där Suit.Hearts blir ♥
-
     {
         switch (suit)
         {
@@ -38,10 +36,8 @@ class CardRenderer
     }
 
     private string FaceSymbol(Rank rank) //Schacksymbol för klädda kort (kung, dam, knekt), mellanslag för övrigt.
-
     {
         switch (rank)
-
         {
             case Rank.King: return "♚";
             case Rank.Queen: return "♛";
@@ -50,7 +46,6 @@ class CardRenderer
         }
     }
     public string[] GetCardLine(Card card)
-
     {
         string rank = RankSymbol(card.Rank); // Gör om t.ex Rank.Two till 2 o döper ny Textlåda till rank
         string suit = SuitSymbol(card.Suit); // Gör om t.ex. Suit.Hearts till "♥" och sparar i en ny textlåda som heter suit
@@ -66,11 +61,9 @@ class CardRenderer
         lines[6] = "└───────┘"; //Skickar tillbaka kortets 7 rader till DrawCards (syns inte på skärmen förrän DrawCards skriver ut dem)
 
         return lines;
-
     }
 
     public string[] GetBackLines() //Bygger baksidan av kortet.
-
     {
         string[] lines = new string[CardHeight];
 
@@ -83,9 +76,5 @@ class CardRenderer
         lines[6] = "└───────┘";
 
         return lines;
-
     }
-
-
-    
 }

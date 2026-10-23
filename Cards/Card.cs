@@ -1,5 +1,3 @@
-using System.Drawing;
-
 class Card
 {
     public Suit Suit { get; }
@@ -11,21 +9,21 @@ class Card
         Suit = suit;
         Rank = rank;
 
-//Bestämmer kortets poängvärde för alla Ranks.
+        //Bestämmer kortets poängvärde för alla Ranks.
         if (Rank == Rank.Ace)
         {
-            Point = 11; 
+            Point = 11;
         }
         else if (Rank == Rank.Jack || Rank == Rank.Queen || Rank == Rank.King)
         {
             Point = 10;
         }
         else if (Rank == Rank.Two) { Point = 2; }
-        
+
         else if (Rank == Rank.Three) { Point = 3; }
-        
+
         else if (Rank == Rank.Four) { Point = 4; }
-        
+
         else if (Rank == Rank.Five) { Point = 5; }
 
         else if (Rank == Rank.Six) { Point = 6; }
@@ -37,11 +35,9 @@ class Card
         else if (Rank == Rank.Nine) { Point = 9; }
 
         else
-
         {
             Point = 10;
         }
-        }
-
     }
+}
 

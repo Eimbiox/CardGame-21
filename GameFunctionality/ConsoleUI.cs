@@ -13,7 +13,7 @@ class ConsoleUI
         int choice;
         while (!int.TryParse(Console.ReadLine(), out choice) || choice is < 1 or > 4)
         {
-            Console.WriteLine("Ange ett heltal mellan 1 och 4");
+               WriteError("Ange ett heltal mellan 1 och 4");
         }
         return choice;
     }
@@ -73,11 +73,11 @@ class ConsoleUI
             string? shoeChoice = Console.ReadLine()?.ToUpper().Trim();
             if(int.TryParse(shoeChoice, out _))
             {
-                Console.WriteLine("Du kan inte Skriva en siffra");
+                WriteError("Du kan inte Skriva en siffra");
             }
             else if (string.IsNullOrWhiteSpace(shoeChoice))
             {
-                Console.WriteLine("Du måste skriva något");
+                WriteError("Du måste skriva något");
             }
             else if(shoeChoice == "JA")
             {
@@ -93,7 +93,7 @@ class ConsoleUI
             }
             else
             {
-                Console.WriteLine("Något gick fel");
+                WriteError("Något gick fel");
             }
         }
     }
@@ -158,13 +158,12 @@ class ConsoleUI
 
     public int AskNumberOfPlayers()
     {
-        AskUserShoe();
         while (true)
         {
             Console.Write("Ange antal spelare (1-5): ");
             if (int.TryParse(Console.ReadLine(), out int count) && count is >= 1 and <= 5)
                 return count;
-            Console.WriteLine("Ange ett heltal mellan 1 och 5.");
+            WriteError("Ange ett heltal mellan 1 och 5.");
         }
     }
     public bool AskIsHuman(string prompt)
@@ -183,11 +182,11 @@ class ConsoleUI
                 {
                     return false;
                 }
-                Console.WriteLine("Ange (Människa/Dator): ");
+                WriteError("Ange (Människa/Dator): ");
             }
             else
             {
-                Console.WriteLine("Det får inte vara tomt!");
+                WriteError("Det får inte vara tomt!");
             }
         }
     }
@@ -208,11 +207,11 @@ class ConsoleUI
                 {
                     return "Grund";
                 }
-                Console.WriteLine("Ange (Simpel/Grund): ");
+                WriteError("Ange (Simpel/Grund): ");
             }
             else
             {
-                Console.WriteLine("Det får inte vara tomt!");
+                WriteError("Det får inte vara tomt!");
             }
         }
     }
@@ -239,9 +238,12 @@ class ConsoleUI
     {
         Console.Write(promt);
         string? name = Console.ReadLine()?.Trim();
-        while (string.IsNullOrWhiteSpace(name))
-        {
-            Console.Write("Namnet får inte vara tomt: ");
+        while (string.IsNullOrWhiteSpace(name) 
+            || name.Contains(';')
+            || name.ToUpper() == "GIVAREN"
+            || name.ToUpper() == "GIVARE")
+        {   
+            WriteImportant("Namnet får inte vara tomt, innehålla (;) eller vara Givare/Givaren: ");
             name = Console.ReadLine()?.Trim();
         }
         return name;
@@ -263,11 +265,11 @@ class ConsoleUI
                 {
                     return false;
                 }
-                Console.WriteLine("Svara med ja eller nej!");
+                WriteError("Svara med ja eller nej!");
             }
             else
             {
-                Console.WriteLine("Det får inte vara tomt!");
+                WriteError("Det får inte vara tomt!");
             }
         }
     }
@@ -289,11 +291,11 @@ class ConsoleUI
                 {
                     return Move.Stand;
                 }
-                Console.WriteLine("Svara med köp eller stanna");
+                WriteError("Svara med köp eller stanna");
             }
             else
             {
-                Console.WriteLine("Det får inte vara tomt");
+                WriteError("Det får inte vara tomt");
             }
         }
 
@@ -303,7 +305,7 @@ class ConsoleUI
         string markerText = "";
         if (!player.IsComputer)
         {
-            markerText = $" + ({winAmount} Marker)";
+            markerText = $" Får tillbaka ({winAmount} Marker)";
         }
 
         if (outcome == Outcome.Lose && player.Hand.IsBust)
@@ -336,24 +338,24 @@ class ConsoleUI
         int betAmount;
         while (!int.TryParse(Console.ReadLine(), out betAmount) || betAmount is < 25)
         {
-            Console.Write("Skriv in ett tal som inte är under 25: ");
+            WriteImportant("Skriv in ett tal som inte är under 25: ");
         }
         return betAmount;
     }
 
     public bool AskIfWantToBuyIn(Player player)
     {
-        Console.Write($"{player.Name} du har under 25 marker. Vill du köpa dig in?(Y/N): ");
+        Console.Write($"{player.Name} du har under 25 marker. Vill du köpa dig in?(ja/nej): ");
         string? answer = Console.ReadLine()?.ToUpper().Trim();
-        while (answer != "Y" && answer != "N")  //Frågar igen tills svaret är Y eller N
+        while (answer != "JA" && answer != "NEJ")  //Frågar igen tills svaret är Y eller N
         {
-            Console.Write("Svara med Y eller N!: ");
+            WriteImportant("Svara med ja eller nej!: ");
             answer = Console.ReadLine()?.ToUpper().Trim();
         }
 
-        if (answer == "Y")
+        if (answer == "JA")
         {
-            Console.WriteLine("Glöm inte swisha till (123 456 789 10)!");
+            Console.WriteLine("Du köper dig in och får 200 marker");
             Console.ReadKey();
             return true;
         }
@@ -374,12 +376,6 @@ class ConsoleUI
         Console.WriteLine("----Givarens tur----");
     }
 
-    public void ShowBlackjack(Participant participant)
-    {
-        Console.WriteLine($"{participant.Name} fick BLACKJACK!");
-        ShowCount();
-    }
-
 
     public void ShowHand(Participant participant) //Visar korten, värdet om handen är mjuk eller hård.
     {
@@ -396,7 +392,15 @@ class ConsoleUI
             handType = "hård"; //Handen är hård.
         }
 
-        Console.WriteLine($"{participant.Name}: ({handType} hand, {participant.Hand.Points})\n");
+        if (participant.Hand.IsBlackjack)
+        {
+            Console.WriteLine($"{participant.Name}: Blackjack!\n");
+        }
+        else
+        {
+            Console.WriteLine($"{participant.Name}: ({handType} hand, {participant.Hand.Points})\n");
+        }
+        
         DrawCards(participant.Hand.Cards);  //Ritar alla kort med framsidan upp
 
 
@@ -442,8 +446,8 @@ class ConsoleUI
         {
             return;
         }
-        Console.WriteLine($"Running count: {_counter.RunningCount}"); //Summan av alla sedda kort
-        Console.WriteLine($"True count: {_counter.TrueCount(Deck.Current.CardsLeft):F1}"); //Running count delat med antal lekar kvar, en decimal
+        Console.WriteLine($"Löpande räkning: {_counter.RunningCount}"); //Summan av alla sedda kort
+        Console.WriteLine($"Sann räkning: {_counter.TrueCount(Deck.Current.CardsLeft):F1}"); //Running count delat med antal lekar kvar, en decimal
         Console.WriteLine($"Läge: {_counter.FavorableLevel(Deck.Current.CardsLeft)}\n"); //Hur gynnsamt läget är för spelaren
     }
 
@@ -502,4 +506,20 @@ class ConsoleUI
 
 
     }
+       private void WriteError(string message)   //Skriver ett felmeddelande i rött, sedan ny rad
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine(message);
+        Console.ResetColor();
     }
+    
+
+        private void WriteImportant(string message)   //Viktiga meddelanden i rött, sedan ny rad
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(message);
+        Console.ResetColor();
+
+    
+    }
+}

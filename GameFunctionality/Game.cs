@@ -39,8 +39,9 @@ class Game
     public void Play()  //Starts the game
     {
         _participants.Clear();
-        int playerCount = _ui.AskNumberOfPlayers();     //Frågar också om sko
-        _ui.ShowRules(_rules);  //Visar husreglerna efter frågan om sko, så att antal lekar stämmer
+        _ui.AskUserShoe();
+        _ui.ShowRules(_rules);
+        int playerCount = _ui.AskNumberOfPlayers();
 
         for (int i = 0; i < playerCount; i++)   //Adds players based on the ammount of players.
         {
@@ -88,7 +89,7 @@ class Game
 
         while (playing)
         {
-            if (deck.RemainingCards < reshuffleLimit)   //Skapar ny deck vid antingen 15 kort kvar eller 30 baserat på mängden deltagare
+            if (deck.RemainingCards < reshuffleLimit)
             {
                 deck = new Deck();
                 deck.Shuffle();
@@ -155,8 +156,12 @@ class Game
         Player? player = gameStorage._players.FirstOrDefault(p => p.Name == name);   //Finns datorspelaren sparad sedan tidigare?
         if (player == null)
         {
-            player = new Player(name);
+            player = new Player(name, chips: 0);    //Skapar en ny dator spelare med 0 chips eftersom datorer inte satsar
             gameStorage._players.Add(player);   //Läggs i sparlistan så att resultaten sparas och syns i topplistan
+        }
+        else    //Om datorn hittas sen innan så rensas deras marker till 0. 
+        {
+            player.Wallet.ClearWallet();
         }
 
         if (botChoice == "Simpel")
