@@ -87,6 +87,8 @@ Felaktig inmatning, till exempel bokstäver där det ska vara en siffra eller et
 
 ## Klassdiagram
 
+![Klassdiagram](docs/Advancerade_Klass_Diagram.png)
+
 ## Vem som gjort vad
 
 | Namn     | Tillval                                | Egna klasser |
